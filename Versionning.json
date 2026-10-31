@@ -1,0 +1,503 @@
+[
+  {
+    "ModVersion": "0.0.1-alpha",
+    "ReleaseDate": "2026.10.23"
+  },
+  {
+    "ModVersion": "1.7.0",
+    "ReleaseDate": "2024.08.17",
+    "Modifications": {
+      "Fixed": [
+        "Battle Royale: Impostors seeing Spy name in red.",
+        "Battle Royale: Tasks going too fast when using roles.",
+        "Beta releases in updater.",
+        "Lovers NullReferenceException."
+      ],
+      "Updated": [
+        "Implemented changes from The Other Roles v4.6.0.",
+        "Download link on readme."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.6.5",
+    "ReleaseDate": "2024.09.01",
+    "Modifications": {
+      "Fixed": [
+        "Kill being cancelled if the target had the \"ladder bug\"."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.6.4",
+    "ReleaseDate": "2024.08.11",
+    "Modifications": {
+      "Added": [
+        "Option making Impostors not knowing each other.",
+        "Battle Royale mode (experimental).",
+        "Support for beta-releases/pre-releases download."
+      ],
+      "Updated": [
+        "Small UI adjustments.",
+        "Implemented changes from The Other Roles v4.5.3."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.6.2",
+    "ReleaseDate": "2024.05.01",
+    "Modifications": {
+      "Added": [
+        "Mod now creates the dependency lib file if not found.",
+        "More Crewmate Vision possible values (0.125 increment instead of 0.25)."
+      ],
+      "Fixed": [
+        "Random Scanner position now works for The Skeld, MiraHQ & Submerged.",
+        "Swapper being unable to complete TuneRadio task in Fungle."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.6.1",
+    "ReleaseDate": "2023.12.31",
+    "Modifications": {
+      "Fixed": [
+        "Keyboard & game controller keybinds."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.6.0",
+    "ReleaseDate": "2023.12.24",
+    "Modifications": {
+      "Added": [
+        "Support for latest game version.",
+        "Specimen dependency.",
+        "Preset manager & better dynamic map integration."
+      ],
+      "Fixed": [
+        "Teleportation snap on Minigame interactions."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.5.4",
+    "ReleaseDate": "2023.12.19",
+    "Modifications": {
+      "Added": [
+        "The Fungle random preset."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.5.3",
+    "ReleaseDate": "2023.12.12",
+    "Modifications": {
+      "Added": [
+        "The Fungle in dynamic map config."
+      ],
+      "Fixed": [
+        "Custom regions."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.5.2",
+    "ReleaseDate": "2023.10.31",
+    "Modifications": {
+      "Fixed": [
+        "Custom hats."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.5.1",
+    "ReleaseDate": "2023.10.31",
+    "Modifications": {
+      "Fixed": [
+        "Vote display issue.",
+        "Reactors sabotage issue.",
+        "Winners display issue."
+      ],
+      "Removed": [
+        "Custom hats (temporarily)."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.5.0",
+    "ReleaseDate": "2023.10.25",
+    "Modifications": {
+      "Added": [
+        "Support for Among Us version 2023.10.24."
+      ],
+      "Fixed": [
+        "Portal open field position."
+      ],
+      "Removed": [
+        "Modded hats (not yet supported in this pre-release)."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.4.8",
+    "ReleaseDate": "2023.10.08",
+    "Modifications": {
+      "Fixed": [
+        "Mod updater latest release issue.",
+        "BetterPolus wifi will no longer be positioned in front of player.",
+        "Communications will no longer be positioned behind player.",
+        "Objects (Garlic, JackInTheBox, Trap, Portal) will be correctly positioned when placed."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.4.7",
+    "ReleaseDate": "2023.10.07",
+    "Modifications": {
+      "Added": [
+        "New mod updater interface.",
+        "Sticky Bomber first cooldown option."
+      ],
+      "Fixed": [
+        "Sticky Bomber triggering both cooldowns.",
+        "Unwanted behavior when stuck player is killed before explosion."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.4.6",
+    "ReleaseDate": "2023.09.30",
+    "Modifications": {
+      "Added": [
+        "10 new colors.",
+        "Options to customize Sticky Bomber.",
+        "Custom key binds for role abilities."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.4.5",
+    "ReleaseDate": "2023.08.26",
+    "Modifications": {
+      "Added": [
+        "BOR private server."
+      ],
+      "Fixed": [
+        "BetterPolus vent issue.",
+        "Mod HUD not being removed correctly at end of game.",
+        "Randomize players in meeting."
+      ],
+      "Removed": [
+        "Sticky Bomber kill button."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.4.4",
+    "ReleaseDate": "2023.08.22",
+    "Modifications": {
+      "Added": [
+        "BetterSkeld.",
+        "New role: Sticky Bomber - Have you ever wanted to play hot potato on Among Us?"
+      ],
+      "Fixed": [
+        "Custom region support."
+      ],
+      "Updated": [
+        "Precision percentage for random maps selection."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.4.3",
+    "ReleaseDate": "2023.08.19",
+    "Modifications": {
+      "Added": [
+        "Options to change first cooldown of specific spells."
+      ],
+      "Fixed": [
+        "Position of weapons gun."
+      ],
+      "Updated": [
+        "Mod Updater."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.4.2",
+    "ReleaseDate": "2023.08.18",
+    "Modifications": {
+      "Fixed": [
+        "Undertaker is now guessable."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.4.1",
+    "ReleaseDate": "2023.08.18",
+    "Modifications": {
+      "Fixed": [
+        "Comms, weapons & dropship ramp don't hide objects/dragged bodies anymore."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.4.0",
+    "ReleaseDate": "2023.08.17",
+    "Modifications": {
+      "Added": [
+        "Support for latest Among Us version."
+      ],
+      "Fixed": [
+        "Network bug.",
+        "Vent with controller.",
+        "Some minor issues."
+      ],
+      "Updated": [
+        "Mod UI improvement."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.3.0",
+    "ReleaseDate": "2023.05.22",
+    "Modifications": {
+      "Fixed": [
+        "Connection issue & unknown thread error."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.2.11",
+    "ReleaseDate": "2023.05.16",
+    "Modifications": {
+      "Fixed": [
+        "Trigger win by tasks.",
+        "Bad percentage in Medium additional info."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.2.10",
+    "ReleaseDate": "2023.05.15",
+    "Modifications": {
+      "Fixed": [
+        "Medium spawn rate was the same as Medic spawn rate.",
+        "Undertaker was not guessable.",
+        "Placing a bomb as Bomber triggered Medic shielded murder attempt.",
+        "Evil Guesser was not assignable when there was no Nice Guesser."
+      ],
+      "Updated": [
+        "Evil Guesser & Nice Guesser are no longer in Neutral roles settings."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.2.9",
+    "ReleaseDate": "2023.05.14",
+    "Modifications": {
+      "Fixed": [
+        "Evil Guesser role assignment."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.2.8",
+    "ReleaseDate": "2023.05.13",
+    "Modifications": {
+      "Added": [
+        "BOR private server."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.2.7",
+    "ReleaseDate": "2023.05.13",
+    "Modifications": {
+      "Added": [
+        "Custom number of tasks is back."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.2.6",
+    "ReleaseDate": "2023.05.13",
+    "Modifications": {
+      "Fixed": [
+        "Lobby connection issues.",
+        "Warlock curse button."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.2.5",
+    "ReleaseDate": "2023.05.12",
+    "Modifications": {
+      "Added": [
+        "In-game button to display current lobby game options."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.2.4",
+    "ReleaseDate": "2023.05.11",
+    "Modifications": {
+      "Fixed": [
+        "Deputy promote to Sheriff.",
+        "Pursuer blank button."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.2.3",
+    "ReleaseDate": "2023.05.10",
+    "Modifications": {
+      "Added": [
+        "Random map can use a specific preset for each map."
+      ],
+      "Fixed": [
+        "Undertaker will no longer be able to drop a body outside the map.",
+        "Bait will no longer be instantly triggered.",
+        "Communication download will no longer be inaccessible.",
+        "Thief will no longer leave Fallen alive.",
+        "Bounty Hunter bounty can no longer be the Mini.",
+        "Undertaker slowing all players."
+      ],
+      "Updated": [
+        "Custom options have been reworked (existing presets are lost)."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.2.1",
+    "ReleaseDate": "2023.05.10",
+    "Modifications": {
+      "Added": [
+        "Random map can use a specific preset for each map."
+      ],
+      "Fixed": [
+        "Undertaker will no longer be able to drop a body outside the map.",
+        "Bait will no longer be instantly triggered.",
+        "Communication download will no longer be inaccessible.",
+        "Thief will no longer leave Fallen alive.",
+        "Bounty Hunter bounty can no longer be the Mini."
+      ],
+      "Updated": [
+        "Custom options have been reworked (existing presets are lost)."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.2.0",
+    "ReleaseDate": "2023.05.10",
+    "Modifications": {
+      "Fixed": [
+        "Undertaker will no longer be able to drop a body outside the map.",
+        "Bait will no longer be instantly triggered.",
+        "Communication download will no longer be inaccessible.",
+        "Thief will no longer leave Fallen alive.",
+        "Bounty Hunter bounty can no longer be the Mini."
+      ],
+      "Updated": [
+        "Custom options have been reworked (existing presets are lost)."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.1.11",
+    "ReleaseDate": "2023.05.05",
+    "Modifications": {}
+  },
+  {
+    "ModVersion": "1.1.7",
+    "ReleaseDate": "2023.05.04",
+    "Modifications": {
+      "Added": [
+        "New role released: Undertaker, an Impostor who can drag bodies across the map."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.1.6",
+    "ReleaseDate": "2023.05.03",
+    "Modifications": {
+      "Added": [
+        "Option to randomise players' positions during medbay scan task.",
+        "Option to randomise order of wire tasks.",
+        "Option to randomise upload data task location.",
+        "Option to show a visual indicator for first killed shielded player and the last 5 seconds of remaining time.",
+        "Undertaker & Whisperer sprites."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.1.2",
+    "ReleaseDate": "2023.05.02",
+    "Modifications": {
+      "Added": [
+        "Expiration timer option for first killed player shield."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.1.1",
+    "ReleaseDate": "2023.05.02",
+    "Modifications": {
+      "Added": [
+        "Whisperer Impostor role.",
+        "Undertaker Impostor role (beta).",
+        "Ability to change the team of a player killed by the Thief to avoid Impostor-Thief alliances."
+      ],
+      "Fixed": [
+        "Bounty Hunter target could be a player protected by the T1 shield."
+      ],
+      "Updated": [
+        "Bounty Hunter target can no longer be the same player twice in a row."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.1.0",
+    "ReleaseDate": "2023.05.01",
+    "Modifications": {
+      "Added": [
+        "Whisperer Impostor role.",
+        "Undertaker Impostor role (beta).",
+        "Ability to change the team of a player killed by the Thief to avoid Impostor-Thief alliances."
+      ],
+      "Fixed": [
+        "Bounty Hunter target could be a player protected by the T1 shield."
+      ],
+      "Updated": [
+        "Bounty Hunter target can no longer be the same player twice in a row."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.0.2",
+    "ReleaseDate": "2023.04.18",
+    "Modifications": {
+      "Removed": [
+        "Color blind text on invisible players."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.0.1",
+    "ReleaseDate": "2023.04.16",
+    "Modifications": {
+      "Added": [
+        "Shield break animation."
+      ],
+      "Removed": [
+        "Horse random transformations."
+      ]
+    }
+  },
+  {
+    "ModVersion": "1.0.0",
+    "ReleaseDate": "2023.04.10",
+    "Modifications": {}
+  }
+]

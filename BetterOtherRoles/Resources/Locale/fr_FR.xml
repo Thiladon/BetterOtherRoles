@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <!-- Local Settings -->
+  <string name="BetterOtherRoles.LocalSettings.Tab">Better Other Roles</string>
+  <string name="BetterOtherRoles.LocalSettings.General">Général</string>
+  <string name="BetterOtherRoles.LocalSettings.AutoRejoinDescription">Revient tout seul au salon à la fin d'une partie, quand les boutons Quitter et Rejouer apparaissent.</string>
+  <!-- Role guide (Match Info), settings tab -->
+  <string name="BetterOtherRoles.Guide.RolesPage">Rôles</string>
+  <string name="BetterOtherRoles.Guide.ModifiersPage">Modificateurs</string>
+  <string name="BetterOtherRoles.Guide.RoleChanceValue">{0} %</string>
+  <string name="BetterOtherRoles.Guide.ClickToOpen">Cliquer pour ouvrir</string>
+  <string name="BetterOtherRoles.Guide.ClickToClose">Cliquer pour fermer</string>
+  <string name="BetterOtherRoles.Guide.VanillaGroup">Among Us</string>
+  <!-- Dev Options (dev builds only) -->
+  <string name="BetterOtherRoles.Options.Groups.Dev">Options de dév.</string>
+  <string name="BetterOtherRoles.Option.Dev.TestMode">Debug Mode (moins de 4 joueurs, pas de fin de partie)</string>
+  <string name="BetterOtherRoles.Dev.Chat.NotAvailable">Commande réservée à l'hôte, en partie, avec le Debug Mode.</string>
+  <string name="BetterOtherRoles.Dev.Chat.SetRoleUsage">Utilisation : /setRole {Joueur} {Rôle} (joueur introuvable).</string>
+  <string name="BetterOtherRoles.Dev.Chat.RoleNotFound">Rôle introuvable. Rôles : {0}</string>
+  <string name="BetterOtherRoles.Dev.Chat.RoleSet">{0} est maintenant {1}.</string>
+  <string name="BetterOtherRoles.Dev.Chat.EndGameUsage">Utilisation : /endGame [Crewmate|Impostor].</string>
+  <string name="BetterOtherRoles.Admin.Chat.Welcome">Admin ({0}) détecté dans le lobby, bienvenue {0}</string>
+  <!-- Role Assignment -->
+  <string name="BetterOtherRoles.Options.Groups.RoleAssignment">Attribution des rôles</string>
+  <string name="BetterOtherRoles.Options.Groups.Lobby">Salon</string>
+  <string name="BetterOtherRoles.Option.Lobby.AnyPlayerCanStopStart">Tout le monde peut arrêter le lancement</string>
+  <string name="BetterOtherRoles.Lobby.StopStart">Arrêter</string>
+  <string name="BetterOtherRoles.Lobby.StartStopped">{0} a arrêté le lancement de la partie !</string>
+  <string name="BetterOtherRoles.LocalSettings.AutoRejoin">Retour automatique au salon</string>
+  <string name="BetterOtherRoles.LocalSettings.AutoRejoinDelay">Délai avant le retour au salon</string>
+  <string name="BetterOtherRoles.Lobby.AutoRejoinCountdown">Retour au salon dans {0} s</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.Mode">Mode d'attribution</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.ModeVanillaRolesOnly">Rôles vanilla uniquement</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.ModeMinMaxList">Min/Max par faction</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.ReduceImpostorStreak">Réduire les séries d'Imposteur</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.ImpostorStreakChance">Chance de ne pas rester Imposteur</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.MinCrewmateRoles">Minimum de rôles Crewmate</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.MaxCrewmateRoles">Maximum de rôles Crewmate</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.MinNeutralRoles">Minimum de rôles Neutres</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.MaxNeutralRoles">Maximum de rôles Neutres</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.MinImpostorRoles">Minimum de rôles Imposteur</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.MaxImpostorRoles">Maximum de rôles Imposteur</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.ModeRoleList">Liste de rôles</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.Slot1">Case 1</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.Slot2">Case 2</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.Slot3">Case 3</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.Slot4">Case 4</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.Slot5">Case 5</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.Slot6">Case 6</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.Slot7">Case 7</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.Slot8">Case 8</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.Slot9">Case 9</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.Slot10">Case 10</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.Slot11">Case 11</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.Slot12">Case 12</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.Slot13">Case 13</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.Slot14">Case 14</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.Slot15">Case 15</string>
+  <string name="BetterOtherRoles.RoleListSlot.CrewInvestigative">[color=#66FFFFFF]Crewmate[/color] Investigatif</string>
+  <string name="BetterOtherRoles.RoleListSlot.CrewKilling">[color=#66FFFFFF]Crewmate[/color] Tueur</string>
+  <string name="BetterOtherRoles.RoleListSlot.CrewProtective">[color=#66FFFFFF]Crewmate[/color] Protecteur</string>
+  <string name="BetterOtherRoles.RoleListSlot.CrewPower">[color=#66FFFFFF]Crewmate[/color] Puissant</string>
+  <string name="BetterOtherRoles.RoleListSlot.CrewSupport">[color=#66FFFFFF]Crewmate[/color] Support</string>
+  <string name="BetterOtherRoles.RoleListSlot.CrewCommon">[color=#66FFFFFF]Crewmate[/color] Commun</string>
+  <string name="BetterOtherRoles.RoleListSlot.CrewSpecial">[color=#66FFFFFF]Crewmate[/color] Spécial</string>
+  <string name="BetterOtherRoles.RoleListSlot.CrewRandom">[color=#66FFFFFF]Crewmate[/color] Aléatoire</string>
+  <string name="BetterOtherRoles.RoleListSlot.NeutralBenign">[color=#CCCC00FF]Neutre[/color] Bénin</string>
+  <string name="BetterOtherRoles.RoleListSlot.NeutralEvil">[color=#CCCC00FF]Neutre[/color] Méchant</string>
+  <string name="BetterOtherRoles.RoleListSlot.NeutralKilling">[color=#CCCC00FF]Neutre[/color] Tueur</string>
+  <string name="BetterOtherRoles.RoleListSlot.NeutralOutlier">[color=#CCCC00FF]Neutre[/color] Marginal</string>
+  <string name="BetterOtherRoles.RoleListSlot.NeutralCommon">[color=#CCCC00FF]Neutre[/color] Commun</string>
+  <string name="BetterOtherRoles.RoleListSlot.NeutralSpecial">[color=#CCCC00FF]Neutre[/color] Spécial</string>
+  <string name="BetterOtherRoles.RoleListSlot.NeutralWildcard">[color=#CCCC00FF]Neutre[/color] Joker</string>
+  <string name="BetterOtherRoles.RoleListSlot.NeutralRandom">[color=#CCCC00FF]Neutre[/color] Aléatoire</string>
+  <string name="BetterOtherRoles.RoleListSlot.ImpostorConcealing">[color=#FF0000FF]Imposteur[/color] Dissimulation</string>
+  <string name="BetterOtherRoles.RoleListSlot.ImpostorKilling">[color=#FF0000FF]Imposteur[/color] Tueur</string>
+  <string name="BetterOtherRoles.RoleListSlot.ImpostorPower">[color=#FF0000FF]Imposteur[/color] Puissant</string>
+  <string name="BetterOtherRoles.RoleListSlot.ImpostorSupport">[color=#FF0000FF]Imposteur[/color] Support</string>
+  <string name="BetterOtherRoles.RoleListSlot.ImpostorCommon">[color=#FF0000FF]Imposteur[/color] Commun</string>
+  <string name="BetterOtherRoles.RoleListSlot.ImpostorSpecial">[color=#FF0000FF]Imposteur[/color] Spécial</string>
+  <string name="BetterOtherRoles.RoleListSlot.ImpostorRandom">[color=#FF0000FF]Imposteur[/color] Aléatoire</string>
+  <string name="BetterOtherRoles.RoleListSlot.NonImpostor">Non-[color=#FF0000FF]Imposteur[/color]</string>
+  <string name="BetterOtherRoles.RoleListSlot.Any">N'importe lequel</string>
+  <string name="BetterOtherRoles.Lobby.RoleListTitle">Liste des rôles :</string>
+  <string name="BetterOtherRoles.Lobby.MinMaxTitle">Rôles par faction :</string>
+  <string name="BetterOtherRoles.Lobby.CrewmateRoles">Rôles [color=#66FFFFFF]Crewmate[/color] : {0} - {1}</string>
+  <string name="BetterOtherRoles.Lobby.NeutralRoles">Rôles [color=#CCCC00FF]Neutres[/color] : {0} - {1}</string>
+  <string name="BetterOtherRoles.Lobby.ImpostorRoles">Rôles [color=#FF0000FF]Imposteur[/color] : {0} - {1}</string>
+  <string name="BetterOtherRoles.Options.RoleCountLabel"># de rôles</string>
+  <!-- Presets tab -->
+  <string name="BetterOtherRoles.Presets.Load">Charger</string>
+  <string name="BetterOtherRoles.Presets.Export">Exporter</string>
+  <string name="BetterOtherRoles.Presets.Import">Importer</string>
+  <string name="BetterOtherRoles.Presets.Yes">Oui</string>
+  <string name="BetterOtherRoles.Presets.No">Non</string>
+  <string name="BetterOtherRoles.Presets.Validate">Valider</string>
+  <string name="BetterOtherRoles.Presets.Cancel">Annuler</string>
+  <string name="BetterOtherRoles.Presets.InvalidName">Nom invalide ou déjà pris</string>
+  <string name="BetterOtherRoles.Presets.ImportName">Nom du preset importé :</string>
+  <string name="BetterOtherRoles.Presets.ClipboardInvalid">Le presse-papier est vide ou contient un code incompatible avec le mod, veuillez copier un code valide avant d'importer.</string>
+  <string name="BetterOtherRoles.Presets.RenameTitle">Nouveau nom du preset : {0}</string>
+  <string name="BetterOtherRoles.Presets.ConfirmLoad">Charger le preset {0} ?</string>
+  <string name="BetterOtherRoles.Presets.Saved">Le preset : {0} a bien été enregistré.</string>
+  <string name="BetterOtherRoles.Presets.ConfirmReplace">Le preset {0} existe déjà. Le remplacer ?</string>
+  <string name="BetterOtherRoles.Presets.ConfirmDelete">Souhaitez-vous bien supprimer le preset : {0} ?</string>
+  <string name="BetterOtherRoles.Presets.Active">Preset actif : {0}</string>
+  <string name="BetterOtherRoles.Presets.ActiveChanged">Preset actif : {0} (modifié)</string>
+  <string name="BetterOtherRoles.Presets.Custom">Réglages personnalisés</string>
+  <string name="BetterOtherRoles.Presets.Copied">Code copié dans le presse-papier !</string>
+  <string name="BetterOtherRoles.Presets.Imported">Code importé !</string>
+  <!-- Sheriff - Crewmate Killing -->
+  <string name="BetterOtherRoles.Role.Sheriff">Shérif</string>
+  <string name="BetterOtherRoles.Role.Sheriff.IntroBlurb">Abattez les [color=#FF1919FF]Imposteurs[/color]</string>
+  <string name="BetterOtherRoles.Role.Sheriff.TabDescription">Abattez les Imposteurs</string>
+  <string name="BetterOtherRoles.Role.SheriffKill">Tuer</string>
+  <!-- Sheriff Options -->
+  <string name="BetterOtherRoles.Option.Sheriff.Cooldown">Délai de tir du Shérif</string>
+  <string name="BetterOtherRoles.Option.Sheriff.CanKillNeutrals">Le Shérif peut tuer les Neutres</string>
+  <string name="BetterOtherRoles.Option.Sheriff.HasDeputy">Le Shérif a un Adjoint</string>
+  <string name="BetterOtherRoles.Option.Sheriff.DeputyChance">Chance d'apparition de l'Adjoint</string>
+  <!-- Deputy - Crewmate Killing -->
+  <string name="BetterOtherRoles.Role.Deputy">Adjoint</string>
+  <string name="BetterOtherRoles.Role.Deputy.IntroBlurb">Menottez les [color=#FF1919FF]Imposteurs[/color]</string>
+  <string name="BetterOtherRoles.Role.Deputy.TabDescription">Menottez les Imposteurs</string>
+  <string name="BetterOtherRoles.Role.DeputyHandcuff">Menotter</string>
+  <!-- Deputy Options (in the Sheriff options) -->
+  <string name="BetterOtherRoles.Option.Deputy.Handcuffs">Nombre de menottes de l'Adjoint</string>
+  <string name="BetterOtherRoles.Option.Deputy.HandcuffCooldown">Délai des menottes</string>
+  <string name="BetterOtherRoles.Option.Deputy.HandcuffDuration">Durée des menottes</string>
+  <string name="BetterOtherRoles.Option.Deputy.KnowsSheriff">Le Shérif et l'Adjoint se connaissent</string>
+  <string name="BetterOtherRoles.Option.Deputy.Promotion">L'Adjoint est promu Shérif</string>
+  <string name="BetterOtherRoles.Option.Deputy.PromotionOff">Non</string>
+  <string name="BetterOtherRoles.Option.Deputy.PromotionImmediately">Immédiatement</string>
+  <string name="BetterOtherRoles.Option.Deputy.PromotionAfterMeeting">Après la réunion</string>
+  <string name="BetterOtherRoles.Option.Deputy.KeepsHandcuffs">L'Adjoint garde ses menottes une fois promu</string>
+  <!-- MiraAPI keys without a French translation in MiraAPI 0.6.0 -->
+  <string name="MiraApi">Mira API</string>
+  <string name="MiraApi.VisualsUi">Visuels/Interface</string>
+  <string name="MiraApi.MatchInfoGuide">Guide des rôles</string>
+  <string name="MiraApi.Accessibility">Accessibilité</string>
+  <string name="MiraApi.MiraApiBrand">MiraAPI</string>
+  <string name="MiraApi.ShowModifiersHudOnLeftSide">Afficher les modificateurs à gauche</string>
+  <string name="MiraApi.ShowKeybindsOnButtons">Afficher les touches sur les boutons</string>
+  <string name="MiraApi.ButtonScaleFactor">Taille des boutons</string>
+  <string name="MiraApi.MatchInfoGuideScaleFactor">Taille du guide des rôles</string>
+  <string name="MiraApi.WikiTabPosition">Position des onglets</string>
+  <string name="MiraApi.WikiTabPosition.LeftSide">À gauche</string>
+  <string name="MiraApi.WikiTabPosition.RightSide">À droite</string>
+  <string name="MiraApi.WikiTabPosition.Below">Sous l'interface</string>
+  <string name="MiraApi.MaxFps">IPS max</string>
+  <string name="MiraApi.EnableSabotageFlashes">Clignotements des sabotages</string>
+  <string name="MiraApi.EnableSabotageBlare">Alarme des sabotages</string>
+  <string name="MiraApi.EnableVariableColors">Couleurs variables</string>
+  <string name="MiraApi.ReturnToRoleSettings">RETOUR AUX RÉGLAGES DES RÔLES</string>
+  <string name="MiraApi.CustomCategory1">Catégorie personnalisée 1</string>
+  <string name="MiraApi.CustomCategory2">Catégorie personnalisée 2</string>
+  <string name="MiraApi.ModifierMenuDescription">Configurez les modificateurs et leurs réglages ici !</string>
+  <string name="MiraApi.CustomOptionMenuDescription">Appliquez les réglages de partie de ce mod !</string>
+  <string name="MiraApi.Gamemode">Mode de jeu</string>
+  <string name="MiraApi.Gamemode.Classic">Classique</string>
+  <string name="MiraApi.Gamemode.Classic.Description">L'expérience Among Us classique !</string>
+  <string name="MiraApi.Gamemode.HideAndSeek">Cache-cache</string>
+  <string name="MiraApi.Gamemode.HideAndSeek.Description">Vous pouvez courir, mais pas vous cacher !</string>
+  <string name="MiraApi.GameSetting.Global.ClickToClose">Cliquer pour fermer</string>
+  <string name="MiraApi.GameSetting.Global.ClickToOpen">Cliquer pour ouvrir</string>
+  <string name="MiraApi.GameSetting.Preset.Hint">Choisissez ou créez un preset de réglages pour cette partie</string>
+  <string name="MiraApi.GameSetting.Preset.Save">Enregistrer</string>
+  <string name="MiraApi.RoleTeam.Crewmate.Group">Rôles Crewmate</string>
+  <string name="MiraApi.RoleTeam.Impostor.Group">Rôles Imposteur</string>
+  <string name="MiraApi.RoleTeam.Neutral.Group">Rôles Neutres</string>
+  <string name="MiraApi.RoleTeam.Other">Autre</string>
+  <string name="MiraApi.ModifierDisplay.Page">Page</string>
+  <string name="MiraApi.Page">Page</string>
+  <string name="MiraApi.Main">Principal</string>
+  <string name="MiraApi.AbilityType.Basic">Capacité</string>
+  <string name="MiraApi.AbilityType.Indirect">Capacité indirecte</string>
+  <string name="MiraApi.AbilityType.Interaction">Capacité d'interaction</string>
+  <string name="MiraApi.AbilityType.Radius">Capacité de zone</string>
+  <string name="MiraApi.AbilityType.Menu">Capacité à menu</string>
+  <string name="MiraApi.AbilityType.Meeting">Capacité de réunion</string>
+  <string name="MiraApi.AbilityType.SelectiveMeeting">Capacité de réunion ciblée</string>
+  <string name="MiraApi.AbilityType.MeetingMenu">Capacité à menu de réunion</string>
+  <string name="Options">Options</string>
+  <string name="MiraApi.Wiki.PlayersTab">Liste des joueurs</string>
+  <string name="MiraApi.Wiki.SettingsTab">Paramètres de jeu</string>
+  <string name="MiraApi.Wiki.SearchPlaceholder">Rechercher...</string>
+  <string name="MiraApi.Wiki.FilterLabel">Filtre</string>
+  <string name="MiraApi.Wiki.GroupingLabel">Regroupement</string>
+  <string name="MiraApi.Wiki.OrderLabel">Ordre</string>
+  <string name="MiraApi.Wiki.VanillaSettings">Vanilla</string>
+  <string name="MiraApi.Wiki.SearchResults">Résultats de recherche</string>
+  <string name="MiraApi.Wiki.PreviousPage">Précédent</string>
+  <string name="MiraApi.Wiki.PrevPage">Préc.</string>
+  <string name="MiraApi.Wiki.NextPage">Suiv.</string>
+  <string name="MiraApi.Wiki.NoResultsFound">Aucun résultat</string>
+  <string name="On">Oui</string>
+  <string name="Off">Non</string>
+  <string name="Enabled">Activé</string>
+  <string name="Disabled">Désactivé</string>
+  <string name="Active">Actif</string>
+  <string name="Inactive">Inactif</string>
+  <string name="Activated">Activé</string>
+  <string name="Deactivated">Désactivé</string>
+</resources>

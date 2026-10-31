@@ -1,0 +1,13 @@
+bin/
+obj/
+packages/
+*.user
+*.lock.json
+.vs/
+.idea/
+*.DS_Store
+
+# Notes de travail (hors dépôt)
+bor-miraapi-todo.md
+bor-mirapi-logentry.md
+user-note.md

@@ -1,0 +1,14 @@
+{
+  "Name": "BetterOtherRole: MiraAPI",
+  "Description": "A MiraAPI-based foundation for the BetterOtherRole mod.",
+  "Tags": [
+    "mods"
+  ],
+  "License": "GPL-3.0",
+  "Authors": [
+    "Thilladon"
+  ],
+  "Links": {
+    "Source": "https://github.com/Thiladon/BetterOtherRoles"
+  }
+}

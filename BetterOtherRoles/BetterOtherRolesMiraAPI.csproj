@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <RootNamespace>BetterOtherRoles</RootNamespace>
+        <Description>BetterOtherRoles, running on MiraAPI.</Description>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <Version>$(VersionPrefix)-$(VersionSuffix)</Version>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="Resources\**\*.*" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="../LICENSE.txt" Pack="true" PackagePath="\"/>
+        <None Include="../README.md" Pack="true" PackagePath="\"/>
+    </ItemGroup>
+
+    <Import Project="../AmongUs.props" />
+</Project>

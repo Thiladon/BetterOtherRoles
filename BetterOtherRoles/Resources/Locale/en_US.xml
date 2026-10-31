@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <!-- Local Settings -->
+  <string name="BetterOtherRoles.LocalSettings.Tab">Better Other Roles</string>
+  <string name="BetterOtherRoles.LocalSettings.General">General</string>
+  <string name="BetterOtherRoles.LocalSettings.AutoRejoinDescription">Goes back to the lobby by itself at the end of a game, once the Quit and Play Again buttons show.</string>
+  <!-- Dev Options (dev builds only) -->
+  <string name="BetterOtherRoles.Options.Groups.Dev">Dev Options</string>
+  <string name="BetterOtherRoles.Option.Dev.TestMode">Debug Mode (less than 4 players, no game end except by host command)</string>
+  <string name="BetterOtherRoles.Dev.Chat.NotAvailable">Command only available to the host, in game, with the Debug Mode.</string>
+  <string name="BetterOtherRoles.Dev.Chat.SetRoleUsage">Usage: /setRole {Player} {Role} (player not found).</string>
+  <string name="BetterOtherRoles.Dev.Chat.RoleNotFound">Role not found. Roles: {0}</string>
+  <string name="BetterOtherRoles.Dev.Chat.RoleSet">{0} is now {1}.</string>
+  <string name="BetterOtherRoles.Dev.Chat.EndGameUsage">Usage: /endGame [Crewmate|Impostor].</string>
+  <string name="BetterOtherRoles.Admin.Chat.Welcome">Admin ({0}) detected in the lobby, welcome {0}</string>
+  <!-- Role Assignment -->
+  <string name="BetterOtherRoles.Options.Groups.RoleAssignment">Role Assignment</string>
+  <string name="BetterOtherRoles.Options.Groups.Lobby">Lobby</string>
+  <string name="BetterOtherRoles.Option.Lobby.AnyPlayerCanStopStart">Any Player Can Stop Start</string>
+  <string name="BetterOtherRoles.Lobby.StopStart">Stop</string>
+  <string name="BetterOtherRoles.Lobby.StartStopped">{0} stopped the game start!</string>
+  <string name="BetterOtherRoles.LocalSettings.AutoRejoin">Auto Rejoin</string>
+  <string name="BetterOtherRoles.LocalSettings.AutoRejoinDelay">Auto Rejoin Delay</string>
+  <string name="BetterOtherRoles.Lobby.AutoRejoinCountdown">Rejoining in {0}s</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.Mode">Assignment Mode</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.ModeVanillaRolesOnly">Vanilla Roles Only</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.ModeMinMaxList">Min/Max per Faction</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.ReduceImpostorStreak">Reduce Impostor Streaks</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.ImpostorStreakChance">Chance to Not Stay Impostor</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.MinCrewmateRoles">Minimum Crewmate Roles</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.MaxCrewmateRoles">Maximum Crewmate Roles</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.MinNeutralRoles">Minimum Neutral Roles</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.MaxNeutralRoles">Maximum Neutral Roles</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.MinImpostorRoles">Minimum Impostor Roles</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.MaxImpostorRoles">Maximum Impostor Roles</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.ModeRoleList">Role List</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.Slot1">Slot 1</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.Slot2">Slot 2</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.Slot3">Slot 3</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.Slot4">Slot 4</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.Slot5">Slot 5</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.Slot6">Slot 6</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.Slot7">Slot 7</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.Slot8">Slot 8</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.Slot9">Slot 9</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.Slot10">Slot 10</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.Slot11">Slot 11</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.Slot12">Slot 12</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.Slot13">Slot 13</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.Slot14">Slot 14</string>
+  <string name="BetterOtherRoles.Option.RoleAssignment.Slot15">Slot 15</string>
+  <string name="BetterOtherRoles.RoleListSlot.CrewInvestigative">[color=#66FFFFFF]Crew[/color] Investigative</string>
+  <string name="BetterOtherRoles.RoleListSlot.CrewKilling">[color=#66FFFFFF]Crew[/color] Killing</string>
+  <string name="BetterOtherRoles.RoleListSlot.CrewProtective">[color=#66FFFFFF]Crew[/color] Protective</string>
+  <string name="BetterOtherRoles.RoleListSlot.CrewPower">[color=#66FFFFFF]Crew[/color] Power</string>
+  <string name="BetterOtherRoles.RoleListSlot.CrewSupport">[color=#66FFFFFF]Crew[/color] Support</string>
+  <string name="BetterOtherRoles.RoleListSlot.CrewCommon">Common [color=#66FFFFFF]Crew[/color]</string>
+  <string name="BetterOtherRoles.RoleListSlot.CrewSpecial">Special [color=#66FFFFFF]Crew[/color]</string>
+  <string name="BetterOtherRoles.RoleListSlot.CrewRandom">Random [color=#66FFFFFF]Crew[/color]</string>
+  <string name="BetterOtherRoles.RoleListSlot.NeutralBenign">[color=#CCCC00FF]Neutral[/color] Benign</string>
+  <string name="BetterOtherRoles.RoleListSlot.NeutralEvil">[color=#CCCC00FF]Neutral[/color] Evil</string>
+  <string name="BetterOtherRoles.RoleListSlot.NeutralKilling">[color=#CCCC00FF]Neutral[/color] Killing</string>
+  <string name="BetterOtherRoles.RoleListSlot.NeutralOutlier">[color=#CCCC00FF]Neutral[/color] Outlier</string>
+  <string name="BetterOtherRoles.RoleListSlot.NeutralCommon">Common [color=#CCCC00FF]Neutral[/color]</string>
+  <string name="BetterOtherRoles.RoleListSlot.NeutralSpecial">Special [color=#CCCC00FF]Neutral[/color]</string>
+  <string name="BetterOtherRoles.RoleListSlot.NeutralWildcard">Wildcard [color=#CCCC00FF]Neutral[/color]</string>
+  <string name="BetterOtherRoles.RoleListSlot.NeutralRandom">Random [color=#CCCC00FF]Neutral[/color]</string>
+  <string name="BetterOtherRoles.RoleListSlot.ImpostorConcealing">[color=#FF0000FF]Imp[/color] Concealing</string>
+  <string name="BetterOtherRoles.RoleListSlot.ImpostorKilling">[color=#FF0000FF]Imp[/color] Killing</string>
+  <string name="BetterOtherRoles.RoleListSlot.ImpostorPower">[color=#FF0000FF]Imp[/color] Power</string>
+  <string name="BetterOtherRoles.RoleListSlot.ImpostorSupport">[color=#FF0000FF]Imp[/color] Support</string>
+  <string name="BetterOtherRoles.RoleListSlot.ImpostorCommon">Common [color=#FF0000FF]Imp[/color]</string>
+  <string name="BetterOtherRoles.RoleListSlot.ImpostorSpecial">Special [color=#FF0000FF]Imp[/color]</string>
+  <string name="BetterOtherRoles.RoleListSlot.ImpostorRandom">Random [color=#FF0000FF]Imp[/color]</string>
+  <string name="BetterOtherRoles.RoleListSlot.NonImpostor">Non-[color=#FF0000FF]Imp[/color]</string>
+  <string name="BetterOtherRoles.RoleListSlot.Any">Any</string>
+  <string name="BetterOtherRoles.Lobby.RoleListTitle">Role List:</string>
+  <string name="BetterOtherRoles.Lobby.MinMaxTitle">Roles per Faction:</string>
+  <string name="BetterOtherRoles.Lobby.CrewmateRoles">[color=#66FFFFFF]Crewmate[/color] roles: {0} - {1}</string>
+  <string name="BetterOtherRoles.Lobby.NeutralRoles">[color=#CCCC00FF]Neutral[/color] roles: {0} - {1}</string>
+  <string name="BetterOtherRoles.Lobby.ImpostorRoles">[color=#FF0000FF]Impostor[/color] roles: {0} - {1}</string>
+  <string name="BetterOtherRoles.Options.RoleCountLabel"># of Roles</string>
+  <!-- Presets tab -->
+  <string name="BetterOtherRoles.Presets.Load">Load</string>
+  <string name="BetterOtherRoles.Presets.Export">Export</string>
+  <string name="BetterOtherRoles.Presets.Import">Import</string>
+  <string name="BetterOtherRoles.Presets.Yes">Yes</string>
+  <string name="BetterOtherRoles.Presets.No">No</string>
+  <string name="BetterOtherRoles.Presets.Validate">Validate</string>
+  <string name="BetterOtherRoles.Presets.Cancel">Cancel</string>
+  <string name="BetterOtherRoles.Presets.InvalidName">Invalid or already used name</string>
+  <string name="BetterOtherRoles.Presets.ImportName">Name of the imported preset:</string>
+  <string name="BetterOtherRoles.Presets.ClipboardInvalid">The clipboard is empty or holds a code not compatible with the mod, please copy a valid code before importing.</string>
+  <string name="BetterOtherRoles.Presets.RenameTitle">New name of the preset {0}:</string>
+  <string name="BetterOtherRoles.Presets.ConfirmLoad">Load the preset {0}?</string>
+  <string name="BetterOtherRoles.Presets.Saved">The preset {0} has been saved.</string>
+  <string name="BetterOtherRoles.Presets.ConfirmReplace">The preset {0} already exists. Replace it?</string>
+  <string name="BetterOtherRoles.Presets.ConfirmDelete">Do you really want to delete the preset {0}?</string>
+  <string name="BetterOtherRoles.Presets.Active">Active preset: {0}</string>
+  <string name="BetterOtherRoles.Presets.ActiveChanged">Active preset: {0} (changed)</string>
+  <string name="BetterOtherRoles.Presets.Custom">Custom settings</string>
+  <string name="BetterOtherRoles.Presets.Copied">Code copied to the clipboard!</string>
+  <string name="BetterOtherRoles.Presets.Imported">Code imported!</string>
+  <!-- Role guide (Match Info), settings tab -->
+  <string name="BetterOtherRoles.Guide.RolesPage">Roles</string>
+  <string name="BetterOtherRoles.Guide.ModifiersPage">Modifiers</string>
+  <string name="BetterOtherRoles.Guide.RoleChanceValue">{0}%</string>
+  <string name="BetterOtherRoles.Guide.ClickToOpen">Click to open</string>
+  <string name="BetterOtherRoles.Guide.ClickToClose">Click to close</string>
+  <string name="BetterOtherRoles.Guide.VanillaGroup">Among Us</string>
+  <!-- Sheriff - Crewmate Killing -->
+  <string name="BetterOtherRoles.Role.Sheriff">Sheriff</string>
+  <string name="BetterOtherRoles.Role.Sheriff.IntroBlurb">Shoot the [color=#FF1919FF]Impostors[/color] (U can also kill Neutral Roles)</string>
+  <string name="BetterOtherRoles.Role.Sheriff.TabDescription">Shoot either Impostors or Neutrals</string>
+  <string name="BetterOtherRoles.Role.SheriffKill">Kill</string>
+  <!-- Sheriff Options -->
+  <string name="BetterOtherRoles.Option.Sheriff.Cooldown">Sheriff Kill Cooldown</string>
+  <string name="BetterOtherRoles.Option.Sheriff.CanKillNeutrals">Sheriff can kill Neutral Role</string>
+  <string name="BetterOtherRoles.Option.Sheriff.HasDeputy">Sheriff has a Deputy</string>
+  <string name="BetterOtherRoles.Option.Sheriff.DeputyChance">Deputy spawn chance</string>
+  <!-- Deputy - Crewmate Killing -->
+  <string name="BetterOtherRoles.Role.Deputy">Deputy</string>
+  <string name="BetterOtherRoles.Role.Deputy.IntroBlurb">Assist the [color=#FF1919FF]Sheriff[/color] !</string>
+  <string name="BetterOtherRoles.Role.Deputy.TabDescription">U can handcuff anyone and can be promoted to Sheriff if the Sheriff is killed</string>
+  <string name="BetterOtherRoles.Role.DeputyHandcuff">Handcuff</string>
+  <!-- Deputy Options (in the Sheriff options) -->
+  <string name="BetterOtherRoles.Option.Deputy.Handcuffs">Number of Deputy Handcuffs</string>
+  <string name="BetterOtherRoles.Option.Deputy.HandcuffCooldown">Deputy Handcuff Cooldown</string>
+  <string name="BetterOtherRoles.Option.Deputy.HandcuffDuration">Deputy Handcuff Duration</string>
+  <string name="BetterOtherRoles.Option.Deputy.KnowsSheriff">Sheriff and Deputy know each other</string>
+  <string name="BetterOtherRoles.Option.Deputy.Promotion">Deputy gets promoted to Sheriff</string>
+  <string name="BetterOtherRoles.Option.Deputy.PromotionOff">No</string>
+  <string name="BetterOtherRoles.Option.Deputy.PromotionImmediately">Immediately</string>
+  <string name="BetterOtherRoles.Option.Deputy.PromotionAfterMeeting">After Meeting</string>
+  <string name="BetterOtherRoles.Option.Deputy.KeepsHandcuffs">Deputy keeps handcuffs after promotion</string>
+</resources>
