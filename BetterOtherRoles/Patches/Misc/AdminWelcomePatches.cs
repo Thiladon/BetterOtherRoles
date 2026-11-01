@@ -2,19 +2,19 @@ using System.Collections;
 using BetterOtherRoles.Modules.Admin;
 using HarmonyLib;
 using MiraAPI.Translation;
+using BetterOtherRoles.Utilities;
+using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 
 namespace BetterOtherRoles.Patches.Misc;
 
 /// <summary>
-///     Welcome message for a BetterOtherRoles admin joining a lobby, in its own chat only (AddChat is local),
-///     once per lobby: not again when coming back from a game.
+///     Welcome message for a BetterOtherRoles admin joining a lobby, as a message of the mod (<see cref="BorChat"/>)
+///     seen by the admin and the host only, once per lobby: not again when coming back from a game.
 /// </summary>
 [HarmonyPatch(typeof(LobbyBehaviour), nameof(LobbyBehaviour.Start))]
 public static class AdminWelcomePatches
 {
-    private const string WelcomeColor = "#3C9BFF";
-
     // Lobby (game id) where the message was shown.
     private static int _welcomedGameId;
 
@@ -48,9 +48,29 @@ public static class AdminWelcomePatches
         }
 
         _welcomedGameId = gameId;
-        var name = PlayerControl.LocalPlayer.Data.PlayerName;
-        var message = string.Format(BetterOtherRolesPlugin.Culture,
-            MiraLocaleManager.Get("BetterOtherRoles.Admin.Chat.Welcome", "Admin ({0}) detected in the lobby, welcome {0}"), name);
-        HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"<color={WelcomeColor}>{message}</color>");
+        ShowWelcome(PlayerControl.LocalPlayer);
+        if (!AmongUsClient.Instance.AmHost)
+        {
+            RpcAdminJoined(PlayerControl.LocalPlayer);
+        }
+    }
+
+    /// <summary>
+    ///     Tells the host an admin joined: only the host shows the message (the other players ignore it).
+    /// </summary>
+    [MethodRpc((uint)BorRpc.AdminJoined)]
+    public static void RpcAdminJoined(PlayerControl admin)
+    {
+        if (AmongUsClient.Instance.AmHost && admin && !admin.AmOwner)
+        {
+            ShowWelcome(admin);
+        }
+    }
+
+    private static void ShowWelcome(PlayerControl admin)
+    {
+        var name = admin.Data?.PlayerName ?? string.Empty;
+        BorChat.AddSystemMessage(string.Format(BetterOtherRolesPlugin.Culture,
+            MiraLocaleManager.Get("BetterOtherRoles.Admin.Chat.Welcome", "Admin ({0}) detected in the lobby, welcome {0}"), name));
     }
 }

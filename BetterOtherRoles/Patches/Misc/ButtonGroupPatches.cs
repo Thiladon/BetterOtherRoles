@@ -8,7 +8,7 @@ namespace BetterOtherRoles.Patches.Misc;
 ///     Button group at the top right, in the lobby and in game: the settings button and every button on its left (chat,
 ///     future buttons) share a single frame instead of one frame each, and are moved closer to the settings. The map
 ///     and friends list buttons, on the right of the settings, keep their own frame. The frame is hidden during the
-///     meeting and kill animations, like the buttons (<see cref="KillOverlayHudPatches"/>).
+///     meeting animation, like the buttons (<see cref="KillOverlayHudPatches"/>).
 ///     The buttons are placed by the game in the TopRight container and only move at transitions (lobby, game start,
 ///     meeting, chat shown or hidden): the frame is only rebuilt when a button of the container moves or is shown or
 ///     hidden, or when the container moves (the frame is next to it, not inside).
@@ -62,10 +62,30 @@ public static class ButtonGroupPatches
         }
     }
 
+    /// <summary>
+    ///     The game arranges the container again after our update (death of the local player...): the buttons and the
+    ///     frame went back to the game places for a frame or two (flash). Placed back at once.
+    /// </summary>
+    [HarmonyPatch(typeof(GridArrange), nameof(GridArrange.ArrangeChilds))]
+    public static class ArrangeChildsPatch
+    {
+        public static void Postfix(GridArrange __instance)
+        {
+            var hud = HudManager.InstanceExists ? HudManager.Instance : null;
+            if (!hud || !hud!.SettingsButton || hud.SettingsButton.transform.parent != __instance.transform)
+            {
+                return;
+            }
+
+            Rebuild(__instance.transform, hud.SettingsButton.transform);
+            _lastLayout = GetLayout(__instance.transform);
+        }
+    }
+
     // Cheap fingerprint of the container: where it is, which buttons are shown and where.
     private static int GetLayout(Transform container)
     {
-        var hash = container.childCount + (KillOverlayHudPatches.IsOverlayOpen ? 1000 : 0);
+        var hash = container.childCount + (KillOverlayHudPatches.IsMeetingAnimation ? 1000 : 0);
         hash = (hash * 31) + Mathf.RoundToInt(container.localPosition.x * 100f);
         hash = (hash * 31) + Mathf.RoundToInt(container.localPosition.y * 100f);
         for (var i = 0; i < container.childCount; i++)
@@ -123,7 +143,7 @@ public static class ButtonGroupPatches
             _frame = CreateFrame(container);
         }
 
-        if (members.Count == 0 || KillOverlayHudPatches.IsOverlayOpen)
+        if (members.Count == 0 || KillOverlayHudPatches.IsMeetingAnimation)
         {
             _frame!.gameObject.SetActive(false);
             return;

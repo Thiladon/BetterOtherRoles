@@ -1,11 +1,12 @@
+using System.Reflection;
 using HarmonyLib;
 using UnityEngine;
 
 namespace BetterOtherRoles.Patches.Misc;
 
 /// <summary>
-///     During the meeting and kill animations (KillOverlay), the game hides the settings button but not the chat and role
-///     guide buttons: hide them too until the animation is over.
+///     During the meeting animation (KillOverlay), the game hides the settings button but not the chat and role guide
+///     buttons: hide them too until the animation is over. During a kill animation (same overlay), they all stay shown.
 ///     They are shrunk to nothing instead of deactivated: the game and MiraAPI show them again on their own, and the
 ///     TopRight container would rearrange its buttons.
 /// </summary>
@@ -14,16 +15,20 @@ public static class KillOverlayHudPatches
 {
     private static readonly Dictionary<IntPtr, (Transform Button, Vector3 Scale)> HiddenButtons = [];
 
+    // Last animation started on the overlay: a meeting (true) or a kill (false).
+    private static bool _meetingShown;
+
     /// <summary>
-    ///     Gets a value indicating whether a meeting or kill animation is shown.
+    ///     Gets a value indicating whether a meeting animation is shown.
     /// </summary>
-    public static bool IsOverlayOpen { get; private set; }
+    public static bool IsMeetingAnimation { get; private set; }
 
     [HarmonyPrefix]
     public static void UpdatePrefix(HudManager __instance)
     {
-        IsOverlayOpen = __instance.KillOverlay && __instance.KillOverlay.IsOpen;
-        if (IsOverlayOpen)
+
+        IsMeetingAnimation = _meetingShown && __instance.KillOverlay && __instance.KillOverlay.IsOpen;
+        if (IsMeetingAnimation)
         {
             Hide(__instance.Chat ? __instance.Chat.chatButton.transform : null);
             Hide(__instance.MatchInfoButton ? __instance.MatchInfoButton.transform : null);
@@ -39,6 +44,24 @@ public static class KillOverlayHudPatches
         }
 
         HiddenButtons.Clear();
+    }
+
+    [HarmonyPatch]
+    public static class ShowMeetingPatch
+    {
+        public static MethodBase TargetMethod() => AccessTools.Method(typeof(KillOverlay), nameof(KillOverlay.ShowMeeting));
+
+        public static void Prefix() => _meetingShown = true;
+    }
+
+    // Every overload (with or without a kill animation given).
+    [HarmonyPatch]
+    public static class ShowKillAnimationPatch
+    {
+        public static IEnumerable<MethodBase> TargetMethods() => AccessTools.GetDeclaredMethods(typeof(KillOverlay))
+            .Where(x => x.Name == nameof(KillOverlay.ShowKillAnimation));
+
+        public static void Prefix() => _meetingShown = false;
     }
 
     private static void Hide(Transform? button)

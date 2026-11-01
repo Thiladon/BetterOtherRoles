@@ -11,4 +11,9 @@ public enum BorRpc : uint
     DeputyPromotes,
     HostAdmin,
     StopStart,
+    StartStopped,
+    AdminJoined,
+    DoorPush,
+    ResetCooldowns,
+    Revive,
 }

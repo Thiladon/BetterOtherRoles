@@ -1,5 +1,6 @@
 using BetterOtherRoles.Modules.Admin;
 using BetterOtherRoles.Options;
+using BetterOtherRoles.Utilities;
 using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Translation;
@@ -52,9 +53,24 @@ public static class StopStartPatches
         }
 
         GameStartManager.Instance.ResetStartState();
-        var message = string.Format(BetterOtherRolesPlugin.Culture,
-            MiraLocaleManager.Get("BetterOtherRoles.Lobby.StartStopped", "{0} stopped the game start!"), player.Data.PlayerName);
-        PlayerControl.LocalPlayer.RpcSendChat(message);
+        RpcStartStopped(PlayerControl.LocalPlayer, player.PlayerId);
+    }
+
+    /// <summary>
+    ///     Sent by the host to every player: a game message in the chat (not sent by a player, in each player's
+    ///     language), and the chat bubble with the player who stopped the start.
+    /// </summary>
+    [MethodRpc((uint)BorRpc.StartStopped)]
+    public static void RpcStartStopped(PlayerControl host, byte stopperId)
+    {
+        var stopper = GameData.Instance ? GameData.Instance.GetPlayerById(stopperId) : null;
+        if (stopper == null)
+        {
+            return;
+        }
+
+        BorChat.AddSystemMessage(string.Format(BetterOtherRolesPlugin.Culture,
+            MiraLocaleManager.Get("BetterOtherRoles.Lobby.StartStopped", "{0} stopped the game start!"), stopper.PlayerName), stopper.Object);
     }
 
     /// <summary>

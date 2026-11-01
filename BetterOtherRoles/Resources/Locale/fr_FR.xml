@@ -15,15 +15,22 @@
   <string name="BetterOtherRoles.Options.Groups.Dev">Options de dév.</string>
   <string name="BetterOtherRoles.Option.Dev.TestMode">Debug Mode (moins de 4 joueurs, pas de fin de partie)</string>
   <string name="BetterOtherRoles.Dev.Chat.NotAvailable">Commande réservée à l'hôte, en partie, avec le Debug Mode.</string>
-  <string name="BetterOtherRoles.Dev.Chat.SetRoleUsage">Utilisation : /setRole {Joueur} {Rôle} (joueur introuvable).</string>
+  <string name="BetterOtherRoles.Dev.Chat.SetRoleUsage">Utilisation : /setrole [joueur] {rôle}.</string>
   <string name="BetterOtherRoles.Dev.Chat.RoleNotFound">Rôle introuvable. Rôles : {0}</string>
   <string name="BetterOtherRoles.Dev.Chat.RoleSet">{0} est maintenant {1}.</string>
-  <string name="BetterOtherRoles.Dev.Chat.EndGameUsage">Utilisation : /endGame [Crewmate|Impostor].</string>
+  <string name="BetterOtherRoles.Dev.Chat.ResetCooldownUsage">Utilisation : /resetcd [joueur] (joueur introuvable).</string>
+  <string name="BetterOtherRoles.Dev.Chat.CooldownReset">Délais de {0} réinitialisés.</string>
+  <string name="BetterOtherRoles.Dev.Chat.ReviveUsage">Utilisation : /revive [joueur] (joueur introuvable).</string>
+  <string name="BetterOtherRoles.Dev.Chat.NotDead">{0} n'est pas mort.</string>
+  <string name="BetterOtherRoles.Dev.Chat.Revived">{0} est de nouveau en vie.</string>
+  <string name="BetterOtherRoles.Dev.Chat.EndGameUsage">Utilisation : /endgame [crewmate|impostor].</string>
   <string name="BetterOtherRoles.Admin.Chat.Welcome">Admin ({0}) détecté dans le lobby, bienvenue {0}</string>
   <!-- Role Assignment -->
   <string name="BetterOtherRoles.Options.Groups.RoleAssignment">Attribution des rôles</string>
   <string name="BetterOtherRoles.Options.Groups.Lobby">Salon</string>
   <string name="BetterOtherRoles.Option.Lobby.AnyPlayerCanStopStart">Tout le monde peut arrêter le lancement</string>
+  <string name="BetterOtherRoles.Maps.Dleks">dlekS</string>
+  <string name="BetterOtherRoles.Maps.DleksTooltip">ehT dlekS : le vaisseau de taille moyenne que vous connaissez et (potentiellement) appréciez, mais à l'envers !</string>
   <string name="BetterOtherRoles.Lobby.StopStart">Arrêter</string>
   <string name="BetterOtherRoles.Lobby.StartStopped">{0} a arrêté le lancement de la partie !</string>
   <string name="BetterOtherRoles.LocalSettings.AutoRejoin">Retour automatique au salon</string>

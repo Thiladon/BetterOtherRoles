@@ -8,15 +8,22 @@
   <string name="BetterOtherRoles.Options.Groups.Dev">Dev Options</string>
   <string name="BetterOtherRoles.Option.Dev.TestMode">Debug Mode (less than 4 players, no game end except by host command)</string>
   <string name="BetterOtherRoles.Dev.Chat.NotAvailable">Command only available to the host, in game, with the Debug Mode.</string>
-  <string name="BetterOtherRoles.Dev.Chat.SetRoleUsage">Usage: /setRole {Player} {Role} (player not found).</string>
+  <string name="BetterOtherRoles.Dev.Chat.SetRoleUsage">Usage: /setrole [player] {role}.</string>
   <string name="BetterOtherRoles.Dev.Chat.RoleNotFound">Role not found. Roles: {0}</string>
   <string name="BetterOtherRoles.Dev.Chat.RoleSet">{0} is now {1}.</string>
-  <string name="BetterOtherRoles.Dev.Chat.EndGameUsage">Usage: /endGame [Crewmate|Impostor].</string>
+  <string name="BetterOtherRoles.Dev.Chat.ResetCooldownUsage">Usage: /resetcd [player] (player not found).</string>
+  <string name="BetterOtherRoles.Dev.Chat.CooldownReset">Cooldowns of {0} reset.</string>
+  <string name="BetterOtherRoles.Dev.Chat.ReviveUsage">Usage: /revive [player] (player not found).</string>
+  <string name="BetterOtherRoles.Dev.Chat.NotDead">{0} is not dead.</string>
+  <string name="BetterOtherRoles.Dev.Chat.Revived">{0} is alive again.</string>
+  <string name="BetterOtherRoles.Dev.Chat.EndGameUsage">Usage: /endgame [crewmate|impostor].</string>
   <string name="BetterOtherRoles.Admin.Chat.Welcome">Admin ({0}) detected in the lobby, welcome {0}</string>
   <!-- Role Assignment -->
   <string name="BetterOtherRoles.Options.Groups.RoleAssignment">Role Assignment</string>
   <string name="BetterOtherRoles.Options.Groups.Lobby">Lobby</string>
   <string name="BetterOtherRoles.Option.Lobby.AnyPlayerCanStopStart">Any Player Can Stop Start</string>
+  <string name="BetterOtherRoles.Maps.Dleks">dlekS</string>
+  <string name="BetterOtherRoles.Maps.DleksTooltip">ehT dlekS: the medium-sized ship you know and (maybe) love, but flipped!</string>
   <string name="BetterOtherRoles.Lobby.StopStart">Stop</string>
   <string name="BetterOtherRoles.Lobby.StartStopped">{0} stopped the game start!</string>
   <string name="BetterOtherRoles.LocalSettings.AutoRejoin">Auto Rejoin</string>
