@@ -1,5 +1,5 @@
 using System.Reflection;
-using BetterOtherRoles.Utilities;
+using BetterOtherRoles.Assets;
 using HarmonyLib;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities.Assets;
@@ -187,8 +187,8 @@ public static class GuideBackButtonPatches
             gameObject.transform.position = new Vector3(corner.x, corner.y, title.transform.position.z - 1f);
 
             var renderer = gameObject.AddComponent<SpriteRenderer>();
-            var idle = BorSpriteUtils.CreateCloseButtonSprite(false);
-            var hover = BorSpriteUtils.CreateCloseButtonSprite(true);
+            var idle = BorAssets.CloseButton.LoadAsset();
+            var hover = BorAssets.CloseButtonHover.LoadAsset();
             renderer.sprite = idle;
             renderer.sortingOrder = SortingOrder;
             gameObject.transform.localScale = Vector3.one;

@@ -24,7 +24,12 @@ public static class IntroStatePatches
     [HarmonyPrefix]
     public static void HudManagerUpdatePrefix()
     {
-        if (!AmongUsClient.Instance.IsGameStarted)
+        if (TutorialManager.InstanceExists)
+        {
+            // Freeplay has no intro (and the game is not "started" there).
+            IntroEnded = true;
+        }
+        else if (!AmongUsClient.Instance.IsGameStarted)
         {
             IntroEnded = false;
         }

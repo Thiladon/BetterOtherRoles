@@ -17,6 +17,16 @@
   <string name="BetterOtherRoles.Dev.Chat.NotDead">{0} is not dead.</string>
   <string name="BetterOtherRoles.Dev.Chat.Revived">{0} is alive again.</string>
   <string name="BetterOtherRoles.Dev.Chat.EndGameUsage">Usage: /endgame [crewmate|impostor].</string>
+  <string name="BetterOtherRoles.Debug.Menu.Keybind">Open the Debug menu</string>
+  <string name="BetterOtherRoles.Debug.Menu.SetRole">Change role</string>
+  <string name="BetterOtherRoles.Debug.Menu.ResetCooldowns">Reset cooldowns</string>
+  <string name="BetterOtherRoles.Debug.Menu.Revive">Revive</string>
+  <string name="BetterOtherRoles.Debug.Menu.Kill">Kill</string>
+  <string name="BetterOtherRoles.Debug.Menu.Meeting">Call a meeting</string>
+  <string name="BetterOtherRoles.Debug.Menu.TeleportTo">Go to a player</string>
+  <string name="BetterOtherRoles.Debug.Menu.Bring">Bring a player</string>
+  <string name="BetterOtherRoles.Debug.Menu.EndCrewmates">End: crewmates win</string>
+  <string name="BetterOtherRoles.Debug.Menu.EndImpostors">End: impostors win</string>
   <string name="BetterOtherRoles.Admin.Chat.Welcome">Admin ({0}) detected in the lobby, welcome {0}</string>
   <!-- Role Assignment -->
   <string name="BetterOtherRoles.Options.Groups.RoleAssignment">Role Assignment</string>

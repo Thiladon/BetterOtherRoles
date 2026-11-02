@@ -1,3 +1,4 @@
+using BetterOtherRoles.Modules.Admin;
 using BetterOtherRoles.Roles.Crewmate;
 using MiraAPI.Keybinds;
 using MiraAPI.Roles;
@@ -109,6 +110,17 @@ public static class BorKeybindRules
                 ? $"<color=#{ColorUtility.ToHtmlStringRGB(role.RoleColor)}>{role.RoleName}</color>"
                 : MiraLocaleManager.Get("BetterOtherRoles.LocalSettings.Tab", "Better Other Roles");
             keybind.RewiredInputAction.descriptiveName = $"<b><size=70%>{header}</size></b>\n{keybind.NameKey.Translate()}";
+        }
+    }
+
+    /// <summary>
+    ///     Shows the admin keybinds (Debug menu) in Remap Controls to the admins only; they still work for nobody else.
+    /// </summary>
+    public static void RefreshAdminKeybinds()
+    {
+        if (BorKeybinds.DebugMenu.RewiredInputAction is { } action)
+        {
+            action.userAssignable = BorAdmin.IsAdmin;
         }
     }
 

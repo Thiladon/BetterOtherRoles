@@ -20,6 +20,10 @@ namespace BetterOtherRoles.Patches.Options;
 [HarmonyPatch]
 public static class PresetPopups
 {
+    // Text boxes given a caret by AddCaret, and placeholders given by AddPlaceholder.
+    private static readonly HashSet<IntPtr> CaretBoxes = [];
+    private static readonly Dictionary<IntPtr, TextMeshPro> Placeholders = [];
+
     // Font of the MiraAPI popup texts (set in its Awake).
     private const string FontStart = "<font=\"LiberationSans SDF\" material=\"LiberationSans SDF RadialMenu Material\">";
     private const string FontEnd = "</font>";
@@ -318,19 +322,7 @@ public static class PresetPopups
             return;
         }
 
-        if (!box!.Pipe && box.outputText)
-        {
-            var pipe = Object.Instantiate(box.outputText, box.outputText.transform.parent);
-            pipe.name = "Pipe";
-            pipe.text = "|";
-            // Placed by the game at the caret: the "|" is centered on its position.
-            pipe.alignment = TextAlignmentOptions.Center;
-            pipe.enableAutoSizing = false;
-            pipe.fontSize = box.outputText.fontSize * PipeScale;
-            pipe.rectTransform.sizeDelta = new Vector2(PipeWidth, PipeHeight);
-            pipe.rectTransform.pivot = new Vector2(0.5f - (PipeRight / PipeWidth), 0.5f + (PipeDown / PipeHeight));
-            box.Pipe = pipe.GetComponent<MeshRenderer>();
-        }
+        AddCaret(box!);
 
         // Spaces and symbols ("-", "_", ".") allowed: MiraAPI removed the spaces from the shown text only.
         box.AllowSymbols = true;
@@ -350,29 +342,109 @@ public static class PresetPopups
         box.GiveFocus();
     }
 
+    /// <summary>
+    ///     Gives a blinking caret to a text box of a MiraAPI prefab (they have none), placed right after a space too.
+    /// </summary>
+    /// <param name="box">The text box.</param>
+    public static void AddCaret(TextBoxTMP box)
+    {
+        if (box.Pipe || !box.outputText)
+        {
+            return;
+        }
+
+        // Written from the left, the caret starting at the left of the box.
+        box.outputText.horizontalAlignment = HorizontalAlignmentOptions.Left;
+
+        var pipe = Object.Instantiate(box.outputText, box.outputText.transform.parent);
+        pipe.name = "Pipe";
+        pipe.text = "|";
+        // Placed by the game at the caret: the "|" is centered on its position.
+        pipe.alignment = TextAlignmentOptions.Center;
+        pipe.enableAutoSizing = false;
+        pipe.fontSize = box.outputText.fontSize * PipeScale;
+        pipe.rectTransform.sizeDelta = new Vector2(PipeWidth, PipeHeight);
+        pipe.rectTransform.pivot = new Vector2(0.5f - (PipeRight / PipeWidth), 0.5f + (PipeDown / PipeHeight));
+        box.Pipe = pipe.GetComponent<MeshRenderer>();
+        CaretBoxes.Add(box.Pointer);
+    }
+
+    /// <summary>
+    ///     Gives a placeholder to a text box: a text in the box, in its font, shown while the box is empty and not
+    ///     focused. It is not the text of the box (not searched for instance).
+    /// </summary>
+    /// <param name="box">The text box.</param>
+    /// <param name="placeholder">The text shown.</param>
+    /// <param name="color">Its color.</param>
+    public static void AddPlaceholder(TextBoxTMP box, string placeholder, Color color)
+    {
+        if (!box.outputText || Placeholders.ContainsKey(box.Pointer))
+        {
+            return;
+        }
+
+        var text = Object.Instantiate(box.outputText, box.outputText.transform.parent);
+        text.name = "BorPlaceholder";
+        text.text = placeholder;
+        text.color = color;
+        Placeholders[box.Pointer] = text;
+        RefreshPlaceholder(box);
+    }
+
+    private static void RefreshPlaceholder(TextBoxTMP box)
+    {
+        if (!Placeholders.TryGetValue(box.Pointer, out var placeholder))
+        {
+            return;
+        }
+
+        if (!placeholder)
+        {
+            Placeholders.Remove(box.Pointer);
+            return;
+        }
+
+        var shown = !box.hasFocus && string.IsNullOrEmpty(box.text);
+        if (placeholder.gameObject.activeSelf != shown)
+        {
+            placeholder.gameObject.SetActive(shown);
+        }
+    }
+
     // The game puts the caret 0.01 before the right edge of the character before it, which is close to its left edge
     // for a space: right after a space, the caret is put where the next character starts, less the gap left after a
-    // letter. The game places it again in its Update (not through SetPipePosition): placed after both.
+    // letter. With no text, the caret is put at the left of the box (the game centers it).
+    // The game places it again in its Update (not through SetPipePosition): placed after both.
     [HarmonyPatch(typeof(TextBoxTMP), "SetPipePosition")]
     [HarmonyPostfix]
     public static void SetPipePositionPostfix(TextBoxTMP __instance)
     {
-        PlaceCaretAfterSpace(__instance);
+        PlaceCaret(__instance);
     }
 
     [HarmonyPatch(typeof(TextBoxTMP), nameof(TextBoxTMP.Update))]
     [HarmonyPostfix]
     public static void UpdatePostfix(TextBoxTMP __instance)
     {
-        PlaceCaretAfterSpace(__instance);
+        PlaceCaret(__instance);
+        RefreshPlaceholder(__instance);
     }
 
-    private static void PlaceCaretAfterSpace(TextBoxTMP box)
+    private static void PlaceCaret(TextBoxTMP box)
     {
         var text = box.outputText;
         var pipe = box.Pipe;
-        if (!text || !pipe || !box.GetComponentInParent<SavePresetPopup>())
+        if (!text || !pipe || !CaretBoxes.Contains(box.Pointer))
         {
+            return;
+        }
+
+        if (string.IsNullOrEmpty(box.text))
+        {
+            var left = text.rectTransform.rect.xMin + text.margin.x;
+            var start = pipe.transform.parent.InverseTransformPoint(text.transform.TransformPoint(new Vector3(left, 0f, 0f)));
+            var current = pipe.transform.localPosition;
+            pipe.transform.localPosition = new Vector3(start.x, current.y, current.z);
             return;
         }
 

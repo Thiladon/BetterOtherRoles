@@ -24,4 +24,12 @@ public static class BorKeybinds
         ControllerButton.RightTrigger,
         typeof(DeputyRole),
         typeof(SheriffRole));
+
+    /// <summary>
+    ///     Gets the keybind opening (or closing) the Debug menu, shown in Remap Controls to the admins only.
+    /// </summary>
+    public static MiraKeybind DebugMenu { get; } = new BorKeybind(
+        "bor_debug_menu",
+        "BetterOtherRoles.Debug.Menu.Keybind",
+        KeyboardKeyCode.F8);
 }

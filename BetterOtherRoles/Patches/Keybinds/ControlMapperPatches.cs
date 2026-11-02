@@ -18,6 +18,7 @@ public static class ControlMapperPatches
     public static void OpenPrefix(ControlMapper __instance)
     {
         BorKeybindRules.RefreshNames();
+        BorKeybindRules.RefreshAdminKeybinds();
         if (__instance.GetComponent<RemapKeyNamesBehaviour>() == null)
         {
             __instance.gameObject.AddComponent<RemapKeyNamesBehaviour>();

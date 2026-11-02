@@ -1,6 +1,6 @@
 using System.Reflection;
+using BetterOtherRoles.Assets;
 using BetterOtherRoles.Modules.Presets;
-using BetterOtherRoles.Utilities;
 using HarmonyLib;
 using MiraAPI.Patches.Options;
 using MiraAPI.Presets;
@@ -211,8 +211,8 @@ public static class PresetsTabPatches
             _loadButton = CreateLargeButton(saveButton, tab, "BorLoadButton", "Load", "Load", () => OnLoad(tab));
             _exportButton = CreateLargeButton(saveButton, tab, "BorExportButton", "Export", "Export", () => OnExport(tab));
             _importButton = CreateLargeButton(saveButton, tab, "BorImportButton", "Import", "Import", () => OnImport(tab));
-            _renameButton = CreateIconButton(refresh!.GetComponent<PassiveButton>(), tab, "BorRenameButton", BorSpriteUtils.CreatePencilSprite, () => OnRename(tab));
-            _deleteButton = CreateIconButton(refresh.GetComponent<PassiveButton>(), tab, "BorDeleteButton", BorSpriteUtils.CreateTrashSprite, () => OnDelete(tab));
+            _renameButton = CreateIconButton(refresh!.GetComponent<PassiveButton>(), tab, "BorRenameButton", BorAssets.PresetPencil.LoadAsset(), () => OnRename(tab));
+            _deleteButton = CreateIconButton(refresh.GetComponent<PassiveButton>(), tab, "BorDeleteButton", BorAssets.PresetTrash.LoadAsset(), () => OnDelete(tab));
         }
     }
 
@@ -250,15 +250,15 @@ public static class PresetsTabPatches
         return button;
     }
 
-    // Small button like "Refresh", with an icon drawn in the color of the refresh icon.
-    private static PassiveButton CreateIconButton(PassiveButton refresh, GamePresetsTab tab, string name, Func<Color, Sprite> createIcon, Action onClick)
+    // Small button like "Refresh", with an icon in the color of the refresh icon.
+    private static PassiveButton CreateIconButton(PassiveButton refresh, GamePresetsTab tab, string name, Sprite iconSprite, Action onClick)
     {
         var button = Object.Instantiate(refresh, tab.transform);
         button.name = name;
         var icon = button.transform.Find("Sprite")?.GetComponent<SpriteRenderer>();
         if (icon)
         {
-            icon!.sprite = createIcon(BorSpriteUtils.GetMainColor(icon.sprite));
+            icon!.sprite = iconSprite;
             icon.transform.localScale = new Vector3(0.4f, 0.4f, 1f);
         }
 

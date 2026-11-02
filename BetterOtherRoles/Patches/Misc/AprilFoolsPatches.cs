@@ -5,7 +5,8 @@ namespace BetterOtherRoles.Patches.Misc;
 /// <summary>
 ///     April Fools modes of Among Us (horse, long neck, classic look) are turned off, even on their event dates: the
 ///     horse kept the collision of a normal player, the long neck showed nothing, and a player could keep a wrong size
-///     after leaving the horse mode. The reversed Skeld (dlekS) is a map of its own (<see cref="DleksMapPatches"/>).
+///     after leaving the horse mode. The Impostor Month (<see cref="AprilFoolsMode.IsImpostorMonth"/>, own compiled
+///     function, no visible change when forced on) is turned off too. The reversed Skeld (dlekS) is a map of its own (<see cref="DleksMapPatches"/>).
 ///     <see cref="AprilFoolsMode.ShouldLongAround"/>, <see cref="AprilFoolsMode.ShouldClassicMode"/> and
 ///     <see cref="AprilFoolsMode.ShouldFlipSkeld"/> are never patched: the game shares one compiled function between
 ///     them (and surely many other methods), so a patch on one changes all of them (seen: a player starting the game
@@ -17,6 +18,7 @@ public static class AprilFoolsPatches
     [HarmonyPatch(typeof(AprilFoolsMode), nameof(AprilFoolsMode.ShouldHorseAround))]
     [HarmonyPatch(typeof(AprilFoolsMode), nameof(AprilFoolsMode.ShouldHorseModeMainMenu))]
     [HarmonyPatch(typeof(AprilFoolsMode), nameof(AprilFoolsMode.ShouldShowAprilFoolsToggle))]
+    [HarmonyPatch(typeof(AprilFoolsMode), nameof(AprilFoolsMode.IsImpostorMonth))]
     [HarmonyPrefix]
     public static bool NeverPrefix(ref bool __result)
     {

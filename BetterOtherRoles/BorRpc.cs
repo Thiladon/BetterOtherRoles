@@ -16,4 +16,5 @@ public enum BorRpc : uint
     DoorPush,
     ResetCooldowns,
     Revive,
+    Teleport,
 }

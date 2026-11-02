@@ -1,4 +1,5 @@
 using BetterOtherRoles.Keybinds;
+using BetterOtherRoles.Modules.Debug;
 using HarmonyLib;
 using MiraAPI.Keybinds;
 using Rewired;
@@ -26,6 +27,14 @@ public static class KeybindManagerPatches
             MiraGlobalKeybinds.ModifierTertiaryAbility,
         ];
         KeybindManager.Keybinds.RemoveAll(generic.Contains);
+    }
+
+    [HarmonyPostfix]
+    [HarmonyPatch("RewiredInit")]
+    public static void RewiredInitPostfix()
+    {
+        BorKeybindRules.RefreshAdminKeybinds();
+        BorKeybinds.DebugMenu.OnActivate(BorDebugMenu.Toggle);
     }
 
     // The role names are written when Remap Controls opens (ControlMapperPatches), not here: Rewired starts

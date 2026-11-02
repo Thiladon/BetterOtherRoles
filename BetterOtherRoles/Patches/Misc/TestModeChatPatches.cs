@@ -1,15 +1,11 @@
 using System.Globalization;
-using AmongUs.GameOptions;
 using System.Text;
+using AmongUs.GameOptions;
+using BetterOtherRoles.Modules.Debug;
 using BetterOtherRoles.Options;
-using BetterOtherRoles.Patches.Roles;
-using BetterOtherRoles.Utilities;
 using HarmonyLib;
-using MiraAPI.Hud;
 using MiraAPI.Roles;
 using MiraAPI.Translation;
-using Reactor.Networking.Attributes;
-using UnityEngine;
 
 namespace BetterOtherRoles.Patches.Misc;
 
@@ -27,10 +23,6 @@ public static class TestModeChatPatches
     private const string ResetCooldownCommand = "/resetcd";
     private const string ReviveCommand = "/revive";
 
-    private static bool CanUseDevCommands => BorDevOptions.IsTestModeActive &&
-                                            AmongUsClient.Instance.AmHost &&
-                                            AmongUsClient.Instance.IsGameStarted;
-
     /// <summary>
     ///     Shows the chat to the host once the intro is over.
     /// </summary>
@@ -38,7 +30,7 @@ public static class TestModeChatPatches
     [HarmonyPostfix]
     public static void HudManagerUpdatePostfix(HudManager __instance)
     {
-        if (IntroStatePatches.IntroEnded && CanUseDevCommands && !__instance.Chat.chatButton.gameObject.activeSelf)
+        if (IntroStatePatches.IntroEnded && BorDebugActions.CanUse && !__instance.Chat.chatButton.gameObject.activeSelf)
         {
             __instance.Chat.SetVisible(true);
         }
@@ -58,7 +50,7 @@ public static class TestModeChatPatches
             return true;
         }
 
-        if (!CanUseDevCommands)
+        if (!BorDebugActions.CanUse)
         {
             Reply(MiraLocaleManager.Get("BetterOtherRoles.Dev.Chat.NotAvailable", "Command only available to the host, in game, with the test mode."));
         }
@@ -107,7 +99,7 @@ public static class TestModeChatPatches
             return;
         }
 
-        TestModePatches.ForceEndGame(reason);
+        BorDebugActions.EndGame(reason);
     }
 
     /// <summary>
@@ -128,14 +120,7 @@ public static class TestModeChatPatches
         }
 
         var roleName = Normalize(roleArgs);
-        // Modded roles, plus the vanilla Crewmate and Impostor: the other vanilla roles are left out,
-        // as some modded roles will have the same name (Engineer...).
-        // RoleManager.AllRoles gives plain RoleBehaviours (never ICustomRole): take the modded ones from MiraAPI.
-        var roles = CustomRoleManager.CustomRoleBehaviours
-            .Where(x => !x.IsDead)
-            .Append(RoleManager.Instance.GetRole(RoleTypes.Crewmate))
-            .Append(RoleManager.Instance.GetRole(RoleTypes.Impostor))
-            .ToArray();
+        var roles = BorDebugActions.GetRoles();
         var role = roles.FirstOrDefault(x => Normalize(GetCommandName(x)) == roleName);
 
         if (role == null)
@@ -145,7 +130,7 @@ public static class TestModeChatPatches
             return;
         }
 
-        player.RpcChangeRole((ushort)role.Role, readyButtons: true);
+        BorDebugActions.SetRole(player, role);
         Reply(MiraLocaleManager.Get("BetterOtherRoles.Dev.Chat.RoleSet", "{0} is now {1}.")
             .Replace("{0}", player.Data.PlayerName)
             .Replace("{1}", GetCommandName(role)));
@@ -167,39 +152,6 @@ public static class TestModeChatPatches
         player!.RpcResetCooldowns();
         Reply(MiraLocaleManager.Get("BetterOtherRoles.Dev.Chat.CooldownReset", "Cooldowns of {0} reset.")
             .Replace("{0}", player.Data.PlayerName));
-    }
-
-    /// <summary>
-    ///     Resets the cooldowns of a player, sent by the host to everyone: only this player resets their buttons,
-    ///     everyone resets the sabotages and doors of an impostor (the host keeps their timers, the others check them).
-    /// </summary>
-    [MethodRpc((uint)BorRpc.ResetCooldowns)]
-    public static void RpcResetCooldowns(this PlayerControl player)
-    {
-        if (!player || player.Data?.Role == null)
-        {
-            return;
-        }
-
-        if (player.Data.Role.IsImpostor)
-        {
-            ResetSabotages();
-        }
-
-        if (!player.AmOwner)
-        {
-            return;
-        }
-
-        foreach (var button in CustomButtonManager.Buttons.Where(x => x.Enabled(player.Data.Role)))
-        {
-            button.SetTimer(0f);
-        }
-
-        if (player.Data.Role.CanUseKillButton)
-        {
-            player.SetKillTimer(0f);
-        }
     }
 
     /// <summary>
@@ -227,128 +179,12 @@ public static class TestModeChatPatches
             .Replace("{0}", player.Data.PlayerName));
     }
 
-    /// <summary>
-    ///     Revives a player, sent by the host to everyone: the body is removed and the player stands in its place
-    ///     (where they are when there is no body, ejected for instance), with their role when alive.
-    /// </summary>
-    [MethodRpc((uint)BorRpc.Revive)]
-    public static void RpcRevive(this PlayerControl player)
-    {
-        if (!player || player.Data == null || !player.Data.IsDead)
-        {
-            return;
-        }
-
-        var body = UnityEngine.Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x => x.ParentId == player.PlayerId);
-        Vector2? position = body ? body!.TruePosition : null;
-        if (body)
-        {
-            UnityEngine.Object.Destroy(body!.gameObject);
-        }
-
-        // RoleWhenAlive of the game reads as Crewmate through Il2Cpp: our own record (impostor or crewmate by default).
-        var role = AliveRolePatches.Get(player) ??
-                   (player.Data.Role.TeamType == RoleTeamTypes.Impostor ? RoleTypes.Impostor : RoleTypes.Crewmate);
-
-        player.Revive();
-        RemoveGhostText(player);
-        player.ChangeRole((ushort)role);
-
-        if (position != null && !MeetingHud.Instance && !ExileController.Instance)
-        {
-            // TruePosition is the feet: the transform is a little higher (collider offset).
-            var place = position.Value - player.Collider.offset;
-            player.transform.position = new Vector3(place.x, place.y, player.transform.position.z);
-            player.MyPhysics.body.position = place;
-            if (!player.AmOwner && player.NetTransform)
-            {
-                player.NetTransform.SnapTo(place);
-            }
-
-            Physics2D.SyncTransforms();
-        }
-
-        // Back alive: no chat in game (the host in test mode gets it back).
-        if (player.AmOwner && HudManager.Instance && !MeetingHud.Instance)
-        {
-            HudManager.Instance.Chat.SetVisible(false);
-        }
-    }
-
-    // The text given at death ("You're dead, finish your tasks", "You're dead. You can still sabotage"...) stays after
-    // a revive: removed.
-    private static void RemoveGhostText(PlayerControl player)
-    {
-        var ghostTexts = new[] { StringNames.GhostDoTasks, StringNames.GhostIgnoreTasks, StringNames.GhostImpostor }
-            .Select(x => TranslationController.Instance.GetString(x))
-            .ToArray();
-        for (var i = player.myTasks.Count - 1; i >= 0; i--)
-        {
-            var task = player.myTasks[i];
-            var text = task ? task.TryCast<ImportantTextTask>() : null;
-            if (text && ghostTexts.Contains(text!.Text))
-            {
-                player.myTasks.RemoveAt(i);
-                UnityEngine.Object.Destroy(text.gameObject);
-            }
-        }
-    }
-
     // The player named in the arguments (exact name, any case), or the host without arguments.
     private static PlayerControl? FindPlayerOrSelf(string args)
     {
         return args.Length == 0
             ? PlayerControl.LocalPlayer
             : GetPlayers().FirstOrDefault(x => string.Equals(x.Data.PlayerName, args, StringComparison.OrdinalIgnoreCase));
-    }
-
-    // Sabotage cooldown, and door cooldowns: by door (The Skeld, dlekS) or by room (other maps).
-    private static void ResetSabotages()
-    {
-        if (!ShipStatus.Instance)
-        {
-            return;
-        }
-
-        if (ShipStatus.Instance.Systems.TryGetValue(SystemTypes.Sabotage, out var sabotage))
-        {
-            sabotage.Cast<SabotageSystemType>().Timer = 0f;
-        }
-
-        if (!ShipStatus.Instance.Systems.TryGetValue(SystemTypes.Doors, out var doors))
-        {
-            return;
-        }
-
-        var autoDoors = doors.TryCast<AutoDoorsSystemType>();
-        if (autoDoors != null)
-        {
-            autoDoors.initialCooldown = 0f;
-            foreach (var door in ShipStatus.Instance.AllDoors)
-            {
-                var autoDoor = door ? door.TryCast<AutoOpenDoor>() : null;
-                if (autoDoor)
-                {
-                    autoDoor!.CooldownTimer = 0f;
-                }
-            }
-        }
-
-        var manualDoors = doors.TryCast<DoorsSystemType>();
-        if (manualDoors != null)
-        {
-            manualDoors.initialCooldown = 0f;
-            var rooms = new List<SystemTypes>();
-            foreach (var timer in manualDoors.timers)
-            {
-                rooms.Add(timer.Key);
-            }
-
-            foreach (var room in rooms)
-            {
-                manualDoors.timers[room] = 0f;
-            }
-        }
     }
 
     // Players still in the game, the longest names first (a name may start with another one).
@@ -363,7 +199,7 @@ public static class TestModeChatPatches
     ///     English name of a role, whatever the game language: class name without "Role" for the modded roles
     ///     (SheriffRole: Sheriff), RoleTypes name for the vanilla ones (Crewmate, Impostor).
     /// </summary>
-    private static string GetCommandName(RoleBehaviour role)
+    public static string GetCommandName(RoleBehaviour role)
     {
         if (role is not ICustomRole)
         {
