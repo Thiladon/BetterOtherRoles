@@ -1,7 +1,8 @@
+using System.Collections;
 using System.Reflection;
 using AmongUs.GameOptions;
 using BetterOtherRoles.Assets;
-using BetterOtherRoles.Patches.Options;
+using BetterOtherRoles.Patches.Misc;
 using HarmonyLib;
 using MiraAPI.Hud;
 using MiraAPI.Roles;
@@ -123,6 +124,10 @@ public sealed class BorPhoneMenu : CustomPaginableMenu
 
     private static readonly FieldInfo SearchTextField = AccessTools.Field(typeof(CustomPaginableMenu), "searchText");
     private static readonly FieldInfo SearchBoxField = AccessTools.Field(typeof(CustomPaginableMenu), "searchTextbox");
+    private static readonly MethodInfo FilteredEntriesMethod = AccessTools.Method(typeof(CustomPaginableMenu), "GetFilteredEntries");
+
+    // Entries per page in MiraAPI (3 columns, 5 rows).
+    private const int PageSize = 15;
 
     private static BorPhoneMenu? _current;
 
@@ -225,10 +230,10 @@ public sealed class BorPhoneMenu : CustomPaginableMenu
         var label = transform.Find(Name + "SearchLabel");
         if (SearchBoxField?.GetValue(this) is TextBoxTMP box && box)
         {
-            PresetPopups.AddCaret(box);
+            TextBoxPatches.AddCaret(box);
             if (label && label!.GetComponent<TextMeshPro>() is { } labelText)
             {
-                PresetPopups.AddPlaceholder(box, labelText.text, Color.black);
+                TextBoxPatches.AddPlaceholder(box, labelText.text, Color.black);
                 label.gameObject.SetActive(false);
             }
         }
@@ -300,6 +305,26 @@ public sealed class BorPhoneMenu : CustomPaginableMenu
         }
     }
 
+    /// <summary>
+    ///     Page arrows of MiraAPI (at the bottom of the phone, the pages loop): only shown when there is a page before
+    ///     (left) or after (right). Called after each page shown (<see cref="BorPhoneMenuPagePatch"/>).
+    /// </summary>
+    internal void RefreshPageArrows()
+    {
+        var count = ((ICollection)FilteredEntriesMethod.Invoke(this, null)!).Count;
+        var pages = Math.Max(1, (count + PageSize - 1) / PageSize);
+        SetActive(transform.Find("LeftArrowButton"), currentPage > 0);
+        SetActive(transform.Find("RightArrowButton"), currentPage < pages - 1);
+    }
+
+    private static void SetActive(Transform? arrow, bool visible)
+    {
+        if (arrow && arrow!.gameObject.activeSelf != visible)
+        {
+            arrow.gameObject.SetActive(visible);
+        }
+    }
+
     private static void SetupPanel(ShapeshifterPanel panel, int index, Entry entry, Action onClick)
     {
         if (entry.Player && entry.Player!.Data != null)
@@ -340,4 +365,20 @@ public sealed class BorPhoneMenu : CustomPaginableMenu
     /// <param name="Opens">Whether the action shows another list in the menu (<see cref="Show"/>).</param>
     /// <param name="Player">The player shown, or null for a text alone.</param>
     public sealed record Entry(string Text, Color Color, Action<BorPhoneMenu> OnClick, bool Opens = false, PlayerControl? Player = null);
+}
+
+/// <summary>
+///     After each page shown by MiraAPI (page change, new list, search), the page arrows of the Debug menu are refreshed.
+/// </summary>
+[HarmonyPatch(typeof(CustomPaginableMenu), nameof(CustomPaginableMenu.ShowPage))]
+public static class BorPhoneMenuPagePatch
+{
+    [HarmonyPostfix]
+    public static void ShowPagePostfix(CustomPaginableMenu __instance)
+    {
+        if (__instance is BorPhoneMenu menu)
+        {
+            menu.RefreshPageArrows();
+        }
+    }
 }

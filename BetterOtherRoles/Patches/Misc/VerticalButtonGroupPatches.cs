@@ -1,5 +1,3 @@
-using BetterOtherRoles.Assets;
-using BetterOtherRoles.Modules.Debug;
 using BetterOtherRoles.Utilities;
 using HarmonyLib;
 using UnityEngine;
@@ -59,7 +57,7 @@ public static class VerticalButtonGroupPatches
             return;
         }
 
-        DebugMenuButton.Refresh(guide!);
+        TestModePatches.RefreshDebugButton(guide!);
 
         var layout = GetLayout(guide!);
         if (layout != _lastLayout || !_frame)
@@ -176,89 +174,6 @@ public static class VerticalButtonGroupPatches
         {
             panel.enabled = false;
             HiddenPanels.Add(panel);
-        }
-    }
-}
-
-/// <summary>
-///     Debug button under the role guide button (copy of it): opens the Debug menu (<see cref="BorDebugMenu"/>). Shown only
-///     to the host with the admin key, in game after the intro, with the Debug Mode (<see cref="BorDebugActions.CanUse"/>).
-/// </summary>
-public static class DebugMenuButton
-{
-    private static GameObject? _button;
-
-    /// <summary>
-    ///     Creates the button once per HUD, and shows or hides it.
-    /// </summary>
-    /// <param name="guide">The role guide button.</param>
-    public static void Refresh(Transform guide)
-    {
-        if (!_button)
-        {
-            _button = Create(guide);
-        }
-
-        var visible = BorDebugActions.CanUse && IntroStatePatches.IntroEnded;
-        if (_button!.activeSelf != visible)
-        {
-            _button.SetActive(visible);
-        }
-    }
-
-    private static GameObject Create(Transform guide)
-    {
-        // Copied before anything of ours is added to the guide button.
-        var copy = UnityEngine.Object.Instantiate(guide.gameObject);
-        copy.name = "BorDebugButton";
-        for (var i = copy.transform.childCount - 1; i >= 0; i--)
-        {
-            var child = copy.transform.GetChild(i);
-            if (child.name.StartsWith("Bor", StringComparison.Ordinal))
-            {
-                UnityEngine.Object.Destroy(child.gameObject);
-            }
-        }
-
-        // Guide button scripts: AspectPosition would move the copy to the screen edge every frame (MiraAPI removes it
-        // from the guide button, but later than the copy).
-        UnityEngine.Object.Destroy(copy.GetComponent<AspectPosition>());
-        UnityEngine.Object.Destroy(copy.GetComponent<MatchInfoHudButton>());
-
-        SetWrenchIcon(copy.transform);
-
-        var button = copy.GetComponent<PassiveButton>();
-        if (button)
-        {
-            button.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
-            button.OnClick.AddListener((Action)BorDebugMenu.Open);
-        }
-
-        copy.SetActive(false);
-        VerticalButtonGroupPatches.Add(copy);
-        return copy;
-    }
-
-    // Replaces the guide sprites (Inactive and Active children, as on the vanilla top right buttons) with the wrench ones,
-    // with the pivot and scale of the guide sprites to stay in place.
-    private static void SetWrenchIcon(Transform button)
-    {
-        foreach (var (name, asset) in new[] { ("Inactive", BorAssets.DebugButton), ("Active", BorAssets.DebugButtonActive) })
-        {
-            var renderer = button.Find(name)?.GetComponent<SpriteRenderer>();
-            if (renderer && renderer!.sprite)
-            {
-                var template = renderer.sprite;
-                var texture = asset.LoadAsset().texture;
-                var sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), template.pivot / template.rect.size, template.pixelsPerUnit);
-                sprite.name = texture.name;
-                renderer.sprite = sprite;
-            }
-            else
-            {
-                var children = string.Join(", ", Enumerable.Range(0, button.childCount).Select(i => button.GetChild(i).name));
-                Warning($"Debug button: no {name} icon among {children}.");
-            }
         }
     }
 }
