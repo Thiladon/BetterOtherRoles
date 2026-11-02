@@ -83,6 +83,7 @@ public partial class BetterOtherRolesPlugin : BasePlugin, IMiraPlugin
 
         Harmony.PatchAll();
         SaveFilePatches.ReloadData();
+        WindowTitlePatches.Apply();
 
         Info($"{Name} loaded!");
     }
