@@ -5,6 +5,7 @@ using BepInEx.Unity.IL2CPP;
 using BetterOtherRoles.Modules.Admin;
 using BetterOtherRoles.Modules.Localization;
 using BetterOtherRoles.Modules.Presets;
+using BetterOtherRoles.Patches.Misc;
 using HarmonyLib;
 using MiraAPI;
 using Reactor;
@@ -74,12 +75,14 @@ public partial class BetterOtherRolesPlugin : BasePlugin, IMiraPlugin
     {
         Info($"{Name} v{Version} is loading...");
 
+        SaveFilePatches.Initialize();
         ReactorCredits.Register(Name, Version, IsDevBuild, ReactorCredits.AlwaysShow);
         BorLocale.Initialize();
         BorAdmin.Initialize(Config);
         BorPresets.Initialize(Config);
 
         Harmony.PatchAll();
+        SaveFilePatches.ReloadData();
 
         Info($"{Name} loaded!");
     }
