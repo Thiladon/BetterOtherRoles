@@ -399,11 +399,14 @@ public static class TestModePatches
         return copy;
     }
 
-    // Replaces the guide sprites (Inactive and Active children, as on the vanilla top right buttons) with the wrench ones,
-    // with the pivot and scale of the guide sprites to stay in place.
+    // Replaces the guide sprites (Inactive and Active children, as on the vanilla top right buttons) with the wrench ones, with
+    // the pivot and scale of the guide sprites to stay in place. No Selected sprite: the button is hidden once the menu opens.
     private static void SetWrenchIcon(Transform button)
     {
-        foreach (var (name, asset) in new[] { ("Inactive", BorAssets.DebugButton), ("Active", BorAssets.DebugButtonActive) })
+        foreach (var (name, asset) in new[]
+                 {
+                     ("Inactive", BorAssets.DebugButton), ("Active", BorAssets.DebugButtonActive),
+                 })
         {
             var renderer = button.Find(name)?.GetComponent<SpriteRenderer>();
             if (renderer && renderer!.sprite)

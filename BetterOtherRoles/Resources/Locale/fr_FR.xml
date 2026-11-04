@@ -39,6 +39,13 @@
   <string name="BetterOtherRoles.Options.Groups.RoleAssignment">Attribution des rôles</string>
   <string name="BetterOtherRoles.Options.Groups.Lobby">Salon</string>
   <string name="BetterOtherRoles.Option.Lobby.AnyPlayerCanStopStart">Tout le monde peut arrêter le lancement</string>
+  <string name="BetterOtherRoles.Option.Lobby.MaxPlayers">Nombre de joueurs max</string>
+  <string name="BetterOtherRoles.Lobby.Size.Current">Taille du salon : {0} joueurs.</string>
+  <string name="BetterOtherRoles.Lobby.Size.Changed">Taille du salon passée à {0} joueurs.</string>
+  <string name="BetterOtherRoles.Lobby.Size.Already">Le salon fait déjà {0} joueurs.</string>
+  <string name="BetterOtherRoles.Lobby.Size.Usage">Utilisation : /size {0}-{1}.</string>
+  <string name="BetterOtherRoles.Lobby.Size.HostOnly">Seul l'hôte peut changer la taille du salon.</string>
+  <string name="BetterOtherRoles.Lobby.Size.LobbyOnly">Commande disponible uniquement dans le salon.</string>
   <string name="BetterOtherRoles.Maps.Dleks">dlekS</string>
   <string name="BetterOtherRoles.Maps.DleksTooltip">ehT dlekS : le vaisseau de taille moyenne que vous connaissez et (potentiellement) appréciez, mais à l'envers !</string>
   <string name="BetterOtherRoles.Lobby.StopStart">Arrêter</string>

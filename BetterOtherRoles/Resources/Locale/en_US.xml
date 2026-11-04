@@ -32,6 +32,13 @@
   <string name="BetterOtherRoles.Options.Groups.RoleAssignment">Role Assignment</string>
   <string name="BetterOtherRoles.Options.Groups.Lobby">Lobby</string>
   <string name="BetterOtherRoles.Option.Lobby.AnyPlayerCanStopStart">Any Player Can Stop Start</string>
+  <string name="BetterOtherRoles.Option.Lobby.MaxPlayers">Max Players</string>
+  <string name="BetterOtherRoles.Lobby.Size.Current">Lobby size: {0} players.</string>
+  <string name="BetterOtherRoles.Lobby.Size.Changed">Lobby size changed to {0} players.</string>
+  <string name="BetterOtherRoles.Lobby.Size.Already">The lobby size is already {0} players.</string>
+  <string name="BetterOtherRoles.Lobby.Size.Usage">Usage: /size {0}-{1}.</string>
+  <string name="BetterOtherRoles.Lobby.Size.HostOnly">Only the host can change the lobby size.</string>
+  <string name="BetterOtherRoles.Lobby.Size.LobbyOnly">Command only available in the lobby.</string>
   <string name="BetterOtherRoles.Maps.Dleks">dlekS</string>
   <string name="BetterOtherRoles.Maps.DleksTooltip">ehT dlekS: the medium-sized ship you know and (maybe) love, but flipped!</string>
   <string name="BetterOtherRoles.Lobby.StopStart">Stop</string>

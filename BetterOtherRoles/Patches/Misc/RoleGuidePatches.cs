@@ -934,6 +934,9 @@ public static class RoleGuidePatches
         // When the window is wider than the screen (4:3): distance of the close button center from the screen edge.
         private const float ScreenEdgeOffset = 0.57f;
 
+        // Height of the close button (about the guide button of the HUD: 55 px of a 600 px high screen, 6 units).
+        private const float CloseButtonSize = 0.55f;
+
         // Space between the back arrow and the close button, in button sizes.
         private const float BackButtonGap = 0.29f;
 
@@ -1064,12 +1067,14 @@ public static class RoleGuidePatches
             /// </summary>
             private static PassiveButton CreateCloseButton(MatchInfoGuide guide, TextMeshPro title, Vector3 corner)
             {
-                var size = 0.6f;
+                // Size of the guide button of the HUD, when it can be measured: in the first game, it can still be appearing
+                // (scaled down) when the guide opens, and the cross was tiny.
+                var size = CloseButtonSize;
                 var hudButton = HudManager.Instance ? HudManager.Instance.MatchInfoButton : null;
                 var hudSprite = hudButton ? hudButton!.GetComponentsInChildren<SpriteRenderer>().FirstOrDefault(x => x.enabled && x.sprite) : null;
-                if (hudSprite)
+                if (hudSprite && hudSprite!.bounds.size.y >= CloseButtonSize * 0.8f && hudSprite.bounds.size.y <= CloseButtonSize * 1.25f)
                 {
-                    size = hudSprite!.bounds.size.y;
+                    size = hudSprite.bounds.size.y;
                 }
 
                 // Inside the window frame (about 0.4 button thick), in its top right corner.
@@ -1087,8 +1092,8 @@ public static class RoleGuidePatches
                 gameObject.transform.position = new Vector3(corner.x, corner.y, title.transform.position.z - 1f);
 
                 var renderer = gameObject.AddComponent<SpriteRenderer>();
-                var idle = BorAssets.CloseButton.LoadAsset();
-                var hover = BorAssets.CloseButtonHover.LoadAsset();
+                var idle = Keep(BorAssets.CloseButton.LoadAsset());
+                var hover = Keep(BorAssets.CloseButtonHover.LoadAsset());
                 renderer.sprite = idle;
                 renderer.sortingOrder = SortingOrder;
                 gameObject.transform.localScale = Vector3.one;
@@ -1108,6 +1113,15 @@ public static class RoleGuidePatches
                 button.OnClick = new Button.ButtonClickedEvent();
                 button.OnClick.AddListener((Action)(() => guide.Close()));
                 return button;
+            }
+
+            // The game unloads the unused assets when the scene changes: the hover sprite (only used under the mouse) lost its
+            // texture after the first game, and the cross disappeared under the mouse.
+            private static Sprite Keep(Sprite sprite)
+            {
+                sprite.hideFlags |= HideFlags.DontUnloadUnusedAsset;
+                sprite.texture.hideFlags |= HideFlags.DontUnloadUnusedAsset;
+                return sprite;
             }
 
             private static bool Contains(Bounds bounds, Vector3 position)

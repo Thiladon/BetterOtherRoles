@@ -42,8 +42,23 @@ public static class SaveFilePatches
     /// </summary>
     public static void ReloadData()
     {
-        DataManager.Settings?.ForceLoad();
-        DataManager.Player?.ForceLoad();
+        // The game reads the file into the data already loaded: the lists are added to, not replaced. Without clearing them,
+        // they double on every launch (announcements read: 2^26 entries, an 805 MB profile, the game frozen at startup).
+        var settings = DataManager.Settings;
+        if (settings != null)
+        {
+            settings.Multiplayer?.quickChatFavorites?.Clear();
+            settings.ForceLoad();
+        }
+
+        var player = DataManager.Player;
+        if (player != null)
+        {
+            player.Announcements?.ids?.Clear();
+            player.Friends?.cachedNames?.Clear();
+            player.Store?.legacyPurchases?.Clear();
+            player.ForceLoad();
+        }
     }
 
     [HarmonyPatch(typeof(SettingsData), nameof(SettingsData.FileName), MethodType.Getter)]
