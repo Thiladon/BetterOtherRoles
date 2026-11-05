@@ -17,5 +17,5 @@ public enum BorRpc : uint
     Revive,
     Teleport,
     BuildCheck,
-    BuildMismatch,
+    Kick,
 }

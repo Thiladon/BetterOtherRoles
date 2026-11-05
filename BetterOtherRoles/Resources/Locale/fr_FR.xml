@@ -257,4 +257,6 @@
   <string name="BetterOtherRoles.Lobby.Build.Waiting">Lancement impossible : en attente du build de {0}.</string>
   <string name="BetterOtherRoles.Lobby.Build.KickReason">BetterOtherRoles : ton build du mod ({0}) n'est pas celui de l'hôte ({1}).
 Installe la même version que l'hôte.</string>
+  <string name="BetterOtherRoles.Lobby.Name.Kicked">{0} a été expulsé : balises dans le nom.</string>
+  <string name="BetterOtherRoles.Lobby.Name.KickReason">BetterOtherRoles : ton nom contient des balises (&lt; &gt;), interdites.</string>
 </resources>

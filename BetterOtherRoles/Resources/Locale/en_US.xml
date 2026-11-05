@@ -189,4 +189,6 @@
   <string name="BetterOtherRoles.Lobby.Build.Waiting">Cannot start: waiting for the build of {0}.</string>
   <string name="BetterOtherRoles.Lobby.Build.KickReason">BetterOtherRoles: your build of the mod ({0}) is not the host's build ({1}).
 Install the same version as the host.</string>
+  <string name="BetterOtherRoles.Lobby.Name.Kicked">{0} was kicked: tags in the name.</string>
+  <string name="BetterOtherRoles.Lobby.Name.KickReason">BetterOtherRoles: your name holds tags (&lt; &gt;), which are not allowed.</string>
 </resources>
