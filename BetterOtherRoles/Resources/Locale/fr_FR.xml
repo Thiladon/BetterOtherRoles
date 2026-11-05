@@ -248,4 +248,13 @@
   <string name="BetterOtherRoles.Command.Revive.Done">{0} est de nouveau en vie.</string>
   <string name="BetterOtherRoles.Command.EndGame.Usage">[crewmate|impostor]</string>
   <string name="BetterOtherRoles.Command.EndGame.Description">termine la partie (victoire des crewmates par défaut).</string>
+  <string name="BetterOtherRoles.Command.Version.Description">affiche la version du mod et le build de chaque joueur.</string>
+  <string name="BetterOtherRoles.Command.Version.Local">Version {0}, build {1}.</string>
+  <string name="BetterOtherRoles.Command.Version.Host">{0} (hôte)</string>
+  <string name="BetterOtherRoles.Command.Version.Waiting">pas encore reçu</string>
+  <string name="BetterOtherRoles.Command.Version.Line">{0} {1} : {2}</string>
+  <string name="BetterOtherRoles.Lobby.Build.Kicked">{0} a été expulsé : pas le même build du mod.</string>
+  <string name="BetterOtherRoles.Lobby.Build.Waiting">Lancement impossible : en attente du build de {0}.</string>
+  <string name="BetterOtherRoles.Lobby.Build.KickReason">BetterOtherRoles : ton build du mod ({0}) n'est pas celui de l'hôte ({1}).
+Installe la même version que l'hôte.</string>
 </resources>

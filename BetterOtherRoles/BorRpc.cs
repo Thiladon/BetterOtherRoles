@@ -16,4 +16,6 @@ public enum BorRpc : uint
     ResetCooldowns,
     Revive,
     Teleport,
+    BuildCheck,
+    BuildMismatch,
 }

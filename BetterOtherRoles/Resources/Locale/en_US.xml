@@ -180,4 +180,13 @@
   <string name="BetterOtherRoles.Command.Revive.Done">{0} is alive again.</string>
   <string name="BetterOtherRoles.Command.EndGame.Usage">[crewmate|impostor]</string>
   <string name="BetterOtherRoles.Command.EndGame.Description">ends the game (crewmates win by default).</string>
+  <string name="BetterOtherRoles.Command.Version.Description">shows the mod version and the build of each player.</string>
+  <string name="BetterOtherRoles.Command.Version.Local">Version {0}, build {1}.</string>
+  <string name="BetterOtherRoles.Command.Version.Host">{0} (host)</string>
+  <string name="BetterOtherRoles.Command.Version.Waiting">not received</string>
+  <string name="BetterOtherRoles.Command.Version.Line">{0} {1}: {2}</string>
+  <string name="BetterOtherRoles.Lobby.Build.Kicked">{0} was kicked: not the same build of the mod.</string>
+  <string name="BetterOtherRoles.Lobby.Build.Waiting">Cannot start: waiting for the build of {0}.</string>
+  <string name="BetterOtherRoles.Lobby.Build.KickReason">BetterOtherRoles: your build of the mod ({0}) is not the host's build ({1}).
+Install the same version as the host.</string>
 </resources>
