@@ -3,14 +3,13 @@ using BetterOtherRoles.Modules.Admin;
 using HarmonyLib;
 using MiraAPI.Translation;
 using BetterOtherRoles.Utilities;
-using Reactor.Networking.Attributes;
 using Reactor.Utilities;
 
 namespace BetterOtherRoles.Patches.Misc;
 
 /// <summary>
 ///     Welcome message for a BetterOtherRoles admin joining a lobby, as a message of the mod (<see cref="BorChat"/>)
-///     seen by the admin and the host only, once per lobby: not again when coming back from a game.
+///     seen by the admin only, once per lobby: not again when coming back from a game.
 /// </summary>
 [HarmonyPatch(typeof(LobbyBehaviour), nameof(LobbyBehaviour.Start))]
 public static class AdminWelcomePatches
@@ -49,22 +48,6 @@ public static class AdminWelcomePatches
 
         _welcomedGameId = gameId;
         ShowWelcome(PlayerControl.LocalPlayer);
-        if (!AmongUsClient.Instance.AmHost)
-        {
-            RpcAdminJoined(PlayerControl.LocalPlayer);
-        }
-    }
-
-    /// <summary>
-    ///     Tells the host an admin joined: only the host shows the message (the other players ignore it).
-    /// </summary>
-    [MethodRpc((uint)BorRpc.AdminJoined)]
-    public static void RpcAdminJoined(PlayerControl admin)
-    {
-        if (AmongUsClient.Instance.AmHost && admin && !admin.AmOwner)
-        {
-            ShowWelcome(admin);
-        }
     }
 
     private static void ShowWelcome(PlayerControl admin)

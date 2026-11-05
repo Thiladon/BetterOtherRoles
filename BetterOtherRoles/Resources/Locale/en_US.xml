@@ -7,16 +7,6 @@
   <!-- Dev Options (dev builds only) -->
   <string name="BetterOtherRoles.Options.Groups.Dev">Dev Options</string>
   <string name="BetterOtherRoles.Option.Dev.TestMode">Debug Mode (less than 4 players, no game end except by host command)</string>
-  <string name="BetterOtherRoles.Dev.Chat.NotAvailable">Command only available to the host, in game, with the Debug Mode.</string>
-  <string name="BetterOtherRoles.Dev.Chat.SetRoleUsage">Usage: /setrole [player] {role}.</string>
-  <string name="BetterOtherRoles.Dev.Chat.RoleNotFound">Role not found. Roles: {0}</string>
-  <string name="BetterOtherRoles.Dev.Chat.RoleSet">{0} is now {1}.</string>
-  <string name="BetterOtherRoles.Dev.Chat.ResetCooldownUsage">Usage: /resetcd [player] (player not found).</string>
-  <string name="BetterOtherRoles.Dev.Chat.CooldownReset">Cooldowns of {0} reset.</string>
-  <string name="BetterOtherRoles.Dev.Chat.ReviveUsage">Usage: /revive [player] (player not found).</string>
-  <string name="BetterOtherRoles.Dev.Chat.NotDead">{0} is not dead.</string>
-  <string name="BetterOtherRoles.Dev.Chat.Revived">{0} is alive again.</string>
-  <string name="BetterOtherRoles.Dev.Chat.EndGameUsage">Usage: /endgame [crewmate|impostor].</string>
   <string name="BetterOtherRoles.Debug.Menu.Keybind">Open the Debug menu</string>
   <string name="BetterOtherRoles.Debug.Menu.SetRole">Change role</string>
   <string name="BetterOtherRoles.Debug.Menu.ResetCooldowns">Reset cooldowns</string>
@@ -33,12 +23,6 @@
   <string name="BetterOtherRoles.Options.Groups.Lobby">Lobby</string>
   <string name="BetterOtherRoles.Option.Lobby.AnyPlayerCanStopStart">Any Player Can Stop Start</string>
   <string name="BetterOtherRoles.Option.Lobby.MaxPlayers">Max Players</string>
-  <string name="BetterOtherRoles.Lobby.Size.Current">Lobby size: {0} players.</string>
-  <string name="BetterOtherRoles.Lobby.Size.Changed">Lobby size changed to {0} players.</string>
-  <string name="BetterOtherRoles.Lobby.Size.Already">The lobby size is already {0} players.</string>
-  <string name="BetterOtherRoles.Lobby.Size.Usage">Usage: /size {0}-{1}.</string>
-  <string name="BetterOtherRoles.Lobby.Size.HostOnly">Only the host can change the lobby size.</string>
-  <string name="BetterOtherRoles.Lobby.Size.LobbyOnly">Command only available in the lobby.</string>
   <string name="BetterOtherRoles.Maps.Dleks">dlekS</string>
   <string name="BetterOtherRoles.Maps.DleksTooltip">ehT dlekS: the medium-sized ship you know and (maybe) love, but flipped!</string>
   <string name="BetterOtherRoles.Lobby.StopStart">Stop</string>
@@ -157,4 +141,37 @@
   <string name="BetterOtherRoles.Option.Deputy.PromotionImmediately">Immediately</string>
   <string name="BetterOtherRoles.Option.Deputy.PromotionAfterMeeting">After Meeting</string>
   <string name="BetterOtherRoles.Option.Deputy.KeepsHandcuffs">Deputy keeps handcuffs after promotion</string>
+  <!-- Chat commands (Modules/Commands) -->
+  <string name="BetterOtherRoles.Command.Unknown">Unknown command: /{0}. Type /help for the list.</string>
+  <string name="BetterOtherRoles.Command.Failed">The command failed (see the BepInEx log).</string>
+  <string name="BetterOtherRoles.Command.Usage">Usage: {0}</string>
+  <string name="BetterOtherRoles.Command.HostOnly">Command only available to the host.</string>
+  <string name="BetterOtherRoles.Command.DebugOnly">Command only available to the host, in game, with the Debug Mode.</string>
+  <string name="BetterOtherRoles.Command.LobbyOnly">Command only available in the lobby.</string>
+  <string name="BetterOtherRoles.Command.GameOnly">Command only available in game.</string>
+  <string name="BetterOtherRoles.Command.PlayerNotFound">Player "{0}" not found.</string>
+  <string name="BetterOtherRoles.Command.Help.Usage">[command]</string>
+  <string name="BetterOtherRoles.Command.Help.Description">lists the commands you can use here.</string>
+  <string name="BetterOtherRoles.Command.Help.Title">Commands:</string>
+  <string name="BetterOtherRoles.Command.Help.Line">{0}: {1}</string>
+  <string name="BetterOtherRoles.Command.Size.Usage">[{0}-{1}]</string>
+  <string name="BetterOtherRoles.Command.Size.Description">shows the lobby size, or changes it (host).</string>
+  <string name="BetterOtherRoles.Command.Size.DescriptionPlayer">shows the lobby size.</string>
+  <string name="BetterOtherRoles.Command.Size.Current">Lobby size: {0} players.</string>
+  <string name="BetterOtherRoles.Command.Size.Changed">Lobby size changed to {0} players.</string>
+  <string name="BetterOtherRoles.Command.Size.Already">The lobby size is already {0} players.</string>
+  <string name="BetterOtherRoles.Command.Size.HostOnly">Only the host can change the lobby size.</string>
+  <string name="BetterOtherRoles.Command.SetRole.Usage">[player] {role}</string>
+  <string name="BetterOtherRoles.Command.SetRole.Description">gives a role (to you by default).</string>
+  <string name="BetterOtherRoles.Command.SetRole.NotFound">Role not found. Roles: {0}</string>
+  <string name="BetterOtherRoles.Command.SetRole.Done">{0} is now {1}.</string>
+  <string name="BetterOtherRoles.Command.ResetCooldown.Usage">[player]</string>
+  <string name="BetterOtherRoles.Command.ResetCooldown.Description">makes the buttons ready again (yours by default).</string>
+  <string name="BetterOtherRoles.Command.ResetCooldown.Done">Cooldowns of {0} reset.</string>
+  <string name="BetterOtherRoles.Command.Revive.Usage">[player]</string>
+  <string name="BetterOtherRoles.Command.Revive.Description">brings a dead player back to life (you by default).</string>
+  <string name="BetterOtherRoles.Command.Revive.NotDead">{0} is not dead.</string>
+  <string name="BetterOtherRoles.Command.Revive.Done">{0} is alive again.</string>
+  <string name="BetterOtherRoles.Command.EndGame.Usage">[crewmate|impostor]</string>
+  <string name="BetterOtherRoles.Command.EndGame.Description">ends the game (crewmates win by default).</string>
 </resources>

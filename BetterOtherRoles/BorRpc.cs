@@ -12,7 +12,6 @@ public enum BorRpc : uint
     HostAdmin,
     StopStart,
     StartStopped,
-    AdminJoined,
     DoorPush,
     ResetCooldowns,
     Revive,

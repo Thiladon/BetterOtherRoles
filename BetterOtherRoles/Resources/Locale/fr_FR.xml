@@ -14,16 +14,6 @@
   <!-- Dev Options (dev builds only) -->
   <string name="BetterOtherRoles.Options.Groups.Dev">Options de dév.</string>
   <string name="BetterOtherRoles.Option.Dev.TestMode">Debug Mode (moins de 4 joueurs, pas de fin de partie)</string>
-  <string name="BetterOtherRoles.Dev.Chat.NotAvailable">Commande réservée à l'hôte, en partie, avec le Debug Mode.</string>
-  <string name="BetterOtherRoles.Dev.Chat.SetRoleUsage">Utilisation : /setrole [joueur] {rôle}.</string>
-  <string name="BetterOtherRoles.Dev.Chat.RoleNotFound">Rôle introuvable. Rôles : {0}</string>
-  <string name="BetterOtherRoles.Dev.Chat.RoleSet">{0} est maintenant {1}.</string>
-  <string name="BetterOtherRoles.Dev.Chat.ResetCooldownUsage">Utilisation : /resetcd [joueur] (joueur introuvable).</string>
-  <string name="BetterOtherRoles.Dev.Chat.CooldownReset">Délais de {0} réinitialisés.</string>
-  <string name="BetterOtherRoles.Dev.Chat.ReviveUsage">Utilisation : /revive [joueur] (joueur introuvable).</string>
-  <string name="BetterOtherRoles.Dev.Chat.NotDead">{0} n'est pas mort.</string>
-  <string name="BetterOtherRoles.Dev.Chat.Revived">{0} est de nouveau en vie.</string>
-  <string name="BetterOtherRoles.Dev.Chat.EndGameUsage">Utilisation : /endgame [crewmate|impostor].</string>
   <string name="BetterOtherRoles.Debug.Menu.Keybind">Ouvrir le menu Debug</string>
   <string name="BetterOtherRoles.Debug.Menu.SetRole">Changer de rôle</string>
   <string name="BetterOtherRoles.Debug.Menu.ResetCooldowns">Réinitialiser les délais</string>
@@ -40,12 +30,6 @@
   <string name="BetterOtherRoles.Options.Groups.Lobby">Salon</string>
   <string name="BetterOtherRoles.Option.Lobby.AnyPlayerCanStopStart">Tout le monde peut arrêter le lancement</string>
   <string name="BetterOtherRoles.Option.Lobby.MaxPlayers">Nombre de joueurs max</string>
-  <string name="BetterOtherRoles.Lobby.Size.Current">Taille du salon : {0} joueurs.</string>
-  <string name="BetterOtherRoles.Lobby.Size.Changed">Taille du salon passée à {0} joueurs.</string>
-  <string name="BetterOtherRoles.Lobby.Size.Already">Le salon fait déjà {0} joueurs.</string>
-  <string name="BetterOtherRoles.Lobby.Size.Usage">Utilisation : /size {0}-{1}.</string>
-  <string name="BetterOtherRoles.Lobby.Size.HostOnly">Seul l'hôte peut changer la taille du salon.</string>
-  <string name="BetterOtherRoles.Lobby.Size.LobbyOnly">Commande disponible uniquement dans le salon.</string>
   <string name="BetterOtherRoles.Maps.Dleks">dlekS</string>
   <string name="BetterOtherRoles.Maps.DleksTooltip">ehT dlekS : le vaisseau de taille moyenne que vous connaissez et (potentiellement) appréciez, mais à l'envers !</string>
   <string name="BetterOtherRoles.Lobby.StopStart">Arrêter</string>
@@ -225,4 +209,37 @@
   <string name="Inactive">Inactif</string>
   <string name="Activated">Activé</string>
   <string name="Deactivated">Désactivé</string>
+  <!-- Commandes du chat (Modules/Commands) -->
+  <string name="BetterOtherRoles.Command.Unknown">Commande inconnue : /{0}. Tape /help pour la liste.</string>
+  <string name="BetterOtherRoles.Command.Failed">La commande a échoué (voir le journal BepInEx).</string>
+  <string name="BetterOtherRoles.Command.Usage">Utilisation : {0}</string>
+  <string name="BetterOtherRoles.Command.HostOnly">Commande réservée à l'hôte.</string>
+  <string name="BetterOtherRoles.Command.DebugOnly">Commande réservée à l'hôte, en partie, avec le Debug Mode.</string>
+  <string name="BetterOtherRoles.Command.LobbyOnly">Commande disponible uniquement dans le salon.</string>
+  <string name="BetterOtherRoles.Command.GameOnly">Commande disponible uniquement en partie.</string>
+  <string name="BetterOtherRoles.Command.PlayerNotFound">Joueur « {0} » introuvable.</string>
+  <string name="BetterOtherRoles.Command.Help.Usage">[commande]</string>
+  <string name="BetterOtherRoles.Command.Help.Description">liste les commandes utilisables ici.</string>
+  <string name="BetterOtherRoles.Command.Help.Title">Commandes :</string>
+  <string name="BetterOtherRoles.Command.Help.Line">{0} : {1}</string>
+  <string name="BetterOtherRoles.Command.Size.Usage">[{0}-{1}]</string>
+  <string name="BetterOtherRoles.Command.Size.Description">affiche la taille du salon, ou la change (hôte).</string>
+  <string name="BetterOtherRoles.Command.Size.DescriptionPlayer">affiche la taille du salon.</string>
+  <string name="BetterOtherRoles.Command.Size.Current">Taille du salon : {0} joueurs.</string>
+  <string name="BetterOtherRoles.Command.Size.Changed">Taille du salon passée à {0} joueurs.</string>
+  <string name="BetterOtherRoles.Command.Size.Already">Le salon fait déjà {0} joueurs.</string>
+  <string name="BetterOtherRoles.Command.Size.HostOnly">Seul l'hôte peut changer la taille du salon.</string>
+  <string name="BetterOtherRoles.Command.SetRole.Usage">[joueur] {rôle}</string>
+  <string name="BetterOtherRoles.Command.SetRole.Description">donne un rôle (à toi par défaut).</string>
+  <string name="BetterOtherRoles.Command.SetRole.NotFound">Rôle introuvable. Rôles : {0}</string>
+  <string name="BetterOtherRoles.Command.SetRole.Done">{0} est maintenant {1}.</string>
+  <string name="BetterOtherRoles.Command.ResetCooldown.Usage">[joueur]</string>
+  <string name="BetterOtherRoles.Command.ResetCooldown.Description">recharge les boutons (les tiens par défaut).</string>
+  <string name="BetterOtherRoles.Command.ResetCooldown.Done">Délais de {0} réinitialisés.</string>
+  <string name="BetterOtherRoles.Command.Revive.Usage">[joueur]</string>
+  <string name="BetterOtherRoles.Command.Revive.Description">ressuscite un joueur mort (toi par défaut).</string>
+  <string name="BetterOtherRoles.Command.Revive.NotDead">{0} n'est pas mort.</string>
+  <string name="BetterOtherRoles.Command.Revive.Done">{0} est de nouveau en vie.</string>
+  <string name="BetterOtherRoles.Command.EndGame.Usage">[crewmate|impostor]</string>
+  <string name="BetterOtherRoles.Command.EndGame.Description">termine la partie (victoire des crewmates par défaut).</string>
 </resources>

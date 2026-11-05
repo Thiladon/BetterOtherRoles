@@ -13,7 +13,7 @@ namespace BetterOtherRoles.Modules.Debug;
 
 /// <summary>
 ///     Debug Mode actions of the host (<see cref="BorDevOptions.TestMode"/>), used by the chat commands
-///     (<see cref="TestModePatches"/>) and the Debug menu (<see cref="BorDebugMenu"/>).
+///     (Modules/Commands/Debug) and the Debug menu (<see cref="BorDebugMenu"/>).
 /// </summary>
 public static class BorDebugActions
 {
