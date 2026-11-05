@@ -40,6 +40,7 @@ public static class BorSpriteUtils
             // Rect of the texture: a sprite rect can be fractional (69.88 in a 69 px texture).
             var copy = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), pivot, sprite.pixelsPerUnit);
             copy.name = sprite.name;
+            KeepLoaded(copy);
             return copy;
         }
         catch (Exception e)
@@ -50,6 +51,17 @@ public static class BorSpriteUtils
     }
 
     /// <summary>
+    ///     The game unloads the unused assets between scenes (after a game): a sprite made by the mod and kept for later
+    ///     would be destroyed (empty, zero bounds) while its C# reference stays. Kept loaded, with its texture.
+    /// </summary>
+    /// <param name="sprite">A sprite made by the mod.</param>
+    public static void KeepLoaded(Sprite sprite)
+    {
+        sprite.hideFlags |= HideFlags.DontUnloadUnusedAsset;
+        sprite.texture.hideFlags |= HideFlags.DontUnloadUnusedAsset;
+    }
+
+    /// <summary>
     ///     White copy of a plain colored sprite (same shape, alpha, borders and pivot), to be tinted with any color.
     /// </summary>
     /// <param name="sprite">The sprite to copy.</param>
@@ -57,10 +69,7 @@ public static class BorSpriteUtils
     public static Sprite ToWhite(Sprite sprite)
     {
         var copy = ToStandalone(sprite);
-        if (copy == sprite)
-        {
-            return sprite;
-        }
+        if (copy == sprite) return sprite;
 
         var texture = copy.texture;
         var pixels = texture.GetPixels32();
@@ -74,6 +83,7 @@ public static class BorSpriteUtils
 
         var white = Sprite.Create(texture, copy.rect, copy.pivot / copy.rect.size, copy.pixelsPerUnit, 0, SpriteMeshType.FullRect, sprite.border);
         white.name = sprite.name + "_White";
+        KeepLoaded(white);
         return white;
     }
 
@@ -86,10 +96,7 @@ public static class BorSpriteUtils
     public static Sprite ToSliced(Sprite sprite, Vector4 border)
     {
         var copy = ToStandalone(sprite);
-        if (copy == sprite)
-        {
-            return sprite;
-        }
+        if (copy == sprite) return sprite;
 
         var sliced = Sprite.Create(copy.texture, copy.rect, copy.pivot / copy.rect.size, copy.pixelsPerUnit, 0, SpriteMeshType.FullRect, border);
         sliced.name = sprite.name + "_Sliced";

@@ -30,20 +30,17 @@ public static class RoleSettingsHeaderPatches
     public static void Postfix(RolesSettingsMenu __instance)
     {
         var origin = GameSettingMenu.Instance ? GameSettingMenu.Instance.GameSettingsTab.categoryHeaderOrigin : null;
-        if (origin == null || !origin.Background || !__instance.RoleChancesSettings)
-        {
-            return;
-        }
+        if (origin == null || !origin.Background || !__instance.RoleChancesSettings) return;
 
         var miraSprite = MiraAssets.CategoryHeader.LoadAsset();
         foreach (var header in __instance.RoleChancesSettings.GetComponentsInChildren<CategoryHeaderMasked>())
         {
             if (!header.Background || header.Background.sprite != miraSprite || header.transform.Find(GameOptionsHeaderPatches.FillName))
-            {
                 continue;
-            }
 
-            _whiteSprite ??= BorSpriteUtils.ToWhite(origin.Background.sprite);
+            // Unity check, not ??=: a destroyed sprite keeps its C# reference.
+            if (!_whiteSprite)
+                _whiteSprite = BorSpriteUtils.ToWhite(origin.Background.sprite);
             var color = header.Background.color;
             if (TryGetVanillaColors(color, out var background, out var text))
             {
@@ -56,7 +53,7 @@ public static class RoleSettingsHeaderPatches
                 }
             }
 
-            GameOptionsHeaderPatches.ApplyVanillaLook(header, origin.Background, _whiteSprite, color, OffsetX);
+            GameOptionsHeaderPatches.ApplyVanillaLook(header, origin.Background, _whiteSprite!, color, OffsetX);
         }
 
         CenterColumnLabels(__instance);
@@ -65,10 +62,7 @@ public static class RoleSettingsHeaderPatches
     private static void CenterColumnLabels(RolesSettingsMenu menu)
     {
         var row = menu.RoleChancesSettings.GetComponentInChildren<RoleOptionSetting>();
-        if (!row || !row.CountMinusBtn || !row.CountPlusBtn || !row.ChanceMinusBtn || !row.ChancePlusBtn)
-        {
-            return;
-        }
+        if (!row || !row.CountMinusBtn || !row.CountPlusBtn || !row.ChanceMinusBtn || !row.ChancePlusBtn) return;
 
         // Middle of the - and + buttons of each column.
         var countX = (row.CountMinusBtn.transform.position.x + row.CountPlusBtn.transform.position.x) / 2f;
@@ -85,14 +79,10 @@ public static class RoleSettingsHeaderPatches
                 // Shorter than the vanilla "Number of roles": the translator would write it back.
                 var translator = label.GetComponent<TextTranslatorTMP>();
                 if (translator)
-                {
                     Object.Destroy(translator);
-                }
 
                 if (label.text != countLabel)
-                {
                     label.text = countLabel;
-                }
             }
             else if (label.name == ChanceLabelName)
             {
@@ -107,9 +97,7 @@ public static class RoleSettingsHeaderPatches
             label.rectTransform.pivot = new Vector2(0.5f, label.rectTransform.pivot.y);
             var position = label.transform.position;
             if (!Mathf.Approximately(position.x, x))
-            {
                 label.transform.position = new Vector3(x, position.y, position.z);
-            }
         }
     }
 
