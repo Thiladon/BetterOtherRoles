@@ -42,10 +42,7 @@ public static class BorDebugMenu
     /// </summary>
     public static void Open()
     {
-        if (!BorDebugActions.CanUse || Minigame.Instance || !PlayerControl.LocalPlayer)
-        {
-            return;
-        }
+        if (!BorDebugActions.CanUse || Minigame.Instance || !PlayerControl.LocalPlayer) return;
 
         PlayerControl.LocalPlayer.NetTransform.Halt();
         BorPhoneMenu.Open(
@@ -78,9 +75,7 @@ public static class BorDebugMenu
             .Select(x => new BorPhoneMenu.Entry(x.Data.PlayerName, Color.white, m =>
             {
                 if (x && BorDebugActions.CanUse)
-                {
                     onPick(m, x);
-                }
             }, opens, x))
             .ToList();
     }
@@ -176,9 +171,7 @@ public sealed class BorPhoneMenu : CustomPaginableMenu
     private void Back()
     {
         if (_history.Count > 0)
-        {
             Replace(_history.Pop());
-        }
     }
 
     private void Replace(List<Entry> entries)
@@ -186,9 +179,7 @@ public sealed class BorPhoneMenu : CustomPaginableMenu
         foreach (var panel in EntryPanels)
         {
             if (panel)
-            {
                 Object.Destroy(panel.gameObject);
-            }
         }
 
         // MenuEntries and EntryPanels of MiraAPI give copies of the list: replaced, not cleared.
@@ -198,9 +189,7 @@ public sealed class BorPhoneMenu : CustomPaginableMenu
         // A search typed for the previous list is cleared.
         SearchTextField?.SetValue(this, string.Empty);
         if (SearchBoxField?.GetValue(this) is TextBoxTMP box && box)
-        {
             box.SetText(string.Empty, string.Empty);
-        }
 
         Register();
         currentPage = 0;
@@ -217,9 +206,7 @@ public sealed class BorPhoneMenu : CustomPaginableMenu
         {
             var highlight = panel.transform.Find("Nameplate/Highlight");
             if (highlight && highlight!.childCount > 0)
-            {
                 highlight.GetChild(0).gameObject.SetActive(false);
-            }
         }
     }
 
@@ -242,18 +229,14 @@ public sealed class BorPhoneMenu : CustomPaginableMenu
         {
             var element = transform.Find(name);
             if (element)
-            {
                 element!.localPosition += Vector3.up * (PanelsDown - SearchDown);
-            }
         }
     }
 
     private void OnEntryClick(Entry entry)
     {
         if (!entry.Opens)
-        {
             ForceClose();
-        }
 
         entry.OnClick(this);
     }
@@ -262,10 +245,7 @@ public sealed class BorPhoneMenu : CustomPaginableMenu
     private void CreateBackArrow()
     {
         var close = backButton ? backButton.gameObject : null;
-        if (!close)
-        {
-            return;
-        }
+        if (!close) return;
 
         _backArrow = Object.Instantiate(close, close!.transform.parent);
         _backArrow.name = "BorBackArrow";
@@ -300,9 +280,7 @@ public sealed class BorPhoneMenu : CustomPaginableMenu
     private void RefreshBackArrow()
     {
         if (_backArrow)
-        {
             _backArrow!.SetActive(_history.Count > 0);
-        }
     }
 
     /// <summary>
@@ -320,9 +298,7 @@ public sealed class BorPhoneMenu : CustomPaginableMenu
     private static void SetActive(Transform? arrow, bool visible)
     {
         if (arrow && arrow!.gameObject.activeSelf != visible)
-        {
             arrow.gameObject.SetActive(visible);
-        }
     }
 
     private static void SetupPanel(ShapeshifterPanel panel, int index, Entry entry, Action onClick)
@@ -377,8 +353,6 @@ public static class BorPhoneMenuPagePatch
     public static void ShowPagePostfix(CustomPaginableMenu __instance)
     {
         if (__instance is BorPhoneMenu menu)
-        {
             menu.RefreshPageArrows();
-        }
     }
 }

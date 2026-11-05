@@ -38,9 +38,7 @@ public static class KillOverlayHudPatches
         foreach (var (button, scale) in HiddenButtons.Values)
         {
             if (button)
-            {
                 button.localScale = scale;
-            }
         }
 
         HiddenButtons.Clear();
@@ -66,10 +64,7 @@ public static class KillOverlayHudPatches
 
     private static void Hide(Transform? button)
     {
-        if (!button || HiddenButtons.ContainsKey(button!.Pointer))
-        {
-            return;
-        }
+        if (!button || HiddenButtons.ContainsKey(button!.Pointer)) return;
 
         HiddenButtons[button.Pointer] = (button, button.localScale);
         button.localScale = Vector3.zero;

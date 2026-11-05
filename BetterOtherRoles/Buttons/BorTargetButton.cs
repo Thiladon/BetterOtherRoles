@@ -36,9 +36,7 @@ public abstract class BorTargetButton<T> : CustomActionButton<T>
             if (!TimerPaused &&
                 (effectRunning || (!playerControl.inVent && !BorCooldowns.PausesWhileBusy(playerControl))) &&
                 (!FollowsKillTimer || playerControl.IsKillTimerEnabled))
-            {
                 Timer -= Time.deltaTime;
-            }
         }
         else if (HasEffect && EffectActive && EffectDuration > 0)
         {
@@ -49,9 +47,7 @@ public abstract class BorTargetButton<T> : CustomActionButton<T>
 
         // A timer going up means a new countdown: it becomes the reference of the shadow.
         if (Timer > _lastTimer)
-        {
             _cooldownStart = Timer;
-        }
 
         _lastTimer = Timer;
 

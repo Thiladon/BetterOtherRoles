@@ -55,17 +55,12 @@ public sealed class DeputyHandcuffButton : BorTargetButton<PlayerControl>
     {
         // The previous target may be gone (left the game) when MiraAPI removes its outline.
         if (Target && Target!.cosmetics)
-        {
             Target.cosmetics.SetOutline(active, new Il2CppSystem.Nullable<Color>(BorColors.Deputy));
-        }
     }
 
     protected override void OnClick()
     {
-        if (Target == null)
-        {
-            return;
-        }
+        if (Target == null) return;
 
         DeputyHandcuffs.RpcHandcuff(PlayerControl.LocalPlayer, Target);
         BorSounds.Play("deputyHandcuff");

@@ -49,25 +49,18 @@ public static class GameOptionsHeaderPatches
     public static void Prefix(ref float num)
     {
         if (Mathf.Approximately(num, FirstGroupY))
-        {
             num -= FirstGroupOffset;
-        }
     }
 
     public static void Postfix(AbstractOptionGroup? group)
     {
         if (group == null || HeaderProperty.GetValue(group) is not CategoryHeaderMasked header || !header || !header.Background ||
             !header.gameObject.activeInHierarchy)
-        {
             return;
-        }
 
         var menu = GameSettingMenu.Instance ? GameSettingMenu.Instance.GameSettingsTab : null;
         var origin = menu ? menu!.categoryHeaderOrigin : null;
-        if (origin == null || !origin.Background || header.Background.sprite == origin.Background.sprite)
-        {
-            return;
-        }
+        if (origin == null || !origin.Background || header.Background.sprite == origin.Background.sprite) return;
 
         ApplyVanillaLook(header, origin.Background, origin.Background.sprite, GetTint(group.GroupColor), 0f);
     }
@@ -108,10 +101,7 @@ public static class GameOptionsHeaderPatches
 
         // "(click to close / open)": its right edge at a fixed distance from the end of the header (pivot on the right).
         var hint = header.GetComponentsInChildren<TextMeshPro>(true).FirstOrDefault(text => text != header.Title);
-        if (hint == null)
-        {
-            return;
-        }
+        if (hint == null) return;
 
         var pivotX = vanilla.sprite.pivot.x / vanilla.sprite.rect.width;
         var right = background.transform.TransformPoint(new Vector3((vanilla.size.x * (1f - pivotX)) - HintPadding, 0f, 0f));
@@ -130,20 +120,14 @@ public static class GameOptionsHeaderPatches
     /// </summary>
     private static void FitTitle(TextMeshPro title, TextMeshPro hint)
     {
-        if (!title || string.IsNullOrEmpty(title.text))
-        {
-            return;
-        }
+        if (!title || string.IsNullOrEmpty(title.text)) return;
 
         title.ForceMeshUpdate();
         hint.ForceMeshUpdate();
         var titleLeft = title.transform.TransformPoint(title.textBounds.min).x;
         var titleRight = title.transform.TransformPoint(title.textBounds.max).x;
         var hintLeft = hint.transform.TransformPoint(hint.textBounds.min).x - TitleHintGap;
-        if (titleRight <= hintLeft || titleRight <= titleLeft)
-        {
-            return;
-        }
+        if (titleRight <= hintLeft || titleRight <= titleLeft) return;
 
         var factor = Mathf.Max(0.5f, (hintLeft - titleLeft) / (titleRight - titleLeft));
         title.enableAutoSizing = false;
@@ -156,10 +140,7 @@ public static class GameOptionsHeaderPatches
     private static void FitDivider(SpriteRenderer divider, float right)
     {
         var bounds = divider.bounds;
-        if (bounds.size.x <= 0f)
-        {
-            return;
-        }
+        if (bounds.size.x <= 0f) return;
 
         var ratio = (right - bounds.min.x) / bounds.size.x;
         var transform = divider.transform;

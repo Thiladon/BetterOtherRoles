@@ -35,10 +35,7 @@ public static class VerticalButtonGroupPatches
     public static bool Add(GameObject button)
     {
         var guide = HudManager.InstanceExists ? HudManager.Instance.MatchInfoButton : null;
-        if (!guide)
-        {
-            return false;
-        }
+        if (!guide) return false;
 
         button.transform.SetParent(guide!.transform, false);
         button.transform.localPosition = Vector3.zero;
@@ -52,10 +49,7 @@ public static class VerticalButtonGroupPatches
     public static void UpdatePostfix(HudManager __instance)
     {
         var guide = __instance.MatchInfoButton ? __instance.MatchInfoButton.transform : null;
-        if (!guide)
-        {
-            return;
-        }
+        if (!guide) return;
 
         TestModePatches.RefreshDebugButton(guide!);
 
@@ -69,9 +63,7 @@ public static class VerticalButtonGroupPatches
         foreach (var panel in HiddenPanels)
         {
             if (panel && panel.enabled)
-            {
                 panel.enabled = false;
-            }
         }
     }
 
@@ -82,9 +74,7 @@ public static class VerticalButtonGroupPatches
         {
             var child = guide.GetChild(i);
             if (child.name != FrameName && child.GetComponent<PassiveButton>())
-            {
                 yield return child;
-            }
         }
     }
 
@@ -102,34 +92,24 @@ public static class VerticalButtonGroupPatches
     private static void Rebuild(Transform guide)
     {
         var guidePanel = ButtonGroupPatches.FindPanel(guide);
-        if (!guidePanel)
-        {
-            return;
-        }
+        if (!guidePanel) return;
 
         var members = new List<SpriteRenderer> { guidePanel! };
         var spacing = ButtonSpacing / guide.localScale.y;
         foreach (var button in GetAddedButtons(guide))
         {
-            if (!button.gameObject.activeSelf)
-            {
-                continue;
-            }
+            if (!button.gameObject.activeSelf) continue;
 
             button.localPosition = new Vector3(0f, -members.Count * spacing, button.localPosition.z);
             var panel = ButtonGroupPatches.FindPanel(button);
             if (panel)
-            {
                 members.Add(panel!);
-            }
         }
 
         foreach (var panel in HiddenPanels)
         {
             if (panel && !members.Contains(panel))
-            {
                 panel.enabled = true;
-            }
         }
 
         HiddenPanels.Clear();
@@ -151,9 +131,7 @@ public static class VerticalButtonGroupPatches
         }
 
         if (!_frameSprite)
-        {
             _frameSprite = BorSpriteUtils.ToSliced(guidePanel!.sprite, new Vector4(0f, PanelBorder, 0f, PanelBorder));
-        }
 
         // In the guide button space: from its panel down to the last button.
         var top = guidePanel!.transform.localPosition;

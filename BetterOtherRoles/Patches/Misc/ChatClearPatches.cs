@@ -11,10 +11,7 @@ public static class ChatClearPatches
     [HarmonyPrefix]
     public static void CoBeginPrefix()
     {
-        if (!HudManager.InstanceExists || !HudManager.Instance.Chat)
-        {
-            return;
-        }
+        if (!HudManager.InstanceExists || !HudManager.Instance.Chat) return;
 
         var chat = HudManager.Instance.Chat;
         chat.chatBubblePool.ReclaimAll();
@@ -23,8 +20,6 @@ public static class ChatClearPatches
         // The unread dot on the chat button, and the popup of the last message.
         chat.chatNotifyDot.enabled = false;
         if (chat.chatNotification.gameObject.activeSelf)
-        {
             chat.chatNotification.Close();
-        }
     }
 }

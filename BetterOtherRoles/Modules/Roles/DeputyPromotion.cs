@@ -49,35 +49,26 @@ public static class DeputyPromotion
     public static void PlayerControlDiePrefix(PlayerControl __instance)
     {
         if (__instance.Data?.Role is SheriffRole)
-        {
             _lostSheriff = __instance;
-        }
     }
 
     [RegisterEvent]
     public static void PlayerDeathHandler(PlayerDeathEvent @event)
     {
         if (@event.Player == _lostSheriff && Mode == DeputyPromotionMode.Immediately)
-        {
             RequestCheck();
-        }
     }
 
     [RegisterEvent]
     public static void PlayerLeaveHandler(PlayerLeaveEvent @event)
     {
         var player = @event.ClientData?.Character;
-        if (!player || player!.Data?.Role is not SheriffRole)
-        {
-            return;
-        }
+        if (!player || player!.Data?.Role is not SheriffRole) return;
 
         // Gone from the game: no former Sheriff to keep.
         _lostSheriff = null;
         if (Mode == DeputyPromotionMode.Immediately)
-        {
             RequestCheck();
-        }
     }
 
     /// <summary>
@@ -95,9 +86,7 @@ public static class DeputyPromotion
         }
 
         if (Mode == DeputyPromotionMode.AfterMeeting)
-        {
             RequestCheck();
-        }
     }
 
     /// <summary>
@@ -120,10 +109,7 @@ public static class DeputyPromotion
     /// </summary>
     private static void RequestCheck()
     {
-        if (_checkPending || PlayerControl.LocalPlayer?.Data?.Role is not DeputyRole)
-        {
-            return;
-        }
+        if (_checkPending || PlayerControl.LocalPlayer?.Data?.Role is not DeputyRole) return;
 
         _checkPending = true;
         Coroutines.Start(CoCheckPromotion());
@@ -145,15 +131,10 @@ public static class DeputyPromotion
     private static void CheckPromotion()
     {
         var local = PlayerControl.LocalPlayer;
-        if (!local || local.Data == null || local.Data.IsDead || local.Data.Role is not DeputyRole)
-        {
-            return;
-        }
+        if (!local || local.Data == null || local.Data.IsDead || local.Data.Role is not DeputyRole) return;
 
         if (!PlayerControl.AllPlayerControls.ToArray().Any(IsAliveSheriff))
-        {
             RpcPromote(local);
-        }
     }
 
     private static bool IsAliveSheriff(PlayerControl player)

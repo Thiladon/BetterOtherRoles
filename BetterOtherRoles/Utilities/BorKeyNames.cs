@@ -34,15 +34,9 @@ public static class BorKeyNames
     public static string? GetLayoutName(string keyName)
     {
         // The digit row keeps its digits (written on the keys of every layout, even when shift is needed).
-        if (keyName.Length == 6 && keyName.StartsWith("Alpha", StringComparison.Ordinal))
-        {
-            return keyName[5..];
-        }
+        if (keyName.Length == 6 && keyName.StartsWith("Alpha", StringComparison.Ordinal)) return keyName[5..];
 
-        if (!ScanCodes.TryGetValue(keyName, out var scanCode))
-        {
-            return null;
-        }
+        if (!ScanCodes.TryGetValue(keyName, out var scanCode)) return null;
 
         try
         {
@@ -76,18 +70,13 @@ public static class BorKeyNames
     /// <param name="keyName">The key name (Rewired <c>KeyboardKeyCode</c> or Unity <c>KeyCode</c>).</param>
     public static string Localize(string label, string keyName)
     {
-        if (string.IsNullOrEmpty(label) || GetLayoutName(keyName) is not { } layoutName)
-        {
-            return label;
-        }
+        if (string.IsNullOrEmpty(label) || GetLayoutName(keyName) is not { } layoutName) return label;
 
         // Rewired writes either the key character (US layout) or the key name.
         foreach (var usName in new[] { UsCharacter(keyName), keyName })
         {
             if (usName != null && label.EndsWith(usName, StringComparison.OrdinalIgnoreCase))
-            {
                 return label[..^usName.Length] + layoutName;
-            }
         }
 
         return label;
@@ -116,18 +105,12 @@ public static class BorKeyNames
     private static string? ReadKey(IntPtr layout, uint scanCode)
     {
         var virtualKey = MapVirtualKeyEx(scanCode, MapVirtualScanCodeToKey, layout);
-        if (virtualKey == 0)
-        {
-            return null;
-        }
+        if (virtualKey == 0) return null;
 
         // Dead keys (^ in AZERTY) return -1 with their character.
         var buffer = new char[8];
         var length = ToUnicodeEx(virtualKey, scanCode, new byte[256], buffer, buffer.Length, ToUnicodeKeepKeyboardState, layout);
-        if (length == 0 || buffer[0] == 0)
-        {
-            return null;
-        }
+        if (length == 0 || buffer[0] == 0) return null;
 
         var character = buffer[0].ToString();
         return string.IsNullOrWhiteSpace(character) ? null : character.ToUpperInvariant();

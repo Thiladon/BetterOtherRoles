@@ -59,17 +59,12 @@ public sealed class SheriffShootButton : BorTargetButton<PlayerControl>
     {
         // The previous target may be gone (left the game) when MiraAPI removes its outline.
         if (Target && Target!.cosmetics)
-        {
             Target.cosmetics.SetOutline(active, new Il2CppSystem.Nullable<Color>(BorColors.Sheriff));
-        }
     }
 
     protected override void OnClick()
     {
-        if (Target == null)
-        {
-            return;
-        }
+        if (Target == null) return;
 
         var victim = CanBeShot(Target) ? Target : PlayerControl.LocalPlayer;
         PlayerControl.LocalPlayer.RpcCustomMurder(victim, MeetingCheck.OutsideMeeting);

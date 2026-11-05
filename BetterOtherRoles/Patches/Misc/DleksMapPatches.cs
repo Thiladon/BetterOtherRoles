@@ -44,10 +44,7 @@ public static class DleksMapPatches
     public static void MapShowPostfix(MapBehaviour __instance)
     {
         var map = __instance.transform;
-        if (!IsDleks)
-        {
-            return;
-        }
+        if (!IsDleks) return;
 
         UnflipTasks(__instance);
         if (!MirroredMaps.Add(__instance.GetInstanceID()))
@@ -79,9 +76,7 @@ public static class DleksMapPatches
 
         // Fixed offset of the player icon and the task icons, for the drawing of The Skeld.
         if (__instance.HerePoint)
-        {
             MirrorPosition(__instance.HerePoint.transform.parent);
-        }
 
         PlaceHere(__instance);
     }
@@ -104,17 +99,12 @@ public static class DleksMapPatches
     {
         var tasks = map.taskOverlay ? map.taskOverlay.transform : null;
         if (tasks && tasks!.localScale.x < 0f)
-        {
             tasks.localScale = new Vector3(-tasks.localScale.x, tasks.localScale.y, tasks.localScale.z);
-        }
     }
 
     private static void PlaceHere(MapBehaviour map)
     {
-        if (!map.HerePoint || !ShipStatus.Instance || !PlayerControl.LocalPlayer)
-        {
-            return;
-        }
+        if (!map.HerePoint || !ShipStatus.Instance || !PlayerControl.LocalPlayer) return;
 
         var icon = map.HerePoint.transform;
         var x = PlayerControl.LocalPlayer.transform.position.x / ShipStatus.Instance.MapScale;
@@ -140,10 +130,7 @@ public static class DleksMapPatches
     [HarmonyPrefix]
     public static void SetupMapButtonsPrefix(GameOptionsMapPicker __instance)
     {
-        if (__instance.AllMapIcons.ToArray().Any(x => x.Name == MapNames.Dleks))
-        {
-            return;
-        }
+        if (__instance.AllMapIcons.ToArray().Any(x => x.Name == MapNames.Dleks)) return;
 
         // Shown right after The Skeld (the buttons follow the list order, each one keeps its map id).
         __instance.AllMapIcons.Insert(PickerIndex, new MapIconByName
@@ -163,10 +150,7 @@ public static class DleksMapPatches
     {
         try
         {
-            if (__instance.AllMapIcons.ToArray().Any(x => x.Name == MapNames.Dleks))
-            {
-                return;
-            }
+            if (__instance.AllMapIcons.ToArray().Any(x => x.Name == MapNames.Dleks)) return;
         }
         catch (Exception)
         {
@@ -201,9 +185,7 @@ public static class DleksMapPatches
     public static void StringOptionStartPostfix(StringOption __instance)
     {
         if (__instance.Title == StringNames.GameMapName)
-        {
             __instance.Value = GameOptionsManager.Instance.CurrentGameOptions.MapId;
-        }
     }
 
     // Game creation menu (online host): banner and crewmates of The Skeld.
@@ -211,10 +193,7 @@ public static class DleksMapPatches
     [HarmonyPrefix]
     public static bool MapChangedPrefix(CreateGameOptions __instance)
     {
-        if (__instance.mapPicker.GetSelectedID() is not (int)MapNames.Dleks)
-        {
-            return true;
-        }
+        if (__instance.mapPicker.GetSelectedID() is not (int)MapNames.Dleks) return true;
 
         __instance.mapBanner.flipX = false;
         __instance.rendererBGCrewmates.sprite = __instance.bgCrewmates[0];
@@ -230,9 +209,7 @@ public static class DleksMapPatches
     public static void CreateGameOptionsStartPrefix(CreateGameOptions __instance)
     {
         if (__instance.currentCrewSprites == null)
-        {
             __instance.mapBanner.sprite = Text.LoadAsset();
-        }
 
         __instance.currentCrewSprites ??= __instance.skeldCrewSprites;
         __instance.mapTooltips[(int)MapNames.Dleks] = MapTooltip;
@@ -244,10 +221,7 @@ public static class DleksMapPatches
     [HarmonyPrefix]
     public static void FreeplayShowPrefix(FreeplayPopover __instance)
     {
-        if (_lastPopover == __instance)
-        {
-            return;
-        }
+        if (_lastPopover == __instance) return;
 
         _lastPopover = __instance;
         var fungleButton = __instance.buttons[4];
@@ -291,17 +265,12 @@ public static class DleksMapPatches
         public static bool Prefix(Il2CppObjectBase __instance, ref bool __result)
         {
             var wrapper = new StateMachineWrapper<AmongUsClient>(__instance);
-            if (wrapper.GetState() != 0)
-            {
-                return true;
-            }
+            if (wrapper.GetState() != 0) return true;
 
             var client = wrapper.Instance;
             wrapper.SetState(-1);
             if (LobbyBehaviour.Instance)
-            {
                 LobbyBehaviour.Instance.Despawn();
-            }
 
             if (ShipStatus.Instance)
             {

@@ -34,10 +34,7 @@ public static class BorKick
     /// <param name="args">Values of the reason, the same for both languages.</param>
     public static void Kick(PlayerControl player, string reasonKey, string hostMessage, params string[] args)
     {
-        if (!AmongUsClient.Instance.AmHost || !player || player.AmOwner)
-        {
-            return;
-        }
+        if (!AmongUsClient.Instance.AmHost || !player || player.AmOwner) return;
 
         var clientId = player.OwnerId;
         Warning($"Kicking client {clientId} ({player.Data?.PlayerName}): {reasonKey}.");
@@ -52,10 +49,7 @@ public static class BorKick
     [MethodRpc((uint)BorRpc.Kick)]
     public static void RpcKick(PlayerControl host, int clientId, string reasonKey, string args)
     {
-        if (AmongUsClient.Instance.ClientId != clientId || AmongUsClient.Instance.AmHost)
-        {
-            return;
-        }
+        if (AmongUsClient.Instance.ClientId != clientId || AmongUsClient.Instance.AmHost) return;
 
         AmongUsClient.Instance.DisconnectWithReason(Format(reasonKey, args.Length == 0 ? [] : args.Split(ArgSeparator)));
     }
@@ -75,9 +69,7 @@ public static class BorKick
     {
         yield return new WaitForSeconds(FallbackDelay);
         if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost || AmongUsClient.Instance.FindClientById(clientId) == null)
-        {
             yield break;
-        }
 
         if (KickWithReasonMethod != null)
         {

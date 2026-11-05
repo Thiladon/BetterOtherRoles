@@ -34,15 +34,9 @@ public static class DeputyHandcuffs
     /// <returns><see langword="true"/> if the action must be cancelled (handcuff triggered now, or already active).</returns>
     public static bool TryBlockLocalAction()
     {
-        if (IsLocalActive)
-        {
-            return true;
-        }
+        if (IsLocalActive) return true;
 
-        if (!PlayerControl.LocalPlayer || !Pending.Contains(PlayerControl.LocalPlayer.PlayerId))
-        {
-            return false;
-        }
+        if (!PlayerControl.LocalPlayer || !Pending.Contains(PlayerControl.LocalPlayer.PlayerId)) return false;
 
         RpcTriggerHandcuff(PlayerControl.LocalPlayer);
         return true;
@@ -69,9 +63,7 @@ public static class DeputyHandcuffs
         Info($"[Deputy] Handcuff of {player.Data.PlayerName} triggered ({Duration} s)");
 
         if (player.AmOwner)
-        {
             BorSounds.Play("deputyHandcuff");
-        }
     }
 
     /// <summary>
@@ -83,10 +75,7 @@ public static class DeputyHandcuffs
         foreach (var playerId in Active.Keys.ToArray())
         {
             var player = GameData.Instance ? GameData.Instance.GetPlayerById(playerId)?.Object : null;
-            if (player && player!.inVent)
-            {
-                continue;
-            }
+            if (player && player!.inVent) continue;
 
             Active[playerId] -= deltaTime;
             if (Active[playerId] <= 0f)

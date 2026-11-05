@@ -22,22 +22,14 @@ public sealed class RemapKeyNamesBehaviour(nint cppPtr) : MonoBehaviour(cppPtr)
         foreach (var field in GetComponentsInChildren<InputFieldInfo>())
         {
             var elementMap = ReInput.mapping.GetActionElementMap(field.actionElementMapId);
-            if (elementMap?.controllerMap?.controllerType != ControllerType.Keyboard)
-            {
-                continue;
-            }
+            if (elementMap?.controllerMap?.controllerType != ControllerType.Keyboard) continue;
 
             var text = field.GetComponentInChildren<TMP_Text>();
-            if (text == null)
-            {
-                continue;
-            }
+            if (text == null) continue;
 
             var localized = BorKeyNames.Localize(text.text, elementMap.keyCode.ToString());
             if (localized != text.text)
-            {
                 text.text = localized;
-            }
         }
     }
 }

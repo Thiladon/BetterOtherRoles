@@ -27,10 +27,7 @@ public static class BorRoleSelector
 
     public static BorFaction GetFaction(RoleBehaviour role)
     {
-        if (role.IsImpostor)
-        {
-            return BorFaction.Impostor;
-        }
+        if (role.IsImpostor) return BorFaction.Impostor;
 
         return role is ICustomRole { Team: ModdedRoleTeams.Custom } ? BorFaction.Neutral : BorFaction.Crewmate;
     }
@@ -88,16 +85,10 @@ public static class BorRoleSelector
         // The managed role objects: the AllRoles entries are plain RoleBehaviour wrappers, never ICustomRole.
         foreach (var role in CustomRoleManager.CustomRoleBehaviours)
         {
-            if (role is not ICustomRole || role.IsDead || !CustomRoleUtils.CanSpawnOnCurrentMode(role))
-            {
-                continue;
-            }
+            if (role is not ICustomRole || role.IsDead || !CustomRoleUtils.CanSpawnOnCurrentMode(role)) continue;
 
             var chance = roleOptions.GetChancePerGame(role.Role);
-            if (chance <= 0)
-            {
-                continue;
-            }
+            if (chance <= 0) continue;
 
             var faction = GetFaction(role);
             for (var i = 0; i < roleOptions.GetNumPerGame(role.Role); i++)
@@ -154,9 +145,7 @@ public static class BorRoleSelector
             if (GetModRole(roleId) is not IHasDependentRole { DependentRoleId: { } dependentId } mainRole ||
                 mainRole.DependentRoleChance <= 0 || blocked.Contains(dependentId) ||
                 GetModRole(dependentId) is not { } dependent)
-            {
                 return;
-            }
 
             var dependentFaction = GetFaction(dependent);
             if (mainRole.DependentRoleChance < 100)
@@ -172,18 +161,13 @@ public static class BorRoleSelector
         // The roles that cannot be with this one are never drawn afterwards, whatever their faction and chance.
         void Block(ushort roleId)
         {
-            if (GetModRole(roleId) is not { } role)
-            {
-                return;
-            }
+            if (GetModRole(roleId) is not { } role) return;
 
             foreach (var other in CustomRoleManager.CustomRoleBehaviours)
             {
                 var otherId = (ushort)other.Role;
                 if (otherId == roleId || other is not ICustomRole || !AreExclusive(role, other) || !blocked.Add(otherId))
-                {
                     continue;
-                }
 
                 foreach (var faction in factions)
                 {
@@ -197,9 +181,7 @@ public static class BorRoleSelector
         void AddTicket(BorFaction faction, ushort roleId, int chance)
         {
             if (!blocked.Contains(roleId) && Rng.Next(100) < chance)
-            {
                 tickets[faction].Add((roleId, chance));
-            }
         }
     }
 
@@ -225,10 +207,7 @@ public static class BorRoleSelector
         for (var i = 0; i < tickets.Count; i++)
         {
             draw -= tickets[i].Chance;
-            if (draw < 0)
-            {
-                return i;
-            }
+            if (draw < 0) return i;
         }
 
         return tickets.Count - 1;

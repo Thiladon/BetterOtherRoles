@@ -56,10 +56,7 @@ public static class ServerRegionPatches
         foreach (var (name, address, _) in ModdedServers)
         {
             var index = regions.FindIndex(x => x.Name == name);
-            if (index >= 0)
-            {
-                continue;
-            }
+            if (index >= 0) continue;
 
             // Same server written by BetterOtherRoles 1.7 (name with a color tag): replaced in place.
             var region = CreateRegion(name, address);
@@ -67,9 +64,7 @@ public static class ServerRegionPatches
             if (old >= 0)
             {
                 if (current != null && current.Name == regions[old].Name)
-                {
                     current = region;
-                }
 
                 regions[old] = region;
             }
@@ -81,16 +76,11 @@ public static class ServerRegionPatches
             changed = true;
         }
 
-        if (!changed)
-        {
-            return;
-        }
+        if (!changed) return;
 
         __instance.AvailableRegions = new Il2CppReferenceArray<IRegionInfo>(regions.ToArray());
         if (current != null && current != __instance.CurrentRegion)
-        {
             __instance.CurrentRegion = current;
-        }
 
         __instance.SaveServers();
         Info($"Server list: {ModdedServers.Length} modded servers checked, missing ones added.");
@@ -108,10 +98,7 @@ public static class ServerRegionPatches
         foreach (var button in buttons)
         {
             var rollover = button.GetComponent<ButtonRolloverHandler>();
-            if (!rollover)
-            {
-                continue;
-            }
+            if (!rollover) continue;
 
             if (!VanillaOverColors.TryGetValue(button.Pointer, out var vanilla))
             {
@@ -130,16 +117,10 @@ public static class ServerRegionPatches
     // Rows of two from the top of the game layout, centered on the same height; a last one alone stays on the left.
     private static void PlaceInRows(List<ServerListButton> buttons)
     {
-        if (buttons.Count < 2)
-        {
-            return;
-        }
+        if (buttons.Count < 2) return;
 
         var xs = buttons.Select(x => x.transform.localPosition.x).Distinct().OrderBy(x => x).ToList();
-        if (xs.Count < 2)
-        {
-            return;
-        }
+        if (xs.Count < 2) return;
 
         var top = buttons[0].transform.localPosition.y;
         var bottom = buttons[^1].transform.localPosition.y;
@@ -162,9 +143,7 @@ public static class ServerRegionPatches
     {
         if (value == null || !ColoredNames.TryGetValue(value, out var colored) || __instance.GetComponentInParent<ServerListButton>() ||
             !IsServerScreen(__instance))
-        {
             return;
-        }
 
         value = colored;
     }

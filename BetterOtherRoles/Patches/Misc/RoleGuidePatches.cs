@@ -60,9 +60,7 @@ public static class RoleGuidePatches
         public static void SetUpTabGridsPrefix(ref MatchInfoTabPos position)
         {
             if ((float)Screen.width / Screen.height < MinSideTabsAspectRatio)
-            {
                 position = MatchInfoTabPos.Below;
-            }
         }
 
         /// <summary>
@@ -73,16 +71,10 @@ public static class RoleGuidePatches
         [HarmonyPostfix]
         public static void MatchesSearchPostfix(object entry, string searchText, ref bool __result)
         {
-            if (__result || searchText.Length == 0)
-            {
-                return;
-            }
+            if (__result || searchText.Length == 0) return;
 
             var role = Traverse.Create(entry).Property("Role").GetValue<RoleBehaviour>();
-            if (role == null)
-            {
-                return;
-            }
+            if (role == null) return;
 
             var name = role is ICustomRole customRole ? customRole.RoleName : role.NiceName;
             __result = SearchText.Matches(name, searchText);
@@ -98,10 +90,7 @@ public static class RoleGuidePatches
         {
             var traverse = Traverse.Create(entry);
             var role = traverse.Property("Role").GetValue<RoleBehaviour>();
-            if (role == null || (ushort)role.Role != RoleId.Get<DeputyRole>())
-            {
-                return;
-            }
+            if (role == null || (ushort)role.Role != RoleId.Get<DeputyRole>()) return;
 
             var options = OptionGroupSingleton<SheriffOptions>.Instance;
             var amount = options.HasDeputy ? 1 : 0;
@@ -136,27 +125,20 @@ public static class RoleGuidePatches
             foreach (var entry in (IEnumerable)RoleEntriesField.GetValue(null)!)
             {
                 if (PanelProperty.GetValue(entry) is MatchInfoRolePanel panel && panel)
-                {
                     trackedPanels.Add(panel.Pointer);
-                }
             }
 
             var removed = new List<string>();
             foreach (var panel in scroller.Inner.GetComponentsInChildren<MatchInfoRolePanel>(true))
             {
-                if (trackedPanels.Contains(panel.Pointer))
-                {
-                    continue;
-                }
+                if (trackedPanels.Contains(panel.Pointer)) continue;
 
                 removed.Add(panel.roleName ? panel.roleName.text : panel.name);
                 panel.gameObject.Destroy();
             }
 
             if (removed.Count > 0)
-            {
                 Warning($"[RoleGuide] Removed {removed.Count} untracked role panel(s): {string.Join(", ", removed)}");
-            }
 
             __result = true;
             return false;
@@ -171,9 +153,7 @@ public static class RoleGuidePatches
         public static void InitializePostfix()
         {
             if (SearchBoxField.GetValue(null) is TextBoxTMP box)
-            {
                 TextBoxPatches.FixCaret(box);
-            }
         }
     }
 
@@ -229,9 +209,7 @@ public static class RoleGuidePatches
                     formatBool,
                     withRoleSpawn: true);
                 if (rolesPage != null)
-                {
                     __result.Add(rolesPage);
-                }
 
                 var modifiersPage = BuildPage(
                     plugins,
@@ -240,9 +218,7 @@ public static class RoleGuidePatches
                     formatBool,
                     withRoleSpawn: false);
                 if (modifiersPage != null)
-                {
                     __result.Add(modifiersPage);
-                }
             }
 
             private static object? BuildPage(
@@ -263,10 +239,7 @@ public static class RoleGuidePatches
                     foreach (var group in plugin.OptionGroups.Where(filter).Where(SafeGroupVisible))
                     {
                         var role = withRoleSpawn ? plugin.Roles.Values.OfType<ICustomRole>().FirstOrDefault(x => x.GetType() == group.OptionableType) : null;
-                        if (withRoleSpawn && (role == null || role.Configuration.HideSettings))
-                        {
-                            continue;
-                        }
+                        if (withRoleSpawn && (role == null || role.Configuration.HideSettings)) continue;
 
                         // Roles and game modifiers get a banner with their spawn chance (RoleBanner).
                         var hasBanner = role != null || plugin.Modifiers.OfType<GameModifier>().Any(x => x.GetType() == group.OptionableType);
@@ -280,16 +253,12 @@ public static class RoleGuidePatches
                         {
                             var entry = TryCreateEntryMethod.Invoke(null, [option, group, groupName, abbreviation, terms, formatBool]);
                             if (entry != null)
-                            {
                                 entries.Add(entry);
-                            }
                         }
 
                         // MiraAPI only draws a group header above rows: a hidden placeholder row keeps the banner.
                         if (hasBanner && entries.Count == count)
-                        {
                             entries.Add(CreateEntry(RoleBanner.PlaceholderTitle, string.Empty, group, groupName, abbreviation, terms));
-                        }
 
                         if (entries.Count > count)
                         {
@@ -300,10 +269,7 @@ public static class RoleGuidePatches
                     }
                 }
 
-                if (groups.Count == 0)
-                {
-                    return null;
-                }
+                if (groups.Count == 0) return null;
 
                 var page = Activator.CreateInstance(
                     PageType,
@@ -367,10 +333,7 @@ public static class RoleGuidePatches
                 query = query.Trim();
                 var guide = MatchInfoGuide.Instance;
                 __result.Clear();
-                if (query.Length == 0 || !guide)
-                {
-                    return;
-                }
+                if (query.Length == 0 || !guide) return;
 
                 var plugins = (MiraPluginInfo[])RegisteredPluginsProperty.GetValue(PluginManagerInstanceProperty.GetValue(null))!;
                 var roles = plugins.SelectMany(x => x.Roles.Values.OfType<ICustomRole>())
@@ -384,9 +347,7 @@ public static class RoleGuidePatches
                     {
                         var rank = Rank(entry, query, roles);
                         if (rank < int.MaxValue)
-                        {
                             ranked.Add((entry, rank));
-                        }
                     }
                 }
 
@@ -400,9 +361,7 @@ public static class RoleGuidePatches
                 foreach (var (title, value) in SearchText.GetVanillaSettings())
                 {
                     if (SearchText.Matches(title, query) || SearchText.Matches(value, query))
-                    {
                         __result.Insert(index++, CreateEntry(title, value, VanillaGroup, groupName, "AU", []));
-                    }
                 }
             }
 
@@ -410,22 +369,14 @@ public static class RoleGuidePatches
             {
                 var group = (AbstractOptionGroup)EntryGroupProperty.GetValue(entry)!;
                 var title = (string)EntryTitleProperty.GetValue(entry)!;
-                if (SearchText.Equal(title, query))
-                {
-                    return 0;
-                }
+                if (SearchText.Equal(title, query)) return 0;
 
-                if (SearchText.Matches(title, query))
-                {
-                    return 1;
-                }
+                if (SearchText.Matches(title, query)) return 1;
 
                 var groupName = (string)EntryGroupNameProperty.GetValue(entry)!;
                 if (SearchText.Matches(groupName, query) ||
                     (group.OptionableType != null && roles.TryGetValue(group.OptionableType, out var role) && SearchText.Matches(role.RoleName, query)))
-                {
                     return 2;
-                }
 
                 return SearchText.Matches((string)EntryValueProperty.GetValue(entry)!, query) ? 3 : int.MaxValue;
             }
@@ -506,10 +457,7 @@ public static class RoleGuidePatches
                 .Distinct()
                 .ToList();
             var headers = __result.GetComponentsInChildren<CategoryHeaderMasked>(true);
-            if (headers.Length != groups.Count)
-            {
-                return;
-            }
+            if (headers.Length != groups.Count) return;
 
             var banners = GetBanners();
             var searching = IsSearching;
@@ -546,15 +494,10 @@ public static class RoleGuidePatches
             {
                 var child = children[i];
                 if (shift > 0f)
-                {
                     child.localPosition += new Vector3(0f, shift, 0f);
-                }
 
                 var row = child.GetComponent<NumberOption>();
-                if (!row || row.TitleText.text != PlaceholderTitle)
-                {
-                    continue;
-                }
+                if (!row || row.TitleText.text != PlaceholderTitle) continue;
 
                 child.gameObject.SetActive(false);
 
@@ -615,10 +558,7 @@ public static class RoleGuidePatches
         private static void MakeBanner(CategoryHeaderMasked header, Type roleType, Color color, int spawnChance, bool searching)
         {
             var background = header.Background;
-            if (!background)
-            {
-                return;
-            }
+            if (!background) return;
 
             var textColor = MakeRectangular(header, color);
             var size = background.size;
@@ -638,9 +578,7 @@ public static class RoleGuidePatches
                 // The vanilla translator of the title (only queued for destruction by MiraAPI) would rewrite the text.
                 var translator = hint.GetComponent<TextTranslatorTMP>();
                 if (translator)
-                {
                     Object.DestroyImmediate(translator);
-                }
 
                 hint.text = searching ? chance : $"{chance}   ·   {toggleText}";
                 hint.horizontalAlignment = HorizontalAlignmentOptions.Right;
@@ -662,10 +600,7 @@ public static class RoleGuidePatches
                 rect.localPosition = new Vector3(localRight.x, rect.localPosition.y, rect.localPosition.z);
             }
 
-            if (searching)
-            {
-                return;
-            }
+            if (searching) return;
 
             var collider = background.gameObject.GetComponent<BoxCollider2D>() ?? background.gameObject.AddComponent<BoxCollider2D>();
             collider.size = size;
@@ -694,9 +629,7 @@ public static class RoleGuidePatches
 
             var oldButton = header.Background ? header.Background.gameObject.GetComponent<PassiveButton>() : null;
             if (oldButton)
-            {
                 Object.DestroyImmediate(oldButton);
-            }
         }
 
         /// <summary>
@@ -722,14 +655,10 @@ public static class RoleGuidePatches
 
             // The vanilla divider line goes past the banner, onto the scroll bar.
             if (header.Divider)
-            {
                 header.Divider.gameObject.SetActive(false);
-            }
 
             if (header.Title)
-            {
                 header.Title.color = textColor;
-            }
 
             return textColor;
         }
@@ -737,19 +666,14 @@ public static class RoleGuidePatches
         private static void Toggle(Type roleType)
         {
             if (!ExpandedRoles.Remove(roleType))
-            {
                 ExpandedRoles.Add(roleType);
-            }
 
             RefreshSettingsTabMethod.Invoke(null, [false]);
         }
 
         private static Sprite GetBannerSprite()
         {
-            if (_bannerSprite)
-            {
-                return _bannerSprite!;
-            }
+            if (_bannerSprite) return _bannerSprite!;
 
             var texture = new Texture2D(4, 4);
             var pixels = Enumerable.Repeat(Color.white, 16).ToArray();
@@ -818,10 +742,7 @@ public static class RoleGuidePatches
             var categories = GameManager.Instance ? GameManager.Instance.GameSettingsList?.AllCategories : null;
             var options = GameOptionsManager.Instance?.CurrentGameOptions;
             var translation = TranslationController.Instance;
-            if (categories == null || options == null || !translation)
-            {
-                return settings;
-            }
+            if (categories == null || options == null || !translation) return settings;
 
             foreach (var category in categories)
             {
@@ -839,24 +760,16 @@ public static class RoleGuidePatches
             try
             {
                 if (setting.TryCast<FloatGameSetting>() is { } floatSetting)
-                {
                     return floatSetting.GetValueString(options.GetFloat(floatSetting.OptionName));
-                }
 
                 if (setting.TryCast<IntGameSetting>() is { } intSetting)
-                {
                     return intSetting.GetValueString(options.GetInt(intSetting.OptionName));
-                }
 
                 if (setting.TryCast<CheckboxGameSetting>() is { } boolSetting)
-                {
                     return boolSetting.GetValueString(options.GetBool(boolSetting.OptionName) ? 1f : 0f);
-                }
 
                 if (setting.TryCast<StringGameSetting>() is { } stringSetting)
-                {
                     return stringSetting.GetValueString(options.GetInt(stringSetting.OptionName));
-                }
             }
             catch (Exception)
             {
@@ -967,10 +880,7 @@ public static class RoleGuidePatches
 
             _backToModifiers = __originalMethod.GetParameters()[1].ParameterType == typeof(BaseModifier);
             var title = TitleTextField.GetValue(null) as TextMeshPro;
-            if (title == null)
-            {
-                return;
-            }
+            if (title == null) return;
 
             var parent = title.transform.parent;
             if (!_backButton || _backButton!.transform.parent != parent)
@@ -985,14 +895,10 @@ public static class RoleGuidePatches
             }
 
             if (_backButton)
-            {
                 PlaceNextToCloseButton(_backButton!);
-            }
 
             if (_backButton)
-            {
                 _backButton!.gameObject.SetActive(true);
-            }
         }
 
         /// <summary>
@@ -1005,9 +911,7 @@ public static class RoleGuidePatches
             public static void Postfix()
             {
                 if (_backButton)
-                {
                     _backButton!.gameObject.SetActive(false);
-                }
             }
         }
 
@@ -1031,15 +935,10 @@ public static class RoleGuidePatches
             public static void UpdatePostfix(MatchInfoGuide __instance)
             {
                 if (!__instance.MatchInfoParent.activeSelf || Time.time < _openedAt + __instance.transitionOpen.duration + 0.1f)
-                {
                     return;
-                }
 
                 var title = TitleTextField.GetValue(null) as TextMeshPro;
-                if (title == null || (_closeButton && _closeButton!.transform.parent == title.transform.parent))
-                {
-                    return;
-                }
+                if (title == null || (_closeButton && _closeButton!.transform.parent == title.transform.parent)) return;
 
                 // Top right corner of the window frame: the smallest sprite around both the title and the sort buttons
                 // (the biggest one is the full screen shade).
@@ -1073,9 +972,7 @@ public static class RoleGuidePatches
                 var hudButton = HudManager.Instance ? HudManager.Instance.MatchInfoButton : null;
                 var hudSprite = hudButton ? hudButton!.GetComponentsInChildren<SpriteRenderer>().FirstOrDefault(x => x.enabled && x.sprite) : null;
                 if (hudSprite && hudSprite!.bounds.size.y >= CloseButtonSize * 0.8f && hudSprite.bounds.size.y <= CloseButtonSize * 1.25f)
-                {
                     size = hudSprite.bounds.size.y;
-                }
 
                 // Inside the window frame (about 0.4 button thick), in its top right corner.
                 corner.x -= size * CornerOffsetX;
@@ -1138,10 +1035,7 @@ public static class RoleGuidePatches
         {
             var close = _closeButton ? _closeButton!.GetComponent<SpriteRenderer>() : null;
             var arrow = button.inactiveSprites ? button.inactiveSprites.GetComponent<SpriteRenderer>() : null;
-            if (!close || !arrow || arrow!.bounds.size.y <= 0f)
-            {
-                return;
-            }
+            if (!close || !arrow || arrow!.bounds.size.y <= 0f) return;
 
             button.transform.localScale *= close!.bounds.size.y / arrow.bounds.size.y;
 
@@ -1149,10 +1043,7 @@ public static class RoleGuidePatches
                 .Where(x => x.enabled && x.gameObject.activeSelf && x.sprite)
                 .Select(x => x.bounds)
                 .ToList();
-            if (drawn.Count == 0)
-            {
-                return;
-            }
+            if (drawn.Count == 0) return;
 
             var bounds = drawn[0];
             foreach (var other in drawn.Skip(1))
@@ -1188,10 +1079,7 @@ public static class RoleGuidePatches
         private static PassiveButton? CreateButton(Transform parent, string name, Vector3 position, Sprite idle, Sprite hover, Action onClick)
         {
             var orderButton = OrderButtonField.GetValue(null) as PassiveButton;
-            if (orderButton == null)
-            {
-                return null;
-            }
+            if (orderButton == null) return null;
 
             var button = Object.Instantiate(orderButton, parent);
             button.name = name;
@@ -1227,10 +1115,7 @@ public static class RoleGuidePatches
         /// </summary>
         private static void SetSprite(SpriteRenderer renderer, Sprite sprite)
         {
-            if (!renderer)
-            {
-                return;
-            }
+            if (!renderer) return;
 
             var height = renderer.sprite ? renderer.sprite.bounds.size.y * renderer.transform.localScale.y : 0f;
             var scale = height > 0f && sprite.bounds.size.y > 0f ? height / sprite.bounds.size.y : 1f;
@@ -1277,9 +1162,7 @@ public static class RoleGuidePatches
             try
             {
                 if (__instance.MatchInfoParent.activeSelf && GameManager.Instance.TryCast<NormalGameManager>() != null)
-                {
                     Restore(__instance);
-                }
             }
             finally
             {
@@ -1321,10 +1204,7 @@ public static class RoleGuidePatches
         [HarmonyPostfix]
         public static void SetActiveTabPostfix(int tabIndex)
         {
-            if (_opening)
-            {
-                return;
-            }
+            if (_opening) return;
 
             _lastTab = tabIndex;
             _lastRole = null;
@@ -1367,17 +1247,12 @@ public static class RoleGuidePatches
         [HarmonyPriority(Priority.First + 100)]
         public static void OpenPrefix()
         {
-            if (!GameStartManager.InstanceExists || !GameStartManager.Instance.LobbyInfoPane)
-            {
-                return;
-            }
+            if (!GameStartManager.InstanceExists || !GameStartManager.Instance.LobbyInfoPane) return;
 
             var settingsView = GameStartManager.Instance.LobbyInfoPane.LobbyViewSettingsPane;
             // Its back button, as the player would close it.
             if (settingsView && settingsView.gameObject.activeSelf && settingsView.backButton)
-            {
                 settingsView.backButton.OnClick.Invoke();
-            }
         }
     }
 }

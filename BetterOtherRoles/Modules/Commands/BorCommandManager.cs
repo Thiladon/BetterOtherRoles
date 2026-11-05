@@ -42,10 +42,7 @@ public static class BorCommandManager
     public static bool SendChatPrefix(ChatController __instance)
     {
         var text = __instance.freeChatField.Text.Trim();
-        if (!text.StartsWith('/'))
-        {
-            return true;
-        }
+        if (!text.StartsWith('/')) return true;
 
         var space = text.IndexOfAny([' ', '\t']);
         var name = space < 0 ? text[1..] : text[1..space];

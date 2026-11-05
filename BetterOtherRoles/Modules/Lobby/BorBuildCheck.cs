@@ -65,16 +65,10 @@ public static class BorBuildCheck
     [MethodRpc((uint)BorRpc.BuildCheck)]
     public static void RpcSendBuild(PlayerControl player, string build)
     {
-        if (!player || !Guid.TryParse(build, out var guid))
-        {
-            return;
-        }
+        if (!player || !Guid.TryParse(build, out var guid)) return;
 
         Builds[player.OwnerId] = guid;
-        if (!AmongUsClient.Instance.AmHost || player.AmOwner || guid == LocalBuild)
-        {
-            return;
-        }
+        if (!AmongUsClient.Instance.AmHost || player.AmOwner || guid == LocalBuild) return;
 
         var name = player.Data?.PlayerName ?? "?";
         BorKick.Kick(player, "BetterOtherRoles.Lobby.Build.KickReason",
@@ -90,18 +84,13 @@ public static class BorBuildCheck
     public static bool BeginGamePrefix(GameStartManager __instance)
     {
         if (!AmongUsClient.Instance.AmHost || __instance.startState != GameStartManager.StartingStates.NotStarting)
-        {
             return true;
-        }
 
         var waiting = AmongUsClient.Instance.allClients.ToArray()
             .Where(x => x.Id != AmongUsClient.Instance.ClientId && x.Character && !Builds.ContainsKey(x.Id))
             .Select(x => x.PlayerName)
             .ToArray();
-        if (waiting.Length == 0)
-        {
-            return true;
-        }
+        if (waiting.Length == 0) return true;
 
         BorChat.AddSystemMessage(MiraLocaleManager.Get("BetterOtherRoles.Lobby.Build.Waiting", "Cannot start: waiting for the build of {0}.")
             .Replace("{0}", string.Join(", ", waiting)));

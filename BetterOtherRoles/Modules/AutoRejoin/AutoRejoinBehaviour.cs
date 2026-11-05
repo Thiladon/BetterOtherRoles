@@ -44,10 +44,7 @@ public sealed class AutoRejoinBehaviour(nint cppPtr) : MonoBehaviour(cppPtr)
         // The countdown starts with the "Quit" and "Play Again" buttons, not at the end of the game.
         if (!_counting)
         {
-            if (!_navigation!.PlayAgainButton || !_navigation.PlayAgainButton.gameObject.activeInHierarchy)
-            {
-                return;
-            }
+            if (!_navigation!.PlayAgainButton || !_navigation.PlayAgainButton.gameObject.activeInHierarchy) return;
 
             _counting = true;
             _timer = LocalSettingsTabSingleton<BorLocalSettingsTab>.Instance.AutoRejoinDelay.Value;
@@ -55,10 +52,7 @@ public sealed class AutoRejoinBehaviour(nint cppPtr) : MonoBehaviour(cppPtr)
         }
 
         _timer -= Time.unscaledDeltaTime;
-        if (_timer > 0f)
-        {
-            return;
-        }
+        if (_timer > 0f) return;
 
         enabled = false;
 
@@ -68,10 +62,7 @@ public sealed class AutoRejoinBehaviour(nint cppPtr) : MonoBehaviour(cppPtr)
 
     private void OnGUI()
     {
-        if (!enabled || !_counting)
-        {
-            return;
-        }
+        if (!enabled || !_counting) return;
 
         if (_style == null)
         {
@@ -91,9 +82,7 @@ public sealed class AutoRejoinBehaviour(nint cppPtr) : MonoBehaviour(cppPtr)
             MiraLocaleManager.Get("BetterOtherRoles.Lobby.AutoRejoinCountdown", "Rejoining in {0}s"),
             seconds);
         if (_gameCode.Length > 0)
-        {
             text += $" ({_gameCode})";
-        }
 
         var width = Screen.width * 0.7f;
         var rect = new Rect((Screen.width - width) / 2f, Screen.height - 80f, width, 44f);

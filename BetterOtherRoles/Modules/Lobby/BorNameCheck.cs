@@ -37,9 +37,7 @@ public static class BorNameCheck
     {
         if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost || __instance.AmOwner || string.IsNullOrEmpty(playerName) ||
             IsAllowed(playerName) || !Kicked.Add(__instance.OwnerId))
-        {
             return;
-        }
 
         // <noparse>: the tags are shown in the host's chat, not applied.
         var shown = $"<noparse>{playerName.Replace("</noparse>", string.Empty)}</noparse>";

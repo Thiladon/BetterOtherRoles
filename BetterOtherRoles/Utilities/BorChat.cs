@@ -15,16 +15,11 @@ public static class BorChat
     public static void AddSystemMessage(string message, PlayerControl? bubblePlayer = null)
     {
         var chat = HudManager.InstanceExists ? HudManager.Instance.Chat : null;
-        if (!chat)
-        {
-            return;
-        }
+        if (!chat) return;
 
         var text = $"<color={Color}>[BOR] : {message}</color>";
         chat!.AddChatWarning(text);
         if (bubblePlayer && !chat.IsOpenOrOpening && chat.chatNotification)
-        {
             chat.chatNotification.SetUp(bubblePlayer, text);
-        }
     }
 }

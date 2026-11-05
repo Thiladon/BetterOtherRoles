@@ -17,10 +17,7 @@ public static class BorSounds
 
     public static void Play(string name, float volume = 0.8f)
     {
-        if (!Constants.ShouldPlaySfx())
-        {
-            return;
-        }
+        if (!Constants.ShouldPlaySfx()) return;
 
         var clip = Get(name);
         if (clip)
@@ -32,16 +29,11 @@ public static class BorSounds
 
     private static AudioClip? Get(string name)
     {
-        if (Clips.TryGetValue(name, out var clip) && clip)
-        {
-            return clip;
-        }
+        if (Clips.TryGetValue(name, out var clip) && clip) return clip;
 
         clip = Load(name);
         if (clip)
-        {
             Clips[name] = clip!;
-        }
 
         return clip;
     }

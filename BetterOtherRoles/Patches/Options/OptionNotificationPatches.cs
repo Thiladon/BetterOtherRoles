@@ -76,10 +76,7 @@ public static class OptionNotificationPatches
             sprite = role.Configuration.IconTmp;
         }
 
-        if (owner == null)
-        {
-            return true;
-        }
+        if (owner == null) return true;
 
         var icon = sprite ? $"<sprite name=\"{sprite!.name}\">" : string.Empty;
         var message = translation.GetString(

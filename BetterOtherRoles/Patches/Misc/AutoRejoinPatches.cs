@@ -15,9 +15,7 @@ public static class AutoRejoinPatches
     public static void StartPostfix(EndGameManager __instance)
     {
         if (!AmongUsClient.Instance || TutorialManager.InstanceExists || !LocalSettingsTabSingleton<BorLocalSettingsTab>.Instance.AutoRejoin.Value)
-        {
             return;
-        }
 
         __instance.gameObject.AddComponent<AutoRejoinBehaviour>();
     }

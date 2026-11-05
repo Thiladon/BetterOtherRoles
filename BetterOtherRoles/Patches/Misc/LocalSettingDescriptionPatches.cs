@@ -26,9 +26,7 @@ public static class LocalSettingDescriptionPatches
     public static void Postfix(ref string __result)
     {
         if (__result != null && __result.StartsWith(KeyPrefix, StringComparison.Ordinal))
-        {
             __result = MiraLocaleManager.Get(__result, __result);
-        }
     }
 }
 
@@ -51,10 +49,7 @@ public static class LocalToggleTextFitPatches
         var toggle = __result.GetComponent<ToggleButtonBehaviour>();
         var text = __result.transform.Find("Text_TMP")?.GetComponent<TextMeshPro>();
         var button = __result.GetComponent<PassiveButton>();
-        if (__instance.Tab is not BorLocalSettingsTab || toggle == null || text == null || button == null)
-        {
-            return;
-        }
+        if (__instance.Tab is not BorLocalSettingsTab || toggle == null || text == null || button == null) return;
 
         var size = text.rectTransform.sizeDelta;
         var fontSize = text.fontSize;
@@ -74,9 +69,7 @@ public static class LocalToggleTextFitPatches
     {
         var width = size.x;
         if (toggle.Background && text.transform.lossyScale.x > 0f)
-        {
             width = Mathf.Max(width, toggle.Background.bounds.size.x / text.transform.lossyScale.x * InnerWidthRatio);
-        }
 
         text.rectTransform.sizeDelta = new Vector2(width, size.y);
         text.enableAutoSizing = false;

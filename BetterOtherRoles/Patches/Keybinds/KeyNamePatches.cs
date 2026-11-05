@@ -23,9 +23,7 @@ public static class KeyNamePatches
     public static void ElementMapNamePostfix(ActionElementMap actionElementMap, ref string __result)
     {
         if (actionElementMap?.controllerMap?.controllerType == ControllerType.Keyboard)
-        {
             __result = BorKeyNames.Localize(__result, actionElementMap.keyCode.ToString());
-        }
     }
 
     [HarmonyPostfix]
@@ -41,19 +39,14 @@ public static class KeyNamePatches
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
     public static void HudUpdatePostfix()
     {
-        if (ActiveInputManager.currentControlType != ActiveInputManager.InputType.Keyboard)
-        {
-            return;
-        }
+        if (ActiveInputManager.currentControlType != ActiveInputManager.InputType.Keyboard) return;
 
         if (VanillaKeybindIcons != null)
         {
             foreach (var (text, actionId) in VanillaKeybindIcons())
             {
                 if (text != null)
-                {
                     text.text = BorKeyNames.Get(MiraAPI.Keybinds.KeybindUtils.GetKeycodeByActionId(actionId).ToString());
-                }
             }
         }
 
@@ -63,9 +56,7 @@ public static class KeyNamePatches
             {
                 var text = button.KeybindIcon.transform.GetChild(0).GetComponent<TextMeshPro>();
                 if (text != null)
-                {
                     text.text = BorKeyNames.Get(keybind.CurrentKey.ToString());
-                }
             }
         }
     }

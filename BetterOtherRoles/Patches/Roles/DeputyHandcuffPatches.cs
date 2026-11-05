@@ -27,10 +27,7 @@ public static class DeputyHandcuffPatches
     [HarmonyPriority(Priority.First)]
     public static bool CustomButtonClickPrefix(CustomActionButton __instance)
     {
-        if (DeputyHandcuffs.IsLocalActive)
-        {
-            return false;
-        }
+        if (DeputyHandcuffs.IsLocalActive) return false;
 
         return !__instance.CanClick() || !DeputyHandcuffs.TryBlockLocalAction();
     }
@@ -42,9 +39,7 @@ public static class DeputyHandcuffPatches
     {
         if (!__instance.isActiveAndEnabled || !__instance.currentTarget || __instance.isCoolingDown ||
             !DeputyHandcuffs.TryBlockLocalAction())
-        {
             return true;
-        }
 
         // MiraAPI kills in its own DoClick prefix: without a target, it stops there too.
         __instance.SetTarget(null);
@@ -56,10 +51,7 @@ public static class DeputyHandcuffPatches
     [HarmonyPriority(Priority.First)]
     public static bool ReportButtonDoClickPrefix(ReportButton __instance)
     {
-        if (!__instance.isActiveAndEnabled || __instance.graphic.color != Palette.EnabledColor)
-        {
-            return true;
-        }
+        if (!__instance.isActiveAndEnabled || __instance.graphic.color != Palette.EnabledColor) return true;
 
         return !DeputyHandcuffs.TryBlockLocalAction();
     }
@@ -88,9 +80,7 @@ public static class DeputyHandcuffPatches
         foreach (var button in CustomButtonManager.Buttons)
         {
             if (button.Button)
-            {
                 yield return button.Button!;
-            }
         }
     }
 
@@ -101,10 +91,7 @@ public static class DeputyHandcuffPatches
 
         foreach (var button in GetLocalButtons(hud))
         {
-            if (!button || !button.isActiveAndEnabled || !button.graphic)
-            {
-                continue;
-            }
+            if (!button || !button.isActiveAndEnabled || !button.graphic) continue;
 
             if (!CuffedButtons.TryGetValue(button.Pointer, out var cuffed))
             {
@@ -118,13 +105,9 @@ public static class DeputyHandcuffPatches
 
             // The kill button keeps a lighter tint: give every button the material of the report button.
             if (hud.ReportButton && hud.ReportButton.graphic && button != hud.ReportButton)
-            {
                 button.graphic.sharedMaterial = hud.ReportButton.graphic.sharedMaterial;
-            }
             if (button.buttonLabelText)
-            {
                 button.buttonLabelText.enabled = false;
-            }
 
             // A cooldown at 0 for the display only (the kill button keeps a tint while its cooldown runs).
             // The real cooldowns are stored elsewhere: the game and MiraAPI show them again after the handcuff.
@@ -133,22 +116,16 @@ public static class DeputyHandcuffPatches
             TryUpdateButton(button, () =>
             {
                 if (button.cooldownTimerText)
-                {
                     button.SetCoolDown(0f, 1f);
-                }
 
                 button.SetEnabled();
             });
 
             if (button.cooldownTimerText)
-            {
                 button.cooldownTimerText.gameObject.SetActive(false);
-            }
 
             if (cuffed.Countdown)
-            {
                 cuffed.Countdown!.text = countdownText;
-            }
         }
     }
 
@@ -158,10 +135,7 @@ public static class DeputyHandcuffPatches
     private static TextMeshPro? CreateCountdown(HudManager hud, ActionButton button)
     {
         var source = hud.KillButton ? hud.KillButton.cooldownTimerText : null;
-        if (!source)
-        {
-            return null;
-        }
+        if (!source) return null;
 
         var countdown = UnityEngine.Object.Instantiate(source, button.transform);
         countdown!.name = "HandcuffCountdown";
@@ -177,10 +151,7 @@ public static class DeputyHandcuffPatches
     /// </summary>
     private static void TryUpdateButton(ActionButton button, Action update)
     {
-        if (FailingButtons.Contains(button.Pointer))
-        {
-            return;
-        }
+        if (FailingButtons.Contains(button.Pointer)) return;
 
         try
         {
@@ -199,15 +170,10 @@ public static class DeputyHandcuffPatches
         foreach (var cuffed in CuffedButtons.Values)
         {
             if (cuffed.Countdown)
-            {
                 UnityEngine.Object.Destroy(cuffed.Countdown!.gameObject);
-            }
 
             var button = cuffed.Button;
-            if (!button)
-            {
-                continue;
-            }
+            if (!button) continue;
 
             if (button.graphic)
             {
@@ -216,9 +182,7 @@ public static class DeputyHandcuffPatches
             }
 
             if (button.buttonLabelText)
-            {
                 button.buttonLabelText.enabled = true;
-            }
         }
 
         CuffedButtons.Clear();

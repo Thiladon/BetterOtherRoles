@@ -20,19 +20,14 @@ public static class LobbyViewVanillaRolesPatches
     public static void DrawRolesTabPrefix()
     {
         var roleManager = RoleManager.Instance;
-        if (!roleManager || roleManager.AllRoles == null)
-        {
-            return;
-        }
+        if (!roleManager || roleManager.AllRoles == null) return;
 
         _allRoles = roleManager.AllRoles;
         var vanillaRoles = new Il2CppSystem.Collections.Generic.List<RoleBehaviour>();
         foreach (var role in _allRoles)
         {
             if (!CustomRoleManager.GetCustomRoleBehaviour(role.Role, out _))
-            {
                 vanillaRoles.Add(role);
-            }
         }
 
         roleManager.AllRoles = vanillaRoles;
@@ -42,9 +37,7 @@ public static class LobbyViewVanillaRolesPatches
     public static void DrawRolesTabFinalizer()
     {
         if (_allRoles != null && RoleManager.Instance)
-        {
             RoleManager.Instance.AllRoles = _allRoles;
-        }
 
         _allRoles = null;
     }

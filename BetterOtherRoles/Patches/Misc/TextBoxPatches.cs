@@ -33,10 +33,7 @@ public static class TextBoxPatches
     /// <param name="box">The text box.</param>
     public static void AddCaret(TextBoxTMP box)
     {
-        if (box.Pipe || !box.outputText)
-        {
-            return;
-        }
+        if (box.Pipe || !box.outputText) return;
 
         // Written from the left, the caret starting at the left of the box.
         box.outputText.horizontalAlignment = HorizontalAlignmentOptions.Left;
@@ -62,9 +59,7 @@ public static class TextBoxPatches
     public static void FixCaret(TextBoxTMP box)
     {
         if (box && box.Pipe)
-        {
             CaretBoxes.Add(box.Pointer);
-        }
     }
 
     /// <summary>
@@ -76,10 +71,7 @@ public static class TextBoxPatches
     /// <param name="color">Its color.</param>
     public static void AddPlaceholder(TextBoxTMP box, string placeholder, Color color)
     {
-        if (!box.outputText || Placeholders.ContainsKey(box.Pointer))
-        {
-            return;
-        }
+        if (!box.outputText || Placeholders.ContainsKey(box.Pointer)) return;
 
         var text = Object.Instantiate(box.outputText, box.outputText.transform.parent);
         text.name = "BorPlaceholder";
@@ -91,10 +83,7 @@ public static class TextBoxPatches
 
     private static void RefreshPlaceholder(TextBoxTMP box)
     {
-        if (!Placeholders.TryGetValue(box.Pointer, out var placeholder))
-        {
-            return;
-        }
+        if (!Placeholders.TryGetValue(box.Pointer, out var placeholder)) return;
 
         if (!placeholder)
         {
@@ -104,9 +93,7 @@ public static class TextBoxPatches
 
         var shown = !box.hasFocus && string.IsNullOrEmpty(box.text);
         if (placeholder.gameObject.activeSelf != shown)
-        {
             placeholder.gameObject.SetActive(shown);
-        }
     }
 
     // The game puts the caret 0.01 before the right edge of the character before it, which is close to its left edge
@@ -132,10 +119,7 @@ public static class TextBoxPatches
     {
         var text = box.outputText;
         var pipe = box.Pipe;
-        if (!text || !pipe || !CaretBoxes.Contains(box.Pointer))
-        {
-            return;
-        }
+        if (!text || !pipe || !CaretBoxes.Contains(box.Pointer)) return;
 
         // Height: the game puts the caret at its caret offset when the box has text, but higher or lower when it is
         // empty, and without the offset of the text (raised in the role guide search). Always the caret offset, plus the

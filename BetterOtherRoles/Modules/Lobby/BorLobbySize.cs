@@ -32,27 +32,18 @@ public static class BorLobbySize
     {
         if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost || !PlayerControl.LocalPlayer ||
             GameOptionsManager.Instance == null)
-        {
             return;
-        }
 
         var options = GameOptionsManager.Instance.CurrentGameOptions;
-        if (options.MaxPlayers == size)
-        {
-            return;
-        }
+        if (options.MaxPlayers == size) return;
 
         options.SetInt(Int32OptionNames.MaxPlayers, size);
         if (GameManager.Instance)
-        {
             GameManager.Instance.LogicOptions.SyncOptions();
-        }
 
         // The player counter is only rewritten when the player count changes: force it.
         if (GameStartManager.InstanceExists)
-        {
             GameStartManager.Instance.LastPlayerCount = -1;
-        }
     }
 
     // ---------------------------------------------------------------------------------------------------------------
@@ -105,16 +96,11 @@ public static class BorLobbySize
     {
         if (!__instance.AmHost || __instance.NetworkMode != NetworkModes.OnlineGame ||
             __instance.GameState == InnerNetClient.GameStates.Started)
-        {
             return true;
-        }
 
         // allClients already holds the new player.
         var size = (int)OptionGroupSingleton<LobbyOptions>.Instance.MaxPlayers.Value;
-        if (__instance.allClients.Count <= size)
-        {
-            return true;
-        }
+        if (__instance.allClients.Count <= size) return true;
 
         Info($"Lobby full ({size} players): {client.PlayerName} refused.");
         RemoveAsGameFull(__instance, client.Id);

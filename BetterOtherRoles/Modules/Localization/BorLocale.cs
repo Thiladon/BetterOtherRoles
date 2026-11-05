@@ -35,9 +35,7 @@ public static class BorLocale
         foreach (var button in CustomButtonManager.Buttons)
         {
             if (button.Button != null && button.GetType().Assembly == typeof(BorLocale).Assembly)
-            {
                 button.OverrideName(button.Name.ToUpperInvariant());
-            }
         }
     }
 }

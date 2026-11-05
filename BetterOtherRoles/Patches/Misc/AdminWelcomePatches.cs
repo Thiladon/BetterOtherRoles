@@ -21,9 +21,7 @@ public static class AdminWelcomePatches
     public static void StartPostfix()
     {
         if (BorAdmin.IsAdmin)
-        {
             Coroutines.Start(CoWelcome());
-        }
     }
 
     // The local player, its name and the chat are not ready yet when the lobby starts.
@@ -32,19 +30,13 @@ public static class AdminWelcomePatches
         while (!PlayerControl.LocalPlayer || PlayerControl.LocalPlayer.Data == null || string.IsNullOrEmpty(PlayerControl.LocalPlayer.Data.PlayerName) ||
                !HudManager.InstanceExists || !HudManager.Instance.Chat)
         {
-            if (!LobbyBehaviour.Instance)
-            {
-                yield break;
-            }
+            if (!LobbyBehaviour.Instance) yield break;
 
             yield return null;
         }
 
         var gameId = AmongUsClient.Instance.GameId;
-        if (_welcomedGameId == gameId)
-        {
-            yield break;
-        }
+        if (_welcomedGameId == gameId) yield break;
 
         _welcomedGameId = gameId;
         ShowWelcome(PlayerControl.LocalPlayer);

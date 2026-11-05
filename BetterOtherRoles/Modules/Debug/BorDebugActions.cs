@@ -74,10 +74,7 @@ public static class BorDebugActions
     public static void StartMeeting()
     {
         var host = PlayerControl.LocalPlayer;
-        if (MeetingHud.Instance || ExileController.Instance || host.Data.IsDead)
-        {
-            return;
-        }
+        if (MeetingHud.Instance || ExileController.Instance || host.Data.IsDead) return;
 
         MeetingRoomManager.Instance.AssignSelf(host, null);
         HudManager.Instance.OpenMeetingRoom(host);
@@ -103,9 +100,7 @@ public static class BorDebugActions
     public static void RpcTeleport(this PlayerControl player, Vector2 position)
     {
         if (player && player.AmOwner && player.NetTransform)
-        {
             player.NetTransform.RpcSnapTo(position);
-        }
     }
 
     /// <summary>
@@ -116,20 +111,12 @@ public static class BorDebugActions
     [MethodRpc((uint)BorRpc.ResetCooldowns)]
     public static void RpcResetCooldowns(this PlayerControl player)
     {
-        if (!player || player.Data?.Role == null)
-        {
-            return;
-        }
+        if (!player || player.Data?.Role == null) return;
 
         if (player.Data.Role.IsImpostor)
-        {
             ResetSabotages();
-        }
 
-        if (!player.AmOwner)
-        {
-            return;
-        }
+        if (!player.AmOwner) return;
 
         foreach (var button in CustomButtonManager.Buttons.Where(x => x.Enabled(player.Data.Role)))
         {
@@ -137,9 +124,7 @@ public static class BorDebugActions
         }
 
         if (player.Data.Role.CanUseKillButton)
-        {
             player.SetKillTimer(0f);
-        }
     }
 
     /// <summary>
@@ -150,17 +135,12 @@ public static class BorDebugActions
     [MethodRpc((uint)BorRpc.Revive)]
     public static void RpcRevive(this PlayerControl player)
     {
-        if (!player || player.Data == null || !player.Data.IsDead)
-        {
-            return;
-        }
+        if (!player || player.Data == null || !player.Data.IsDead) return;
 
         var body = UnityEngine.Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x => x.ParentId == player.PlayerId);
         Vector2? position = body ? body!.TruePosition : null;
         if (body)
-        {
             UnityEngine.Object.Destroy(body!.gameObject);
-        }
 
         // RoleWhenAlive of the game reads as Crewmate through Il2Cpp: our own record (impostor or crewmate by default).
         var role = AliveRolePatches.Get(player) ??
@@ -177,18 +157,14 @@ public static class BorDebugActions
             player.transform.position = new Vector3(place.x, place.y, player.transform.position.z);
             player.MyPhysics.body.position = place;
             if (!player.AmOwner && player.NetTransform)
-            {
                 player.NetTransform.SnapTo(place);
-            }
 
             Physics2D.SyncTransforms();
         }
 
         // Back alive: no chat in game (the host in test mode gets it back).
         if (player.AmOwner && HudManager.Instance && !MeetingHud.Instance)
-        {
             HudManager.Instance.Chat.SetVisible(false);
-        }
     }
 
     // The text given at death ("You're dead, finish your tasks", "You're dead. You can still sabotage"...) stays after
@@ -213,20 +189,12 @@ public static class BorDebugActions
     // Sabotage cooldown, and door cooldowns: by door (The Skeld, dlekS) or by room (other maps).
     private static void ResetSabotages()
     {
-        if (!ShipStatus.Instance)
-        {
-            return;
-        }
+        if (!ShipStatus.Instance) return;
 
         if (ShipStatus.Instance.Systems.TryGetValue(SystemTypes.Sabotage, out var sabotage))
-        {
             sabotage.Cast<SabotageSystemType>().Timer = 0f;
-        }
 
-        if (!ShipStatus.Instance.Systems.TryGetValue(SystemTypes.Doors, out var doors))
-        {
-            return;
-        }
+        if (!ShipStatus.Instance.Systems.TryGetValue(SystemTypes.Doors, out var doors)) return;
 
         var autoDoors = doors.TryCast<AutoDoorsSystemType>();
         if (autoDoors != null)
@@ -236,9 +204,7 @@ public static class BorDebugActions
             {
                 var autoDoor = door ? door.TryCast<AutoOpenDoor>() : null;
                 if (autoDoor)
-                {
                     autoDoor!.CooldownTimer = 0f;
-                }
             }
         }
 

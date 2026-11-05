@@ -83,9 +83,7 @@ public static class BorRoleListSelector
     public static int GetImpostorCount(int players)
     {
         if (_impostorCountFrame == UnityEngine.Time.frameCount && _impostorCountPlayers == players)
-        {
             return _impostorCount;
-        }
 
         var slots = GetSlots(players);
         var impostors = slots.Count(IsImpostorSlot);
@@ -96,9 +94,7 @@ public static class BorRoleListSelector
             for (var i = 0; i < anySlots; i++)
             {
                 if (BorRoleSelector.NextInt(100) < chance)
-                {
                     impostors++;
-                }
 
                 chance += 3;
             }
@@ -136,9 +132,7 @@ public static class BorRoleListSelector
                 {
                     // Nothing left in this category: the broader one, or the plain role.
                     if (fallback is { } broader)
-                    {
                         slots.Add(broader);
-                    }
 
                     continue;
                 }
@@ -185,10 +179,7 @@ public static class BorRoleListSelector
         while (impostors + slots.Count(x => x == RoleListSlot.Any) < impostorCount && slots.Count > 0)
         {
             var index = RandomIndex(slots, x => !IsImpostorSlot(x) && x != RoleListSlot.Any);
-            if (index < 0)
-            {
-                break;
-            }
+            if (index < 0) break;
 
             slots[index] = RoleListSlot.ImpostorRandom;
             impostors++;
@@ -199,9 +190,7 @@ public static class BorRoleListSelector
         {
             slots[any] = impostors < impostorCount ? RoleListSlot.ImpostorRandom : RoleListSlot.NonImpostor;
             if (slots[any] == RoleListSlot.ImpostorRandom)
-            {
                 impostors++;
-            }
         }
     }
 
@@ -212,9 +201,7 @@ public static class BorRoleListSelector
     private static void EnsureCrewmateOrKiller(List<RoleListSlot> slots)
     {
         if (slots.Any(x => x is >= RoleListSlot.CrewInvestigative and <= RoleListSlot.CrewRandom or RoleListSlot.NeutralKilling))
-        {
             return;
-        }
 
         var index = slots.IndexOf(RoleListSlot.NeutralRandom);
         if (index >= 0)
@@ -225,14 +212,10 @@ public static class BorRoleListSelector
 
         index = slots.IndexOf(RoleListSlot.NonImpostor);
         if (index < 0)
-        {
             index = RandomIndex(slots, x => !IsImpostorSlot(x));
-        }
 
         if (index >= 0)
-        {
             slots[index] = BorRoleSelector.NextInt(2) == 0 ? RoleListSlot.CrewRandom : RoleListSlot.NeutralKilling;
-        }
     }
 
     // One entry per role count: the mod roles that can spawn, with a chance above 0.
@@ -242,16 +225,10 @@ public static class BorRoleListSelector
         var roles = new List<(ushort RoleId, int Chance, BorRoleAlignment Alignment)>();
         foreach (var role in CustomRoleManager.CustomRoleBehaviours)
         {
-            if (role is not IBorRole borRole || role.IsDead || !CustomRoleUtils.CanSpawnOnCurrentMode(role))
-            {
-                continue;
-            }
+            if (role is not IBorRole borRole || role.IsDead || !CustomRoleUtils.CanSpawnOnCurrentMode(role)) continue;
 
             var chance = roleOptions.GetChancePerGame(role.Role);
-            if (chance <= 0)
-            {
-                continue;
-            }
+            if (chance <= 0) continue;
 
             for (var i = 0; i < roleOptions.GetNumPerGame(role.Role); i++)
             {
@@ -302,19 +279,13 @@ public static class BorRoleListSelector
     private static (ushort RoleId, int Chance, BorRoleAlignment Alignment) Draw(List<(ushort RoleId, int Chance, BorRoleAlignment Alignment)> candidates)
     {
         var ensured = candidates.Where(x => x.Chance >= 100).ToList();
-        if (ensured.Count > 0)
-        {
-            return ensured[BorRoleSelector.NextInt(ensured.Count)];
-        }
+        if (ensured.Count > 0) return ensured[BorRoleSelector.NextInt(ensured.Count)];
 
         var draw = BorRoleSelector.NextInt(candidates.Sum(x => x.Chance));
         foreach (var candidate in candidates)
         {
             draw -= candidate.Chance;
-            if (draw < 0)
-            {
-                return candidate;
-            }
+            if (draw < 0) return candidate;
         }
 
         return candidates[^1];
@@ -323,10 +294,7 @@ public static class BorRoleListSelector
     // The roles that cannot be with the chosen one are never drawn afterwards.
     private static void Block(List<(ushort RoleId, int Chance, BorRoleAlignment Alignment)> available, ushort roleId)
     {
-        if (BorRoleSelector.GetModRole(roleId) is not { } role)
-        {
-            return;
-        }
+        if (BorRoleSelector.GetModRole(roleId) is not { } role) return;
 
         available.RemoveAll(x => x.RoleId != roleId && BorRoleSelector.GetModRole(x.RoleId) is { } other && BorRoleSelector.AreExclusive(role, other));
     }
@@ -340,16 +308,11 @@ public static class BorRoleListSelector
         if (BorRoleSelector.GetModRole(roleId) is not IHasDependentRole { DependentRoleId: { } dependentId } mainRole ||
             mainRole.DependentRoleChance <= 0 || BorRoleSelector.GetModRole(dependentId) is not { } dependent ||
             dependent.IsImpostor || BorRoleSelector.NextInt(100) >= mainRole.DependentRoleChance)
-        {
             return;
-        }
 
         // A role exclusive with the dependent one is already in the game.
         var chosen = crewmateRoles.Select(BorRoleSelector.GetModRole).Where(x => x != null);
-        if (chosen.Any(x => x != null && BorRoleSelector.AreExclusive(dependent, x)))
-        {
-            return;
-        }
+        if (chosen.Any(x => x != null && BorRoleSelector.AreExclusive(dependent, x))) return;
 
         foreach (var slot in DependentSlots)
         {

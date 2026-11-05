@@ -23,10 +23,7 @@ public static class LobbyViewRolesScrollPatches
         var lowestY = float.MaxValue;
         foreach (var info in __instance.settingsInfo)
         {
-            if (!info)
-            {
-                continue;
-            }
+            if (!info) continue;
 
             foreach (var child in info.GetComponentsInChildren<Transform>())
             {
@@ -34,15 +31,10 @@ public static class LobbyViewRolesScrollPatches
             }
         }
 
-        if (lowestY == float.MaxValue)
-        {
-            return;
-        }
+        if (lowestY == float.MaxValue) return;
 
         var bound = BottomMargin - lowestY;
         if (bound > __instance.scrollBar.ContentYBounds.max)
-        {
             __instance.scrollBar.SetYBoundsMax(bound);
-        }
     }
 }

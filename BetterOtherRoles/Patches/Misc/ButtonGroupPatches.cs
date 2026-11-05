@@ -32,16 +32,10 @@ public static class ButtonGroupPatches
     [HarmonyPostfix]
     public static void UpdatePostfix(HudManager __instance)
     {
-        if (!__instance.SettingsButton)
-        {
-            return;
-        }
+        if (!__instance.SettingsButton) return;
 
         var container = __instance.SettingsButton.transform.parent;
-        if (!container)
-        {
-            return;
-        }
+        if (!container) return;
 
         var layout = GetLayout(container);
         if (layout != _lastLayout || !_frame)
@@ -56,9 +50,7 @@ public static class ButtonGroupPatches
         foreach (var panel in HiddenPanels)
         {
             if (panel && panel.enabled)
-            {
                 panel.enabled = false;
-            }
         }
     }
 
@@ -72,10 +64,7 @@ public static class ButtonGroupPatches
         public static void Postfix(GridArrange __instance)
         {
             var hud = HudManager.InstanceExists ? HudManager.Instance : null;
-            if (!hud || !hud!.SettingsButton || hud.SettingsButton.transform.parent != __instance.transform)
-            {
-                return;
-            }
+            if (!hud || !hud!.SettingsButton || hud.SettingsButton.transform.parent != __instance.transform) return;
 
             Rebuild(__instance.transform, hud.SettingsButton.transform);
             _lastLayout = GetLayout(__instance.transform);
@@ -105,16 +94,11 @@ public static class ButtonGroupPatches
         for (var i = 0; i < container.childCount; i++)
         {
             var child = container.GetChild(i);
-            if (!child.gameObject.activeSelf || child.localPosition.x > settings.localPosition.x + 0.01f)
-            {
-                continue;
-            }
+            if (!child.gameObject.activeSelf || child.localPosition.x > settings.localPosition.x + 0.01f) continue;
 
             var panel = FindPanel(child);
             if (panel)
-            {
                 buttons.Add((child, panel!));
-            }
         }
 
         // From the settings to the left: each button moves closer to the previous one.
@@ -131,17 +115,13 @@ public static class ButtonGroupPatches
         foreach (var panel in HiddenPanels)
         {
             if (panel && !members.Contains(panel))
-            {
                 panel.enabled = true;
-            }
         }
 
         HiddenPanels.Clear();
 
         if (!_frame)
-        {
             _frame = CreateFrame(container);
-        }
 
         if (members.Count == 0 || KillOverlayHudPatches.IsMeetingAnimation)
         {
@@ -169,9 +149,7 @@ public static class ButtonGroupPatches
 
         var source = members[0];
         if (!_frameSprite)
-        {
             _frameSprite = BorSpriteUtils.ToSliced(source.sprite, new Vector4(PanelBorder, 0f, PanelBorder, 0f));
-        }
 
 
         var frame = _frame!;
@@ -205,9 +183,7 @@ public static class ButtonGroupPatches
         {
             var renderer = button.GetChild(i).GetComponent<SpriteRenderer>();
             if (renderer && renderer.sprite && renderer.sprite.name.StartsWith(PanelSpritePrefix, StringComparison.Ordinal))
-            {
                 return renderer;
-            }
         }
 
         return null;

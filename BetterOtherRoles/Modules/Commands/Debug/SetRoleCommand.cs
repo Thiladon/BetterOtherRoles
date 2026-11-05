@@ -24,10 +24,7 @@ public sealed class SetRoleCommand : BorCommand
     /// <returns>The name typed in the command.</returns>
     public static string GetCommandName(RoleBehaviour role)
     {
-        if (role is not ICustomRole)
-        {
-            return role.Role.ToString();
-        }
+        if (role is not ICustomRole) return role.Role.ToString();
 
         var typeName = role.GetIl2CppType().Name;
         return typeName.EndsWith("Role", StringComparison.Ordinal) ? typeName[..^4] : typeName;

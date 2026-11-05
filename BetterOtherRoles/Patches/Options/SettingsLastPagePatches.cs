@@ -34,10 +34,7 @@ public static class SettingsLastPagePatches
     public static void ChangeTabPostfix(MenuState __instance, int tabNum, bool previewOnly)
     {
         // Default tab of the instantiation by ClickEdit (no parent yet) or of the opening: not chosen by the player.
-        if (previewOnly || IsOpening || !AmongUsClient.Instance || !__instance.transform.parent)
-        {
-            return;
-        }
+        if (previewOnly || IsOpening || !AmongUsClient.Instance || !__instance.transform.parent) return;
 
         _modIndex = __instance.CurrentModIdx;
         _menu = (MenuCategory)tabNum;
@@ -64,10 +61,7 @@ public static class SettingsLastPagePatches
     public static void OnEnablePrefix(GameSettingMenu __instance)
     {
         // Instantiation by ClickEdit: not shown yet.
-        if (IsOpening || !AmongUsClient.Instance || !__instance.transform.parent)
-        {
-            return;
-        }
+        if (IsOpening || !AmongUsClient.Instance || !__instance.transform.parent) return;
 
         var restore = _modIndex != 0 || _menu != MenuCategory.Preset;
         var hider = __instance.gameObject.GetComponent<SettingsMenuHider>() ?? __instance.gameObject.AddComponent<SettingsMenuHider>();
@@ -80,10 +74,7 @@ public static class SettingsLastPagePatches
     internal static void Restore(GameSettingMenu menu, int modIndex, MenuCategory page)
     {
         var state = MenuState.Instance;
-        if (!state)
-        {
-            return;
-        }
+        if (!state) return;
 
         for (var i = 0; i <= MenuState.ModCount && state.CurrentModIdx != modIndex; i++)
         {
@@ -179,9 +170,7 @@ public sealed class SettingsMenuHider(nint cppPtr) : MonoBehaviour(cppPtr)
 
         // The game may place the menu while it opens: keep its place.
         if (transform.localPosition != _position + HiddenOffset)
-        {
             _position = transform.localPosition;
-        }
 
         _frame++;
         if (_frame == RestoreFrame && _restore)
@@ -243,15 +232,11 @@ public sealed class SettingsMenuHider(nint cppPtr) : MonoBehaviour(cppPtr)
         foreach (var (part, position) in _sliding)
         {
             if (part)
-            {
                 part.localPosition = position + new Vector3(offset, 0f, 0f);
-            }
         }
 
         if (progress >= 1f)
-        {
             Show();
-        }
     }
 
     // Places relative to the menu, the same once it is moved back.
@@ -272,9 +257,7 @@ public sealed class SettingsMenuHider(nint cppPtr) : MonoBehaviour(cppPtr)
     private void OnDisable()
     {
         if (_hiding || _slideTime >= 0f)
-        {
             Show();
-        }
     }
 
     private void Show()
@@ -286,9 +269,7 @@ public sealed class SettingsMenuHider(nint cppPtr) : MonoBehaviour(cppPtr)
         foreach (var (part, position) in _sliding)
         {
             if (part)
-            {
                 part.localPosition = position;
-            }
         }
 
         _sliding.Clear();

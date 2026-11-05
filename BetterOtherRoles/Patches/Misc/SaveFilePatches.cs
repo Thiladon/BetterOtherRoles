@@ -66,9 +66,7 @@ public static class SaveFilePatches
     public static void SettingsFileNamePostfix(ref string __result)
     {
         if (__result == VanillaSettings)
-        {
             __result = BorSettings;
-        }
     }
 
     [HarmonyPatch(typeof(PlayerData), nameof(PlayerData.FileName), MethodType.Getter)]
@@ -76,9 +74,7 @@ public static class SaveFilePatches
     public static void PlayerFileNamePostfix(ref string __result)
     {
         if (__result == VanillaPlayer)
-        {
             __result = BorPlayer;
-        }
     }
 
     [HarmonyPatch(typeof(ServerManager), nameof(ServerManager.LoadServers))]
@@ -88,18 +84,13 @@ public static class SaveFilePatches
     {
         var path = __instance.serverInfoFileJson;
         if (!string.IsNullOrEmpty(path) && Path.GetFileName(path) == VanillaRegions)
-        {
             __instance.serverInfoFileJson = Path.Combine(Path.GetDirectoryName(path) ?? string.Empty, BorRegions);
-        }
     }
 
     // Only a file the game wrote as valid JSON is copied: otherwise the game starts from its default values.
     private static void CopyOnce(string source, string destination)
     {
-        if (File.Exists(destination) || !File.Exists(source))
-        {
-            return;
-        }
+        if (File.Exists(destination) || !File.Exists(source)) return;
 
         try
         {

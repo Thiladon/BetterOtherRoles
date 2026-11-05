@@ -33,9 +33,7 @@ public static class NameColorPatches
     public static void MeetingHudUpdatePostfix(MeetingHud __instance)
     {
         if (_coloredMeetingId == __instance.GetInstanceID() || __instance.playerStates == null || __instance.playerStates.Length == 0)
-        {
             return;
-        }
 
         _coloredMeetingId = __instance.GetInstanceID();
         Refresh();
@@ -44,19 +42,13 @@ public static class NameColorPatches
     public static void Refresh()
     {
         var localRole = PlayerControl.LocalPlayer ? PlayerControl.LocalPlayer.Data?.Role : null;
-        if (!AmongUsClient.Instance.IsGameStarted || !localRole)
-        {
-            return;
-        }
+        if (!AmongUsClient.Instance.IsGameStarted || !localRole) return;
 
         var amImpostor = localRole!.IsImpostor;
         foreach (var player in PlayerControl.AllPlayerControls)
         {
             var role = player ? player.Data?.Role : null;
-            if (!role)
-            {
-                continue;
-            }
+            if (!role) continue;
 
             var color = amImpostor && role!.IsImpostor ? Palette.ImpostorRed : Color.white;
             if (player.AmOwner)
@@ -78,20 +70,14 @@ public static class NameColorPatches
     private static bool KnowsEachOther(RoleBehaviour localRole, RoleBehaviour otherRole)
     {
         var options = OptionGroupSingleton<SheriffOptions>.Instance;
-        if (!options.HasDeputy || !options.DeputyKnowsSheriff.Value)
-        {
-            return false;
-        }
+        if (!options.HasDeputy || !options.DeputyKnowsSheriff.Value) return false;
 
         return (localRole is SheriffRole && otherRole is DeputyRole) || (localRole is DeputyRole && otherRole is SheriffRole);
     }
 
     private static Color GetRoleColor(RoleBehaviour role)
     {
-        if (role is ICustomRole customRole)
-        {
-            return customRole.RoleColor;
-        }
+        if (role is ICustomRole customRole) return customRole.RoleColor;
 
         return role.IsImpostor ? Palette.ImpostorRed : Color.white;
     }
@@ -100,17 +86,12 @@ public static class NameColorPatches
     {
         player.cosmetics.nameText.color = color;
 
-        if (!MeetingHud.Instance)
-        {
-            return;
-        }
+        if (!MeetingHud.Instance) return;
 
         foreach (var voteArea in MeetingHud.Instance.playerStates)
         {
             if (voteArea.PlayerId == player.PlayerId && voteArea.NameText)
-            {
                 voteArea.NameText.color = color;
-            }
         }
     }
 }

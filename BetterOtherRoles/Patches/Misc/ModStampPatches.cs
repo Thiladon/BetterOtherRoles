@@ -15,15 +15,10 @@ public static class ModStampPatches
     [HarmonyPostfix]
     public static void LateUpdatePostfix(ModManager __instance)
     {
-        if (!__instance.ModStamp)
-        {
-            return;
-        }
+        if (!__instance.ModStamp) return;
 
         var visible = SceneManager.GetActiveScene().name == MainMenuScene;
         if (__instance.ModStamp.gameObject.activeSelf != visible)
-        {
             __instance.ModStamp.gameObject.SetActive(visible);
-        }
     }
 }

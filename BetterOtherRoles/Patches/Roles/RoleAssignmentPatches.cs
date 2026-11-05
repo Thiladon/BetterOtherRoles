@@ -126,10 +126,7 @@ public static class RoleAssignmentPatches
             while (infected.Count < impostorCount)
             {
                 var candidates = players.Where(x => !infected.Contains(x)).ToList();
-                if (candidates.Count == 0)
-                {
-                    break;
-                }
+                if (candidates.Count == 0) break;
 
                 // Only last game impostors left: no more skipping.
                 if (candidates.All(x => _lastImpostors.Contains(x.ClientId)))
@@ -139,10 +136,7 @@ public static class RoleAssignmentPatches
                 }
 
                 var player = candidates[BorRoleSelector.NextInt(candidates.Count)];
-                if (_lastImpostors.Contains(player.ClientId) && BorRoleSelector.NextDouble() < skipChance)
-                {
-                    continue;
-                }
+                if (_lastImpostors.Contains(player.ClientId) && BorRoleSelector.NextDouble() < skipChance) continue;
 
                 infected.Add(player);
             }
@@ -165,10 +159,7 @@ public static class RoleAssignmentPatches
 
         foreach (var roleId in roles)
         {
-            if (players.Count == 0)
-            {
-                break;
-            }
+            if (players.Count == 0) break;
 
             var index = BorRoleSelector.NextInt(players.Count);
             var player = players[index];
@@ -192,10 +183,7 @@ public static class RoleAssignmentPatches
     [HarmonyPostfix]
     public static void GetAdjustedNumImpostorsPostfix(IGameOptions __0, int __1, ref int __result)
     {
-        if (GameManager.Instance && GameManager.Instance.IsHideAndSeek())
-        {
-            return;
-        }
+        if (GameManager.Instance && GameManager.Instance.IsHideAndSeek()) return;
 
         if (RoleAssignmentOptions.IsRoleList)
         {
@@ -242,8 +230,6 @@ public static class VanillaRolesPatch
     {
         var isModRole = CustomRoleManager.GetCustomRoleBehaviour(role, out _);
         if (isModRole ? RoleAssignmentPatches.IsSelectingVanillaRolesOnly : AreVanillaRolesDisabled)
-        {
             __result = 0;
-        }
     }
 }

@@ -63,10 +63,7 @@ public static class BorPresets
         foreach (var name in GetPresetNames())
         {
             var lower = ToPresetName(name);
-            if (lower == name || name.Equals(DefaultName, StringComparison.OrdinalIgnoreCase))
-            {
-                continue;
-            }
+            if (lower == name || name.Equals(DefaultName, StringComparison.OrdinalIgnoreCase)) continue;
 
             try
             {
@@ -74,9 +71,7 @@ public static class BorPresets
                 File.Move(GetPath(name), temporary);
                 File.Move(temporary, GetPath(lower));
                 if (ActivePreset == name)
-                {
                     SetActive(lower);
-                }
             }
             catch (IOException e)
             {
@@ -91,9 +86,7 @@ public static class BorPresets
     public static void SetActive(string name)
     {
         if (_activePreset != null && _activePreset.Value != name)
-        {
             _activePreset.Value = name;
-        }
     }
 
     /// <summary>
@@ -119,9 +112,7 @@ public static class BorPresets
         Directory.CreateDirectory(Folder);
         var path = GetPath(name);
         if (File.Exists(path))
-        {
             File.Delete(path);
-        }
 
         var config = new ConfigFile(path, false) { SaveOnConfigSet = false };
         WriteCurrent(config);
@@ -134,21 +125,14 @@ public static class BorPresets
     /// </summary>
     public static void Delete(string name)
     {
-        if (name == DefaultName)
-        {
-            return;
-        }
+        if (name == DefaultName) return;
 
         var path = GetPath(name);
         if (File.Exists(path))
-        {
             File.Delete(path);
-        }
 
         if (ActivePreset == name)
-        {
             SetActive(string.Empty);
-        }
     }
 
     /// <summary>
@@ -156,16 +140,11 @@ public static class BorPresets
     /// </summary>
     public static void Rename(string name, string newName)
     {
-        if (name == DefaultName || !IsFreeName(newName) || !File.Exists(GetPath(name)))
-        {
-            return;
-        }
+        if (name == DefaultName || !IsFreeName(newName) || !File.Exists(GetPath(name))) return;
 
         File.Move(GetPath(name), GetPath(newName));
         if (ActivePreset == name)
-        {
             SetActive(newName);
-        }
     }
 
     /// <summary>
@@ -210,10 +189,7 @@ public static class BorPresets
         {
             var current = GetCurrentValues();
             name = presets.FirstOrDefault(x => Differs(current, x) == false) ?? string.Empty;
-            if (name.Length == 0)
-            {
-                return false;
-            }
+            if (name.Length == 0) return false;
 
             SetActive(name);
             return true;
@@ -229,19 +205,14 @@ public static class BorPresets
     public static void ApplyVanilla(ConfigFile preset)
     {
         var options = GameOptionsManager.Instance?.CurrentGameOptions;
-        if (options == null)
-        {
-            return;
-        }
+        if (options == null) return;
 
         var values = ReadValues(preset.ConfigFilePath);
         var any = false;
         foreach (var (key, setting) in GetVanillaSettings())
         {
             if (values.TryGetValue($"{VanillaSection}.{key}", out var value))
-            {
                 any |= SetVanilla(options, setting, value);
-            }
         }
 
         if (any && GameManager.Instance && GameManager.Instance.LogicOptions != null)
@@ -289,10 +260,7 @@ public static class BorPresets
         name = string.Empty;
         values = string.Empty;
         code = code?.Trim() ?? string.Empty;
-        if (!code.StartsWith(CodePrefix, StringComparison.Ordinal))
-        {
-            return false;
-        }
+        if (!code.StartsWith(CodePrefix, StringComparison.Ordinal)) return false;
 
         string text;
         try
@@ -309,10 +277,7 @@ public static class BorPresets
             return false;
         }
 
-        if (!text.StartsWith(NameLine, StringComparison.Ordinal) || !text.Contains('['))
-        {
-            return false;
-        }
+        if (!text.StartsWith(NameLine, StringComparison.Ordinal) || !text.Contains('[')) return false;
 
         var end = text.IndexOf('\n');
         name = text[NameLine.Length..end].Trim();
@@ -329,10 +294,7 @@ public static class BorPresets
     public static void Import(string values, string name)
     {
         var plugin = Plugin;
-        if (plugin == null)
-        {
-            return;
-        }
+        if (plugin == null) return;
 
         // Loaded as a preset file, so MiraAPI applies and sends it.
         var path = Path.Combine(Path.GetTempPath(), "BorPresetImport.cfg");
@@ -395,18 +357,13 @@ public static class BorPresets
         }
 
         var options = GameOptionsManager.Instance?.CurrentGameOptions;
-        if (options == null)
-        {
-            return;
-        }
+        if (options == null) return;
 
         foreach (var (key, setting) in GetVanillaSettings())
         {
             var value = GetVanilla(options, setting);
             if (value != null)
-            {
                 config.Bind(VanillaSection, key, value).Value = value;
-            }
         }
     }
 
@@ -415,10 +372,7 @@ public static class BorPresets
     private static bool? Differs(Dictionary<string, string> current, string preset)
     {
         var path = GetPath(preset);
-        if (!File.Exists(path))
-        {
-            return null;
-        }
+        if (!File.Exists(path)) return null;
 
         var saved = ReadValues(path);
         return saved.Any(x => current.TryGetValue(x.Key, out var value) && value != x.Value);
@@ -440,19 +394,13 @@ public static class BorPresets
     private static Dictionary<string, string> ReadValues(string path)
     {
         var values = new Dictionary<string, string>();
-        if (!File.Exists(path))
-        {
-            return values;
-        }
+        if (!File.Exists(path)) return values;
 
         var section = string.Empty;
         foreach (var raw in File.ReadAllLines(path))
         {
             var line = raw.Trim();
-            if (line.Length == 0 || line.StartsWith('#'))
-            {
-                continue;
-            }
+            if (line.Length == 0 || line.StartsWith('#')) continue;
 
             if (line.StartsWith('[') && line.EndsWith(']'))
             {
@@ -462,9 +410,7 @@ public static class BorPresets
 
             var equal = line.IndexOf('=');
             if (equal > 0)
-            {
                 values[$"{section}.{line[..equal].Trim()}"] = line[(equal + 1)..].Trim();
-            }
         }
 
         return values;
@@ -474,10 +420,7 @@ public static class BorPresets
     private static IEnumerable<(string Key, BaseGameSetting Setting)> GetVanillaSettings()
     {
         var categories = GameManager.Instance ? GameManager.Instance.GameSettingsList?.AllCategories : null;
-        if (categories == null)
-        {
-            yield break;
-        }
+        if (categories == null) yield break;
 
         foreach (var category in categories)
         {
@@ -485,29 +428,18 @@ public static class BorPresets
             {
                 var key = GetKey(setting);
                 if (key != null && !key.Contains("Map", StringComparison.OrdinalIgnoreCase))
-                {
                     yield return (key, setting);
-                }
             }
         }
     }
 
     private static string? GetKey(BaseGameSetting setting)
     {
-        if (setting.TryCast<FloatGameSetting>() is { } floatSetting)
-        {
-            return $"Float.{floatSetting.OptionName}";
-        }
+        if (setting.TryCast<FloatGameSetting>() is { } floatSetting) return $"Float.{floatSetting.OptionName}";
 
-        if (setting.TryCast<IntGameSetting>() is { } intSetting)
-        {
-            return $"Int.{intSetting.OptionName}";
-        }
+        if (setting.TryCast<IntGameSetting>() is { } intSetting) return $"Int.{intSetting.OptionName}";
 
-        if (setting.TryCast<CheckboxGameSetting>() is { } boolSetting)
-        {
-            return $"Bool.{boolSetting.OptionName}";
-        }
+        if (setting.TryCast<CheckboxGameSetting>() is { } boolSetting) return $"Bool.{boolSetting.OptionName}";
 
         return setting.TryCast<StringGameSetting>() is { } stringSetting ? $"Int.{stringSetting.OptionName}" : null;
     }
@@ -517,24 +449,16 @@ public static class BorPresets
         try
         {
             if (setting.TryCast<FloatGameSetting>() is { } floatSetting)
-            {
                 return options.GetFloat(floatSetting.OptionName).ToString(BetterOtherRolesPlugin.Culture);
-            }
 
             if (setting.TryCast<IntGameSetting>() is { } intSetting)
-            {
                 return options.GetInt(intSetting.OptionName).ToString(BetterOtherRolesPlugin.Culture);
-            }
 
             if (setting.TryCast<CheckboxGameSetting>() is { } boolSetting)
-            {
                 return options.GetBool(boolSetting.OptionName) ? "true" : "false";
-            }
 
             if (setting.TryCast<StringGameSetting>() is { } stringSetting)
-            {
                 return options.GetInt(stringSetting.OptionName).ToString(BetterOtherRolesPlugin.Culture);
-            }
         }
         catch (Exception)
         {

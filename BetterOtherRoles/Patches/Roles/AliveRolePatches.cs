@@ -26,8 +26,6 @@ public static class AliveRolePatches
     public static void InitializePostfix(RoleBehaviour __instance, PlayerControl player)
     {
         if (player && !__instance.IsDead)
-        {
             AliveRoles[player.PlayerId] = __instance.Role;
-        }
     }
 }

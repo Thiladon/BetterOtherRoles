@@ -88,25 +88,17 @@ public static class PresetsPatches
         [HarmonyPriority(Priority.Low)]
         public static void OnEnablePostfix(GamePresetsTab __instance)
         {
-            if (!GameSettingMenu.Instance)
-            {
-                return;
-            }
+            if (!GameSettingMenu.Instance) return;
 
             CreateButtons(__instance);
             var shown = IsBorPage;
             foreach (var button in new[] { _loadButton, _exportButton, _importButton, _deleteButton, _renameButton })
             {
                 if (button)
-                {
                     button!.gameObject.SetActive(shown);
-                }
             }
 
-            if (!shown)
-            {
-                return;
-            }
+            if (!shown) return;
 
             PlaceButtons();
             _message = string.Empty;
@@ -120,9 +112,7 @@ public static class PresetsPatches
             foreach (var button in new[] { _loadButton, _exportButton, _importButton, _deleteButton, _renameButton })
             {
                 if (button)
-                {
                     button!.gameObject.SetActive(false);
-                }
             }
         }
 
@@ -130,24 +120,16 @@ public static class PresetsPatches
         private static void Refresh(GamePresetsTab tab)
         {
             var plugin = BorPresets.Plugin;
-            if (plugin == null)
-            {
-                return;
-            }
+            if (plugin == null) return;
 
             if (!BorPresets.GetPresetNames().Contains(_selected))
-            {
                 _selected = string.Empty;
-            }
 
             var hasActive = BorPresets.TryGetActive(out var active, out var changed);
             TextMeshPro? marked = null;
             foreach (var preset in plugin.Presets)
             {
-                if (!preset.PresetButton)
-                {
-                    continue;
-                }
+                if (!preset.PresetButton) continue;
 
                 var button = preset.PresetButton!.GetComponent<PassiveButton>();
                 var name = preset.Name;
@@ -170,9 +152,7 @@ public static class PresetsPatches
                 button.buttonText.enableAutoSizing = true;
                 button.SelectButton(selected);
                 if (label != name)
-                {
                     marked = button.buttonText;
-                }
             }
 
             KeepFontSize(plugin, marked);
@@ -191,10 +171,7 @@ public static class PresetsPatches
         // The marks make the label longer, so the font smaller: the marked label keeps the size of the others.
         private static void KeepFontSize(MiraPluginInfo plugin, TextMeshPro? marked)
         {
-            if (!marked)
-            {
-                return;
-            }
+            if (!marked) return;
 
             var size = 0f;
             foreach (var preset in plugin.Presets)
@@ -218,10 +195,7 @@ public static class PresetsPatches
         {
             var save = SaveButtonField.GetValue(null) as GameObject;
             var refresh = RefreshButtonField.GetValue(null) as GameObject;
-            if (!save || !refresh)
-            {
-                return;
-            }
+            if (!save || !refresh) return;
 
             // "Save" asks before replacing a preset.
             var saveButton = save!.GetComponent<PassiveButton>();
@@ -244,10 +218,7 @@ public static class PresetsPatches
             var save = SaveButtonField.GetValue(null) as GameObject;
             var refresh = RefreshButtonField.GetValue(null) as GameObject;
             var folder = FolderButtonField.GetValue(null) as GameObject;
-            if (!save || !refresh || !folder || !_loadButton)
-            {
-                return;
-            }
+            if (!save || !refresh || !folder || !_loadButton) return;
 
             var z = save!.transform.localPosition.z;
             _loadButton!.transform.localPosition = new Vector3(ColumnX, ColumnTop, z);
@@ -291,10 +262,7 @@ public static class PresetsPatches
 
         private static void SetEnabled(PassiveButton? button, bool enabled)
         {
-            if (!button)
-            {
-                return;
-            }
+            if (!button) return;
 
             button!.enabled = enabled;
             var alpha = enabled ? 1f : 0.4f;
@@ -314,10 +282,7 @@ public static class PresetsPatches
         {
             var name = _selected;
             var preset = BorPresets.Plugin?.Presets.FirstOrDefault(x => x.Name == name);
-            if (preset == null)
-            {
-                return;
-            }
+            if (preset == null) return;
 
             Popups.Confirm(Format("ConfirmLoad", "Load the preset {0}?", name), () =>
             {
@@ -366,10 +331,7 @@ public static class PresetsPatches
         private static void OnDelete(GamePresetsTab tab)
         {
             var name = _selected;
-            if (name.Length == 0 || name == BorPresets.DefaultName)
-            {
-                return;
-            }
+            if (name.Length == 0 || name == BorPresets.DefaultName) return;
 
             Popups.Confirm(Format("ConfirmDelete", "Do you really want to delete the preset {0}?", name), () =>
             {
@@ -382,10 +344,7 @@ public static class PresetsPatches
         private static void OnRename(GamePresetsTab tab)
         {
             var name = _selected;
-            if (name.Length == 0 || name == BorPresets.DefaultName)
-            {
-                return;
-            }
+            if (name.Length == 0 || name == BorPresets.DefaultName) return;
 
             Popups.AskValidName(Format("RenameTitle", "New name of the preset {0}:", name), name, BorPresets.IsFreeName, newName =>
             {
@@ -427,10 +386,7 @@ public static class PresetsPatches
             while (elapsed < MessageDuration + MessageFade)
             {
                 yield return null;
-                if (_message != message || !tab || !tab.isActiveAndEnabled)
-                {
-                    yield break;
-                }
+                if (_message != message || !tab || !tab.isActiveAndEnabled) yield break;
 
                 elapsed += Time.deltaTime;
                 if (elapsed > MessageDuration)
@@ -537,24 +493,16 @@ public static class PresetsPatches
         public static void AskValidName(string message, string name, Func<string, bool> isValid, Action<string> onValidate)
         {
             var popup = Create(_ => { });
-            if (!popup)
-            {
-                return;
-            }
+            if (!popup) return;
 
             var box = popup!.GetComponentInChildren<TextBoxTMP>(true);
             var holder = popup.transform.Find("TextboxHolder");
             var save = popup.transform.Find("SaveButton")?.GetComponent<PassiveButton>();
             var close = popup.transform.Find("CloseButton")?.GetComponent<PassiveButton>();
-            if (!box || !holder || !save || !close)
-            {
-                return;
-            }
+            if (!box || !holder || !save || !close) return;
 
             if (name.Length > 0)
-            {
                 box!.SetText(name.ToUpperInvariant(), string.Empty);
-            }
 
             SetButtonText(popup, "SaveButton", Get("Validate", "Validate"));
             SetButtonText(popup, "CloseButton", Get("Cancel", "Cancel"));
@@ -582,9 +530,7 @@ public static class PresetsPatches
                 if (!isValid(value))
                 {
                     if (error)
-                    {
                         error!.gameObject.SetActive(true);
-                    }
 
                     Coroutines.Start(CoShake(holder, origin));
                     return;
@@ -601,10 +547,7 @@ public static class PresetsPatches
         public static void Confirm(string question, Action onConfirm, Action? onCancel = null)
         {
             var popup = Create(_ => onConfirm());
-            if (!popup)
-            {
-                return;
-            }
+            if (!popup) return;
 
             SetButtonText(popup!, "SaveButton", Get("Yes", "Yes"));
             SetButtonText(popup!, "CloseButton", Get("No", "No"));
@@ -612,10 +555,7 @@ public static class PresetsPatches
 
             var save = popup!.transform.Find("SaveButton")?.GetComponent<PassiveButton>();
             var close = popup.transform.Find("CloseButton")?.GetComponent<PassiveButton>();
-            if (onCancel == null || !save || !close)
-            {
-                return;
-            }
+            if (onCancel == null || !save || !close) return;
 
             // Replaces the MiraAPI action, to tell "Yes" from "No" when the popup closes.
             var confirmed = false;
@@ -629,9 +569,7 @@ public static class PresetsPatches
             close!.OnClick.AddListener((Action)(() =>
             {
                 if (!confirmed)
-                {
                     Coroutines.Start(CoLater(onCancel));
-                }
             }));
         }
 
@@ -641,10 +579,7 @@ public static class PresetsPatches
         public static void Inform(string message, string? closeText = null)
         {
             var popup = Create(_ => { });
-            if (!popup)
-            {
-                return;
-            }
+            if (!popup) return;
 
             var save = popup!.transform.Find("SaveButton");
             var close = popup.transform.Find("CloseButton");
@@ -655,9 +590,7 @@ public static class PresetsPatches
             }
 
             if (closeText != null)
-            {
                 SetButtonText(popup, "CloseButton", closeText);
-            }
 
             ShowMessage(popup, message);
         }
@@ -686,9 +619,7 @@ public static class PresetsPatches
             }
 
             if (holder)
-            {
                 holder.localPosition = origin;
-            }
         }
 
         // The name box and its folder icon (TextboxHolder) are replaced by the message.
@@ -706,10 +637,7 @@ public static class PresetsPatches
         private static TextMeshPro? AddMessage(SavePresetPopup popup, string message, float scale = MessageScale)
         {
             var model = popup.transform.Find("SaveButton")?.GetComponentInChildren<TextMeshPro>(true);
-            if (!model)
-            {
-                return null;
-            }
+            if (!model) return null;
 
             var text = Object.Instantiate(model!, popup.transform);
             text.name = "BorMessage";
@@ -729,9 +657,7 @@ public static class PresetsPatches
         {
             var text = popup.transform.Find(button)?.GetComponentInChildren<TextMeshPro>(true);
             if (text)
-            {
                 text!.text = FontStart + label + FontEnd;
-            }
         }
 
         /// <summary>
@@ -771,10 +697,7 @@ public static class PresetsPatches
         {
             var box = popup.GetComponentInChildren<TextBoxTMP>(true);
             var save = popup.transform.Find("SaveButton")?.GetComponent<PassiveButton>();
-            if (!box || !save)
-            {
-                return;
-            }
+            if (!box || !save) return;
 
             TextBoxPatches.AddCaret(box!);
 
@@ -789,9 +712,7 @@ public static class PresetsPatches
             box.OnEnter.AddListener((Action)(() =>
             {
                 if (save)
-                {
                     save!.OnClick.Invoke();
-                }
             }));
             box.GiveFocus();
         }
@@ -804,10 +725,7 @@ public static class PresetsPatches
             var glass = popup.transform.Find("Glass");
             var background = popup.transform.Find("Background")?.GetComponent<SpriteRenderer>();
             var glassRenderer = glass ? glass!.GetComponent<SpriteRenderer>() : null;
-            if (!glassRenderer || !background)
-            {
-                return;
-            }
+            if (!glassRenderer || !background) return;
 
             var size = glassRenderer!.bounds.size;
             var scale = glass!.localScale;
@@ -818,9 +736,7 @@ public static class PresetsPatches
             foreach (var renderer in popup.GetComponentsInChildren<Renderer>(true))
             {
                 if (renderer != background && renderer != glassRenderer && renderer.sortingOrder < order + 2)
-                {
                     renderer.sortingOrder = order + 2;
-                }
             }
         }
 
@@ -868,9 +784,7 @@ public static class PresetsPatches
                 var dx = x - Mathf.Clamp(x, minX + radius, maxX - radius);
                 var dy = y - Mathf.Clamp(y, minY + radius, maxY - radius);
                 if ((dx * dx) + (dy * dy) > maxDistance)
-                {
                     pixels[index] = new Color32(outline.r, outline.g, outline.b, pixels[index].a);
-                }
             }
 
             texture.SetPixels32(pixels);
@@ -884,24 +798,16 @@ public static class PresetsPatches
             var x = index % width;
             var y = index / width;
             if (x > 0)
-            {
                 yield return index - 1;
-            }
 
             if (x < width - 1)
-            {
                 yield return index + 1;
-            }
 
             if (y > 0)
-            {
                 yield return index - width;
-            }
 
             if (y < height - 1)
-            {
                 yield return index + width;
-            }
         }
 
         // The background sprite (from the "Download data" task) has a dark band above the frame: cut off. Its blue is
@@ -909,18 +815,12 @@ public static class PresetsPatches
         private static void CropBackground(SavePresetPopup popup)
         {
             var renderer = popup.transform.Find("Background")?.GetComponent<SpriteRenderer>();
-            if (!renderer || !renderer!.sprite)
-            {
-                return;
-            }
+            if (!renderer || !renderer!.sprite) return;
 
             if (!_background)
             {
                 var copy = BorSpriteUtils.ToStandalone(renderer.sprite);
-                if (copy == renderer.sprite)
-                {
-                    return;
-                }
+                if (copy == renderer.sprite) return;
 
                 // Radius in texture pixels: the sprite is drawn at the renderer width.
                 FillBlue(copy.texture, CornerRadius * copy.texture.width / renderer.bounds.size.x);
@@ -935,9 +835,7 @@ public static class PresetsPatches
 
             // Drawn at a set size: shorter by the cut, or the rest is stretched over the whole height.
             if (renderer.drawMode != SpriteDrawMode.Simple)
-            {
                 renderer.size = new Vector2(renderer.size.x, renderer.size.y * (1f - BackgroundTopCut));
-            }
         }
 
         private static string Get(string key, string fallback) => MiraLocaleManager.Get("BetterOtherRoles.Presets." + key, fallback);
@@ -1031,15 +929,9 @@ public static class PresetsPatches
         // Blocked while a popup is open, and while the key that closed one is held (or released this frame).
         private static bool IsMenuBlocked(SavePresetPopup? popup)
         {
-            if (popup)
-            {
-                return true;
-            }
+            if (popup) return true;
 
-            if (_usedKey != default && (Input.GetKey(_usedKey) || Input.GetKeyUp(_usedKey)))
-            {
-                return true;
-            }
+            if (_usedKey != default && (Input.GetKey(_usedKey) || Input.GetKeyUp(_usedKey))) return true;
 
             _usedKey = default;
             return false;
@@ -1073,16 +965,11 @@ public static class PresetsPatches
             foreach (var option in __instance.Plugin.Options)
             {
                 var definition = option.ConfigDefinition;
-                if (definition == null || !config.ContainsKey(definition))
-                {
-                    continue;
-                }
+                if (definition == null || !config.ContainsKey(definition)) continue;
 
                 var value = AccessTools.Property(option.GetType(), "Value")?.GetValue(option);
                 if (value != null)
-                {
                     config[definition].BoxedValue = value;
-                }
             }
 
             config.Save();
@@ -1091,9 +978,7 @@ public static class PresetsPatches
             {
                 BorPresets.ApplyVanilla(__instance.PresetConfig);
                 if (__instance.Name.Length > 0)
-                {
                     BorPresets.SetActive(__instance.Name);
-                }
             }
         }
 
@@ -1116,10 +1001,7 @@ public static class PresetsPatches
         [HarmonyPostfix]
         public static void LoadPresetsPostfix(MiraPluginInfo plugin)
         {
-            if (InternalPresetsProperty.GetValue(plugin) is not List<OptionPreset> presets)
-            {
-                return;
-            }
+            if (InternalPresetsProperty.GetValue(plugin) is not List<OptionPreset> presets) return;
 
             presets.Sort((a, b) => a.Name == BorPresets.DefaultName ? (b.Name == BorPresets.DefaultName ? 0 : -1)
                 : b.Name == BorPresets.DefaultName ? 1 : string.Compare(a.Name, b.Name, StringComparison.OrdinalIgnoreCase));
@@ -1160,16 +1042,10 @@ public static class PresetsPatches
         [HarmonyPostfix]
         public static void OnEnablePostfix()
         {
-            if (!GameSettingMenu.Instance || !MenuState.Instance || MenuState.Instance.CurrentModIdx == 0)
-            {
-                return;
-            }
+            if (!GameSettingMenu.Instance || !MenuState.Instance || MenuState.Instance.CurrentModIdx == 0) return;
 
             var container = MenuState.Instance.CurrentContainer;
-            if (!container)
-            {
-                return;
-            }
+            if (!container) return;
 
             foreach (var aspectPosition in container.GetComponentsInChildren<AspectPosition>(true))
             {
@@ -1178,18 +1054,13 @@ public static class PresetsPatches
 
             var grid = container.GetComponent<GridArrange>();
             if (grid)
-            {
                 grid.enabled = false;
-            }
 
             var index = 0;
             for (var i = 0; i < container.transform.childCount; i++)
             {
                 var child = container.transform.GetChild(i);
-                if (!child.gameObject.activeSelf)
-                {
-                    continue;
-                }
+                if (!child.gameObject.activeSelf) continue;
 
                 child.localPosition = new Vector3(index % Columns * CellWidth, -(index / Columns) * CellHeight, child.localPosition.z);
                 index++;

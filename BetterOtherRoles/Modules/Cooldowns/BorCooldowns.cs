@@ -37,21 +37,12 @@ public static class BorCooldowns
     /// <returns>True to pause.</returns>
     public static bool PausesWhileBusy(PlayerControl player)
     {
-        if (!IsPlayerBusy)
-        {
-            return false;
-        }
+        if (!IsPlayerBusy) return false;
 
         var options = OptionGroupSingleton<GameplayOptions>.Instance;
-        if (!options.PauseCooldownsInMinigames.Value)
-        {
-            return false;
-        }
+        if (!options.PauseCooldownsInMinigames.Value) return false;
 
-        if (player.Data?.Role == null)
-        {
-            return true;
-        }
+        if (player.Data?.Role == null) return true;
 
         return BorRoleSelector.GetFaction(player.Data.Role) switch
         {
@@ -71,9 +62,7 @@ public static class BorCooldowns
     public static void FixedUpdatePrefix(PlayerControl __instance)
     {
         if (__instance.AmOwner)
-        {
             _killTimerBefore = __instance.killTimer;
-        }
     }
 
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate))]
@@ -81,8 +70,6 @@ public static class BorCooldowns
     public static void FixedUpdatePostfix(PlayerControl __instance)
     {
         if (__instance.AmOwner && __instance.killTimer < _killTimerBefore && PausesWhileBusy(__instance))
-        {
             __instance.SetKillTimer(_killTimerBefore);
-        }
     }
 }

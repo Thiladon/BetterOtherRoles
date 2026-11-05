@@ -14,8 +14,6 @@ public static class MatchInfoButtonPatches
     {
         if (AmongUsClient.Instance.IsGameStarted && !IntroStatePatches.IntroEnded &&
             __instance.MatchInfoButton && __instance.MatchInfoButton.gameObject.activeSelf)
-        {
             __instance.MatchInfoButton.gameObject.SetActive(false);
-        }
     }
 }

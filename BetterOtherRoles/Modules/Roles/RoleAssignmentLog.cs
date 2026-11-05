@@ -25,10 +25,7 @@ public static class RoleAssignmentLog
     public static void Begin()
     {
         _assigned = null;
-        if (!BorAdmin.IsAdmin || !AmongUsClient.Instance.AmHost)
-        {
-            return;
-        }
+        if (!BorAdmin.IsAdmin || !AmongUsClient.Instance.AmHost) return;
 
         _assigned = [];
         var gameOptions = GameOptionsManager.Instance.CurrentGameOptions;
@@ -55,17 +52,12 @@ public static class RoleAssignmentLog
         foreach (var role in RoleManager.Instance.AllRoles.ToArray())
         {
             var managed = GetManagedRole(role.Role);
-            if (managed.IsDead || role.Role is RoleTypes.Crewmate or RoleTypes.Impostor)
-            {
-                continue;
-            }
+            if (managed.IsDead || role.Role is RoleTypes.Crewmate or RoleTypes.Impostor) continue;
 
             var chance = roleOptions.GetChancePerGame(role.Role);
             var count = roleOptions.GetNumPerGame(role.Role);
             if (chance > 0 && count > 0)
-            {
                 Info($"Role chance: {BorRoleSelector.GetFaction(managed)},{GetRoleName(managed)},{chance}%,x{count}");
-            }
 
             if (managed is IHasDependentRole { DependentRoleId: { } dependentId, DependentRoleChance: > 0 } mainRole && chance > 0 && count > 0)
             {
@@ -89,10 +81,7 @@ public static class RoleAssignmentLog
     /// </summary>
     public static void End()
     {
-        if (_assigned == null)
-        {
-            return;
-        }
+        if (_assigned == null) return;
 
         foreach (var (player, roleType) in _assigned)
         {
@@ -113,10 +102,7 @@ public static class RoleAssignmentLog
     // English names, the same for every admin: the class name for the mod roles (SheriffRole -> Sheriff).
     private static string GetRoleName(RoleBehaviour role)
     {
-        if (role is not ICustomRole)
-        {
-            return role.Role.ToString();
-        }
+        if (role is not ICustomRole) return role.Role.ToString();
 
         var name = role.GetType().Name;
         return name.EndsWith("Role", StringComparison.Ordinal) ? name[..^"Role".Length] : name;

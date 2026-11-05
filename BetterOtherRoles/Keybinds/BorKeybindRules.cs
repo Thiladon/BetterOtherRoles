@@ -44,32 +44,17 @@ public static class BorKeybindRules
     /// </summary>
     public static bool Conflicts(int actionA, int actionB)
     {
-        if (actionA == actionB)
-        {
-            return false;
-        }
+        if (actionA == actionB) return false;
 
         var scopeA = GetScope(actionA, out var keybindA);
         var scopeB = GetScope(actionB, out var keybindB);
-        if (scopeA == Scope.Universal || scopeB == Scope.Universal)
-        {
-            return true;
-        }
+        if (scopeA == Scope.Universal || scopeB == Scope.Universal) return true;
 
-        if (scopeA == Scope.Roles && scopeB == Scope.Roles)
-        {
-            return keybindA!.Roles.Intersect(keybindB!.Roles).Any();
-        }
+        if (scopeA == Scope.Roles && scopeB == Scope.Roles) return keybindA!.Roles.Intersect(keybindB!.Roles).Any();
 
-        if (scopeA == Scope.Roles)
-        {
-            return scopeB == Scope.ImpostorRoles && keybindA!.Roles.Any(UsesKillKey);
-        }
+        if (scopeA == Scope.Roles) return scopeB == Scope.ImpostorRoles && keybindA!.Roles.Any(UsesKillKey);
 
-        if (scopeB == Scope.Roles)
-        {
-            return scopeA == Scope.ImpostorRoles && keybindB!.Roles.Any(UsesKillKey);
-        }
+        if (scopeB == Scope.Roles) return scopeA == Scope.ImpostorRoles && keybindB!.Roles.Any(UsesKillKey);
 
         // Two vanilla actions bound to roles: vanilla impostor roles have Kill, Sabotage and Role Ability.
         return true;
@@ -93,17 +78,11 @@ public static class BorKeybindRules
     /// </summary>
     public static void RefreshNames()
     {
-        if (!DestroyableSingleton<RoleManager>.InstanceExists)
-        {
-            return;
-        }
+        if (!DestroyableSingleton<RoleManager>.InstanceExists) return;
 
         foreach (var keybind in RoleKeybinds)
         {
-            if (keybind.RewiredInputAction == null)
-            {
-                continue;
-            }
+            if (keybind.RewiredInputAction == null) continue;
 
             var role = keybind.Roles.Count > 0 ? FindRole(keybind.Roles[0]) : null;
             var header = role != null
@@ -119,18 +98,13 @@ public static class BorKeybindRules
     public static void RefreshAdminKeybinds()
     {
         if (BorKeybinds.DebugMenu.RewiredInputAction is { } action)
-        {
             action.userAssignable = BorAdmin.IsAdmin;
-        }
     }
 
     private static Scope GetScope(int actionId, out BorKeybind? keybind)
     {
         keybind = RoleKeybinds.FirstOrDefault(x => x.RewiredInputAction?.id == actionId);
-        if (keybind != null)
-        {
-            return keybind.Roles.Count > 0 ? Scope.Roles : Scope.Universal;
-        }
+        if (keybind != null) return keybind.Roles.Count > 0 ? Scope.Roles : Scope.Universal;
 
         return actionId switch
         {

@@ -46,17 +46,12 @@ public static class TestModePatches
     public static void GameStartManagerUpdatePrefix(GameStartManager __instance)
     {
         if (_vanillaMinPlayers < 0)
-        {
             _vanillaMinPlayers = __instance.MinPlayers;
-        }
 
         TurnOffWithoutAdminKey();
 
         var minPlayers = BorDevOptions.IsTestModeActive ? 1 : _vanillaMinPlayers;
-        if (__instance.MinPlayers == minPlayers)
-        {
-            return;
-        }
+        if (__instance.MinPlayers == minPlayers) return;
 
         // The start button is only refreshed when the player count changes: force it.
         __instance.MinPlayers = minPlayers;
@@ -69,9 +64,7 @@ public static class TestModePatches
     {
         var option = OptionGroupSingleton<BorDevOptions>.Instance.TestMode;
         if (AmongUsClient.Instance.AmHost && !BorAdmin.IsAdmin && option.Value && PlayerControl.LocalPlayer)
-        {
             option.SetValue(false);
-        }
     }
 
     /// <summary>
@@ -83,10 +76,7 @@ public static class TestModePatches
     [HarmonyPriority(Priority.First)]
     public static bool IsGameOverDueToDeathPrefix(ref bool __result)
     {
-        if (!BorDevOptions.IsTestModeActive)
-        {
-            return true;
-        }
+        if (!BorDevOptions.IsTestModeActive) return true;
 
         __result = false;
         return false;
@@ -100,10 +90,7 @@ public static class TestModePatches
     [HarmonyPrefix]
     public static bool CheckTaskCompletionPrefix(ref bool __result)
     {
-        if (!BorDevOptions.IsTestModeActive)
-        {
-            return true;
-        }
+        if (!BorDevOptions.IsTestModeActive) return true;
 
         __result = false;
         return false;
@@ -131,9 +118,7 @@ public static class TestModePatches
     public static void HudManagerUpdatePostfix(HudManager __instance)
     {
         if (IntroStatePatches.IntroEnded && BorDebugActions.CanUse && !__instance.Chat.chatButton.gameObject.activeSelf)
-        {
             __instance.Chat.SetVisible(true);
-        }
     }
 
     // ---------------------------------------------------------------------------------------------------------------
@@ -149,15 +134,11 @@ public static class TestModePatches
     public static void RefreshDebugButton(Transform guide)
     {
         if (!_debugButton)
-        {
             _debugButton = CreateDebugButton(guide);
-        }
 
         var visible = BorDebugActions.CanUse && IntroStatePatches.IntroEnded;
         if (_debugButton!.activeSelf != visible)
-        {
             _debugButton.SetActive(visible);
-        }
     }
 
     private static GameObject CreateDebugButton(Transform guide)
@@ -169,9 +150,7 @@ public static class TestModePatches
         {
             var child = copy.transform.GetChild(i);
             if (child.name.StartsWith("Bor", StringComparison.Ordinal))
-            {
                 UnityEngine.Object.Destroy(child.gameObject);
-            }
         }
 
         // Guide button scripts: AspectPosition would move the copy to the screen edge every frame (MiraAPI removes it

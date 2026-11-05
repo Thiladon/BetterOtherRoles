@@ -43,14 +43,9 @@ public static class StopStartPatches
     {
         if (!AmongUsClient.Instance.AmHost || !GameStartManager.InstanceExists ||
             GameStartManager.Instance.startState != GameStartManager.StartingStates.Countdown)
-        {
             return;
-        }
 
-        if (!isAdmin && !OptionGroupSingleton<LobbyOptions>.Instance.AnyPlayerCanStopStart.Value)
-        {
-            return;
-        }
+        if (!isAdmin && !OptionGroupSingleton<LobbyOptions>.Instance.AnyPlayerCanStopStart.Value) return;
 
         GameStartManager.Instance.ResetStartState();
         RpcStartStopped(PlayerControl.LocalPlayer, player.PlayerId);
@@ -64,10 +59,7 @@ public static class StopStartPatches
     public static void RpcStartStopped(PlayerControl host, byte stopperId)
     {
         var stopper = GameData.Instance ? GameData.Instance.GetPlayerById(stopperId) : null;
-        if (stopper == null)
-        {
-            return;
-        }
+        if (stopper == null) return;
 
         BorChat.AddSystemMessage(string.Format(BetterOtherRolesPlugin.Culture,
             MiraLocaleManager.Get("BetterOtherRoles.Lobby.StartStopped", "{0} stopped the game start!"), stopper.PlayerName), stopper.Object);
@@ -81,9 +73,7 @@ public static class StopStartPatches
     public static bool BeginGamePrefix(GameStartManager __instance)
     {
         if (!AmongUsClient.Instance.AmHost || __instance.startState != GameStartManager.StartingStates.Countdown)
-        {
             return true;
-        }
 
         __instance.ResetStartState();
         return false;
@@ -136,9 +126,7 @@ public static class StopStartPatches
             if (_hostStartText != null)
             {
                 if (label)
-                {
                     label!.text = _hostStartText;
-                }
 
                 _hostStartText = null;
                 ShowCountdown(manager, true);
@@ -171,10 +159,7 @@ public static class StopStartPatches
     // The countdown panel has a grey background drawn over the start button (and the client copy): hidden while "Stop" is shown.
     private static void ShowCountdownPanel(GameStartManager manager, bool visible)
     {
-        if (!manager.GameStartTextParent)
-        {
-            return;
-        }
+        if (!manager.GameStartTextParent) return;
 
         if (!visible && _hiddenPanelSprites.Count == 0)
         {
@@ -202,14 +187,10 @@ public static class StopStartPatches
     private static void ShowCountdown(GameStartManager manager, bool visible)
     {
         if (manager.GameStartText && manager.GameStartText.enabled != visible)
-        {
             manager.GameStartText.enabled = visible;
-        }
 
         if (manager.GameStartTextClient && manager.GameStartTextClient.enabled != visible)
-        {
             manager.GameStartTextClient.enabled = visible;
-        }
     }
 
     private static void UpdateClientButton(GameStartManager manager)
@@ -228,15 +209,11 @@ public static class StopStartPatches
         }
 
         if (!_clientStopButton)
-        {
             CreateClientButton(manager);
-        }
 
         var label = GetLabel(_clientStopButton!);
         if (label)
-        {
             SetText(label!, _clientHovered ? StopText : _clientSeconds.ToString(BetterOtherRolesPlugin.Culture));
-        }
 
         ShowCountdown(manager, !_clientHovered);
         ShowCountdownPanel(manager, !_clientHovered);
@@ -297,8 +274,6 @@ public static class StopStartPatches
     private static void SetText(TextMeshPro label, string text)
     {
         if (label.text != text)
-        {
             label.text = text;
-        }
     }
 }

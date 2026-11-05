@@ -15,18 +15,13 @@ public static class IntroCutscenePatches
     {
         ActionButtonCooldownPatches.Clear();
 
-        if (AmongUsClient.Instance.NetworkMode == NetworkModes.FreePlay)
-        {
-            return;
-        }
+        if (AmongUsClient.Instance.NetworkMode == NetworkModes.FreePlay) return;
 
         var borAssembly = typeof(BetterOtherRolesPlugin).Assembly;
         foreach (var button in CustomButtonManager.Buttons)
         {
             if (button.GetType().Assembly == borAssembly)
-            {
                 button.SetTimer(button.InitialCooldown);
-            }
         }
     }
 }

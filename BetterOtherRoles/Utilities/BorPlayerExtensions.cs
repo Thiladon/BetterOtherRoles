@@ -30,9 +30,7 @@ public static class BorPlayerExtensions
 
         var data = player.Data;
         if (data.Role)
-        {
             data.Role.Deinitialize(player);
-        }
 
         var oldRole = data.Role;
         var newRole = RoleManager.Instance.GetRole((RoleTypes)newRoleType);
@@ -40,25 +38,19 @@ public static class BorPlayerExtensions
         roleBehaviour.Initialize(player);
 
         if (player.AmOwner && HudManager.Instance)
-        {
             HudManager.Instance.SetHudActive(player, roleBehaviour, !MeetingHud.Instance && !ExileController.Instance);
-        }
 
         data.Role = roleBehaviour;
         data.RoleType = roleBehaviour.Role;
 
         if (!roleBehaviour.IsDead)
-        {
             data.RoleWhenAlive = new Il2CppSystem.Nullable<RoleTypes>(roleBehaviour.Role);
-        }
 
         roleBehaviour.AdjustTasks(player);
         roleBehaviour.SpawnTaskHeader(player);
 
         if (player.AmOwner)
-        {
             ResetButtons(oldRole, roleBehaviour, readyButtons);
-        }
 
         NameColorPatches.Refresh();
     }
@@ -72,15 +64,10 @@ public static class BorPlayerExtensions
     {
         foreach (var button in CustomButtonManager.Buttons.Where(x => x.Enabled(role)))
         {
-            if (!readyButtons && oldRole && button.Enabled(oldRole))
-            {
-                continue;
-            }
+            if (!readyButtons && oldRole && button.Enabled(oldRole)) continue;
 
             if (button.LimitedUses)
-            {
                 button.SetUses(button.MaxUses);
-            }
 
             button.EffectActive = false;
             button.SetTimer(readyButtons ? 0f : button.InitialCooldown);

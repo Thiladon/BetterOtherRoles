@@ -67,9 +67,7 @@ public static class BorCommandUtils
         foreach (var c in text.Normalize(NormalizationForm.FormD))
         {
             if (!char.IsWhiteSpace(c) && CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
-            {
                 builder.Append(char.ToLowerInvariant(c));
-            }
         }
 
         return builder.ToString();

@@ -21,16 +21,11 @@ public static class WindowTitlePatches
     /// </summary>
     public static void Apply()
     {
-        if (!OperatingSystem.IsWindows())
-        {
-            return;
-        }
+        if (!OperatingSystem.IsWindows()) return;
 
         var window = FindGameWindow();
         if (window == IntPtr.Zero || !SetWindowText(window, Title))
-        {
             Warning("Window title: game window not found.");
-        }
     }
 
     [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
@@ -54,16 +49,11 @@ public static class WindowTitlePatches
         EnumWindows((window, _) =>
         {
             if (GetWindowThreadProcessId(window, out var windowProcessId) == 0 || windowProcessId != processId || !IsWindowVisible(window))
-            {
                 return true;
-            }
 
             var className = new char[64];
             var length = GetClassName(window, className, className.Length);
-            if (new string(className, 0, Math.Max(length, 0)) != "UnityWndClass")
-            {
-                return true;
-            }
+            if (new string(className, 0, Math.Max(length, 0)) != "UnityWndClass") return true;
 
             found = window;
             return false;

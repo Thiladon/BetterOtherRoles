@@ -19,10 +19,7 @@ public static class VanillaRoleSettingsPatches
     public static void UpdateValuesAndTextPostfix(RoleOptionSetting __instance)
     {
         // Enabled: the game sets the buttons from the values (minus greyed at 0, plus at the max).
-        if (!IsVanillaRow(__instance) || !VanillaRolesPatch.AreVanillaRolesDisabled)
-        {
-            return;
-        }
+        if (!IsVanillaRow(__instance) || !VanillaRolesPatch.AreVanillaRolesDisabled) return;
 
         __instance.CountMinusBtn.SetInteractable(false);
         __instance.CountPlusBtn.SetInteractable(false);
@@ -42,18 +39,13 @@ public static class VanillaRoleSettingsPatches
     public static void UpdatePostfix(RolesSettingsMenu __instance)
     {
         var disabled = VanillaRolesPatch.AreVanillaRolesDisabled;
-        if (_shownDisabled == disabled || __instance.roleChances == null)
-        {
-            return;
-        }
+        if (_shownDisabled == disabled || __instance.roleChances == null) return;
 
         _shownDisabled = disabled;
         foreach (var row in __instance.roleChances)
         {
             if (IsVanillaRow(row))
-            {
                 row.UpdateValuesAndText(GameOptionsManager.Instance.CurrentGameOptions.RoleOptions);
-            }
         }
     }
 

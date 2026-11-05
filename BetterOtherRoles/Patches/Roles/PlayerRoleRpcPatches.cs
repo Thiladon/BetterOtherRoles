@@ -12,10 +12,7 @@ public static class PlayerRoleRpcPatches
     [HarmonyPrefix]
     public static bool HandleRoleRpcPrefix(PlayerControl __instance, byte callId)
     {
-        if (__instance.Data != null && __instance.Data.Role != null)
-        {
-            return true;
-        }
+        if (__instance.Data != null && __instance.Data.Role != null) return true;
 
         Warning($"Role RPC {callId} skipped: no role yet for {(__instance.Data != null ? __instance.Data.PlayerName : "?")}.");
         return false;

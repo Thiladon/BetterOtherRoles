@@ -20,10 +20,7 @@ public static class MenuStatePatches
     {
         // The first UpdateUi call of a new menu (from MenuState.Awake) is on the "Main" page, before any move.
         var button = __instance.GetComponent<GameSettingMenu>()?.RoleSettingsButton;
-        if (button == null || button.Pointer == _cachedButton || __instance.CurrentModIdx != 0)
-        {
-            return;
-        }
+        if (button == null || button.Pointer == _cachedButton || __instance.CurrentModIdx != 0) return;
 
         _cachedButton = button.Pointer;
         _rolesButtonPosition = button.transform.localPosition;
@@ -34,8 +31,6 @@ public static class MenuStatePatches
     {
         var button = __instance.GetComponent<GameSettingMenu>()?.RoleSettingsButton;
         if (button != null && button.Pointer == _cachedButton && __instance.CurrentModIdx == 0)
-        {
             button.transform.localPosition = _rolesButtonPosition;
-        }
     }
 }

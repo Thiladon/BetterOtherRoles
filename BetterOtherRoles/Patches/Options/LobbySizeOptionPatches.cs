@@ -34,10 +34,7 @@ public static class LobbySizeOptionPatches
     public static void InitializePostfix(GameOptionsMenu __instance)
     {
         var banner = FindBanner(__instance);
-        if (!banner)
-        {
-            return;
-        }
+        if (!banner) return;
 
         var container = banner!.parent;
         var existing = container.Find(OptionName);
@@ -57,9 +54,7 @@ public static class LobbySizeOptionPatches
             var child = container.GetChild(i);
             var position = child.localPosition;
             if (position.y < FirstCategoryY + 0.1f)
-            {
                 child.localPosition = new Vector3(position.x, position.y - Shift, position.z);
-            }
         }
 
         var menu = __instance;
@@ -69,9 +64,7 @@ public static class LobbySizeOptionPatches
         behaviour.transform.localPosition = new Vector3(OptionX, OptionY, -2f);
         behaviour.SetClickMask(menu.ButtonClickMask);
         if (AmongUsClient.Instance && !AmongUsClient.Instance.AmHost)
-        {
             behaviour.SetAsPlayer();
-        }
 
         // The scrolled height already has the room for the option (ToggleGameModePatch, called while MiraAPI builds the tab).
         _option = behaviour.TryCast<NumberOption>();
@@ -94,10 +87,7 @@ public static class LobbySizeOptionPatches
     {
         foreach (var transform in menu.GetComponentsInChildren<Transform>(true))
         {
-            if (transform.name == BannerName && transform.gameObject.activeInHierarchy)
-            {
-                return transform;
-            }
+            if (transform.name == BannerName && transform.gameObject.activeInHierarchy) return transform;
         }
 
         return null;
@@ -105,17 +95,12 @@ public static class LobbySizeOptionPatches
 
     private static void AddToController(GameOptionsMenu menu)
     {
-        if (!_option || menu.ControllerSelectable == null)
-        {
-            return;
-        }
+        if (!_option || menu.ControllerSelectable == null) return;
 
         foreach (var element in _option!.GetComponentsInChildren<UiElement>())
         {
             if (element.gameObject.activeSelf && !menu.ControllerSelectable.Contains(element))
-            {
                 menu.ControllerSelectable.Add(element);
-            }
         }
     }
 
@@ -134,9 +119,7 @@ public static class LobbySizeOptionPatches
         public static void Postfix(GameOptionsMenu instance)
         {
             if (instance && instance.scrollBar)
-            {
                 instance.scrollBar.SetYBoundsMax(instance.scrollBar.ContentYBounds.max + Shift);
-            }
         }
     }
 }

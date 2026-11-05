@@ -38,10 +38,7 @@ public static class DoorPushPatches
     public static void FixedUpdatePostfix(PlayerPhysics __instance)
     {
         var player = __instance.myPlayer;
-        if (!player || !player.Collider)
-        {
-            return;
-        }
+        if (!player || !player.Collider) return;
 
         if (Pushes.TryGetValue(player.PlayerId, out var push))
         {
@@ -49,10 +46,7 @@ public static class DoorPushPatches
             return;
         }
 
-        if (!player.AmOwner || !ShipStatus.Instance || ShipStatus.Instance.AllDoors == null)
-        {
-            return;
-        }
+        if (!player.AmOwner || !ShipStatus.Instance || ShipStatus.Instance.AllDoors == null) return;
 
         // Every door state is updated at each update, the push is for the first door closing on the player.
         var body = player.Collider.bounds;
@@ -60,25 +54,18 @@ public static class DoorPushPatches
         foreach (var openable in ShipStatus.Instance.AllDoors)
         {
             var door = openable ? openable.TryCast<PlainDoor>() : null;
-            if (!door)
-            {
-                continue;
-            }
+            if (!door) continue;
 
             var open = door!.IsOpen;
             var wasOpen = DoorsOpen.TryGetValue(door.GetInstanceID(), out var known) ? known : open;
             DoorsOpen[door.GetInstanceID()] = open;
             if (pushedBy == null && wasOpen && !open && player.Data != null && !player.Data.IsDead && !player.inVent &&
                 !player.onLadder && door.myCollider && IsNear(GetDoorBounds(door), body, player.transform.position))
-            {
                 pushedBy = GetDoorBounds(door);
-            }
         }
 
         if (pushedBy != null)
-        {
             PushOut(player, pushedBy.Value, body);
-        }
     }
 
     // A new ship: the doors are new.
@@ -95,9 +82,7 @@ public static class DoorPushPatches
     {
         var bounds = door.myCollider.bounds;
         if (door.shadowCollider)
-        {
             bounds.Encapsulate(door.shadowCollider.bounds);
-        }
 
         return bounds;
     }
@@ -130,10 +115,7 @@ public static class DoorPushPatches
                 : Mathf.Min(area.min.x - Margin - body.max.x, area.min.x - Margin - center.x, 0f);
         }
 
-        if (move.sqrMagnitude < 0.0001f)
-        {
-            return;
-        }
+        if (move.sqrMagnitude < 0.0001f) return;
 
         var position = center + move;
         RpcDoorPush(player, position);
@@ -145,10 +127,7 @@ public static class DoorPushPatches
     [MethodRpc((uint)BorRpc.DoorPush)]
     public static void RpcDoorPush(PlayerControl player, Vector2 to)
     {
-        if (!player || !player.Collider || !player.MyPhysics)
-        {
-            return;
-        }
+        if (!player || !player.Collider || !player.MyPhysics) return;
 
         var push = new Push(player.MyPhysics.body.position, to);
         if (player.AmOwner)
@@ -161,9 +140,7 @@ public static class DoorPushPatches
             {
                 var plain = door ? door.TryCast<PlainDoor>() : null;
                 if (plain && plain!.myCollider && Overlaps(GetDoorBounds(plain), area))
-                {
                     push.Ignored.AddRange(new[] { plain.myCollider, plain.shadowCollider }.Where(x => x));
-                }
             }
 
             foreach (var collider in push.Ignored)

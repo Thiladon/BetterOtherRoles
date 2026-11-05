@@ -21,9 +21,7 @@ public static class GameLanguagePatches
 
         var view = Object.FindObjectOfType<LobbyViewSettingsPane>();
         if (view && view.isActiveAndEnabled)
-        {
             view.RefreshTab();
-        }
 
         if (GameSettingMenu.Instance && GameStartManager.InstanceExists)
         {
@@ -37,8 +35,6 @@ public static class GameLanguagePatches
     {
         yield return null;
         if (!GameSettingMenu.Instance && GameStartManager.InstanceExists && LobbyBehaviour.Instance)
-        {
             GameStartManager.Instance.ClickEdit();
-        }
     }
 }

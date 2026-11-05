@@ -23,10 +23,7 @@ public static class LocalSettingsTabPatches
     public static void CreateTabPostfix(GameObject __result)
     {
         var scroller = __result.GetComponentInChildren<Scroller>(true);
-        if (scroller == null || scroller.Inner == null || scroller.Inner.childCount == 0)
-        {
-            return;
-        }
+        if (scroller == null || scroller.Inner == null || scroller.Inner.childCount == 0) return;
 
         var lowestY = float.MaxValue;
         for (var i = 0; i < scroller.Inner.childCount; i++)

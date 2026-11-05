@@ -40,40 +40,27 @@ public static class LobbyRoleListPatches
         if (!shown)
         {
             if (_text)
-            {
                 _text!.gameObject.SetActive(false);
-            }
 
             return;
         }
 
-        if (!_text && !Create(__instance))
-        {
-            return;
-        }
+        if (!_text && !Create(__instance)) return;
 
         _text!.gameObject.SetActive(true);
-        if (Time.time - _lastRefresh < RefreshInterval)
-        {
-            return;
-        }
+        if (Time.time - _lastRefresh < RefreshInterval) return;
 
         _lastRefresh = Time.time;
         var text = mode is RoleAssignmentMode.RoleList ? BuildRoleList() : BuildMinMax();
         if (_text.text != text)
-        {
             _text.text = text;
-        }
     }
 
     // A copy of the ping text, at the top left of the screen.
     private static bool Create(HudManager hud)
     {
         var ping = UnityEngine.Object.FindObjectOfType<PingTracker>(true);
-        if (!ping)
-        {
-            return false;
-        }
+        if (!ping) return false;
 
         var copy = UnityEngine.Object.Instantiate(ping.gameObject, hud.transform);
         UnityEngine.Object.Destroy(copy.GetComponent<PingTracker>());

@@ -43,10 +43,7 @@ public static class DataTabPatches
     public static void CaptureTemplate(OptionsMenuBehaviour menu)
     {
         var dataTabTransform = menu.transform.Find(DataTabName);
-        if (_template != null || dataTabTransform == null)
-        {
-            return;
-        }
+        if (_template != null || dataTabTransform == null) return;
 
         var dataTab = dataTabTransform.gameObject;
         var tabButton = menu.Tabs.FirstOrDefault(x => x.Content == dataTab);
@@ -120,10 +117,7 @@ public static class DataTabPatches
     private static void Rewire(Transform? target, Action action)
     {
         var button = target != null ? target.GetComponent<PassiveButton>() : null;
-        if (button == null)
-        {
-            return;
-        }
+        if (button == null) return;
 
         button.OnClick = new Button.ButtonClickedEvent();
         button.OnClick.AddListener(action);

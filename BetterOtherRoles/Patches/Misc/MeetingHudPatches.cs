@@ -16,10 +16,7 @@ public static class MeetingHudPatches
     [HarmonyPostfix]
     public static void UpdatePostfix(MeetingHud __instance)
     {
-        if (!BetterOtherRolesPlugin.IsDevBuild || AmongUsClient.Instance.NetworkMode != NetworkModes.LocalGame)
-        {
-            return;
-        }
+        if (!BetterOtherRolesPlugin.IsDevBuild || AmongUsClient.Instance.NetworkMode != NetworkModes.LocalGame) return;
 
         if (__instance.state != _lastState)
         {
@@ -30,9 +27,7 @@ public static class MeetingHudPatches
         if (__instance.state is not (MeetingHud.MeetingStates.Results or MeetingHud.MeetingStates.Proceeding) ||
             !__instance.ProceedButton.gameObject.activeInHierarchy ||
             _proceededMeetingId == __instance.GetInstanceID())
-        {
             return;
-        }
 
         _proceededMeetingId = __instance.GetInstanceID();
         Info($"[Dev] Auto Proceed (state: {__instance.state})");

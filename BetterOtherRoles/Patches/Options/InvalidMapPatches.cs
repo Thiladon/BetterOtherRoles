@@ -15,23 +15,15 @@ public static class InvalidMapPatches
     [HarmonyPostfix]
     public static void StartPostfix()
     {
-        if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost || GameOptionsManager.Instance == null)
-        {
-            return;
-        }
+        if (!AmongUsClient.Instance || !AmongUsClient.Instance.AmHost || GameOptionsManager.Instance == null) return;
 
         var options = GameOptionsManager.Instance.CurrentGameOptions;
         var mapId = options.MapId;
-        if (mapId < AmongUsClient.Instance.ShipPrefabs.Count)
-        {
-            return;
-        }
+        if (mapId < AmongUsClient.Instance.ShipPrefabs.Count) return;
 
         Warning($"Map {mapId} does not exist in this game version: back to The Skeld.");
         options.SetByte(ByteOptionNames.MapId, 0);
         if (GameManager.Instance)
-        {
             GameManager.Instance.LogicOptions.SyncOptions();
-        }
     }
 }

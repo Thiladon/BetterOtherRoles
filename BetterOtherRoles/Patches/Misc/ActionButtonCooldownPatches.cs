@@ -28,9 +28,7 @@ public static class ActionButtonCooldownPatches
     {
         var start = Track(Timers, __instance.Pointer, __0);
         if (start > 0f)
-        {
             __1 = start;
-        }
     }
 
     // A value going up means a new countdown: it becomes the start value.
@@ -38,9 +36,7 @@ public static class ActionButtonCooldownPatches
     {
         var (last, start) = values.TryGetValue(button, out var known) ? known : (0f, value);
         if (value > last)
-        {
             start = value;
-        }
 
         values[button] = (value, start);
         return start;

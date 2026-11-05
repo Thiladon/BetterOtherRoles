@@ -21,10 +21,7 @@ public static class BorWikiUtils
     public static string GetOptionsText(IEnumerable<IModdedOption> options)
     {
         var lines = options.Where(x => x.Visible()).Select(x => $"{TranslationController.Instance.GetString(x.StringName)}: {FormatValue(x)}").ToList();
-        if (lines.Count == 0)
-        {
-            return string.Empty;
-        }
+        if (lines.Count == 0) return string.Empty;
 
         var builder = new StringBuilder();
         builder.Append(CultureInfo.InvariantCulture, $"\n\n<b><color=#29D7B5>{MiraLocaleManager.Get("Options")}</color></b>\n");
