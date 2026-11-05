@@ -122,25 +122,31 @@
   <string name="BetterOtherRoles.Role.Sheriff.TabDescription">Shoot either Impostors or Neutrals</string>
   <string name="BetterOtherRoles.Role.SheriffKill">Kill</string>
   <!-- Sheriff Options -->
-  <string name="BetterOtherRoles.Option.Sheriff.Cooldown">Sheriff Kill Cooldown</string>
-  <string name="BetterOtherRoles.Option.Sheriff.CanKillNeutrals">Sheriff can kill Neutral Role</string>
-  <string name="BetterOtherRoles.Option.Sheriff.HasDeputy">Sheriff has a Deputy</string>
-  <string name="BetterOtherRoles.Option.Sheriff.DeputyChance">Deputy spawn chance</string>
+  <string name="BetterOtherRoles.Option.Sheriff.Cooldown">Kill Cooldown</string>
+  <string name="BetterOtherRoles.Option.Sheriff.CanKillNeutrals">Can Kill Neutral Roles</string>
+  <string name="BetterOtherRoles.Option.Sheriff.HasDeputy">Has A Deputy</string>
+  <string name="BetterOtherRoles.Option.Sheriff.DeputyChance">Deputy Spawn Chance</string>
   <!-- Deputy - Crewmate Killing -->
   <string name="BetterOtherRoles.Role.Deputy">Deputy</string>
   <string name="BetterOtherRoles.Role.Deputy.IntroBlurb">Assist the [color=#FF1919FF]Sheriff[/color] !</string>
   <string name="BetterOtherRoles.Role.Deputy.TabDescription">U can handcuff anyone and can be promoted to Sheriff if the Sheriff is killed</string>
   <string name="BetterOtherRoles.Role.DeputyHandcuff">Handcuff</string>
   <!-- Deputy Options (in the Sheriff options) -->
-  <string name="BetterOtherRoles.Option.Deputy.Handcuffs">Number of Deputy Handcuffs</string>
-  <string name="BetterOtherRoles.Option.Deputy.HandcuffCooldown">Deputy Handcuff Cooldown</string>
-  <string name="BetterOtherRoles.Option.Deputy.HandcuffDuration">Deputy Handcuff Duration</string>
-  <string name="BetterOtherRoles.Option.Deputy.KnowsSheriff">Sheriff and Deputy know each other</string>
-  <string name="BetterOtherRoles.Option.Deputy.Promotion">Deputy gets promoted to Sheriff</string>
+  <string name="BetterOtherRoles.Option.Deputy.Handcuffs">Number Of Handcuffs</string>
+  <string name="BetterOtherRoles.Option.Deputy.HandcuffCooldown">Handcuff Cooldown</string>
+  <string name="BetterOtherRoles.Option.Deputy.HandcuffDuration">Handcuff Duration</string>
+  <string name="BetterOtherRoles.Option.Deputy.KnowsSheriff">Knows The Sheriff (And Vice Versa)</string>
+  <string name="BetterOtherRoles.Option.Deputy.Promotion">Promoted To Sheriff</string>
   <string name="BetterOtherRoles.Option.Deputy.PromotionOff">No</string>
   <string name="BetterOtherRoles.Option.Deputy.PromotionImmediately">Immediately</string>
   <string name="BetterOtherRoles.Option.Deputy.PromotionAfterMeeting">After Meeting</string>
-  <string name="BetterOtherRoles.Option.Deputy.KeepsHandcuffs">Deputy keeps handcuffs after promotion</string>
+  <string name="BetterOtherRoles.Option.Deputy.KeepsHandcuffs">Keeps Handcuffs After Promotion</string>
+  <!-- Gameplay options -->
+  <string name="BetterOtherRoles.Options.Groups.Gameplay">Gameplay</string>
+  <string name="BetterOtherRoles.Option.Gameplay.PauseCooldownsInMinigames">Cooldowns Stop In Minigames</string>
+  <string name="BetterOtherRoles.Option.Gameplay.PauseCooldownsCrewmates">Crewmates</string>
+  <string name="BetterOtherRoles.Option.Gameplay.PauseCooldownsImpostors">Impostors</string>
+  <string name="BetterOtherRoles.Option.Gameplay.PauseCooldownsNeutrals">Neutrals</string>
   <!-- Chat commands (Modules/Commands) -->
   <string name="BetterOtherRoles.Command.Unknown">Unknown command: /{0}. Type /help for the list.</string>
   <string name="BetterOtherRoles.Command.Failed">The command failed (see the BepInEx log).</string>

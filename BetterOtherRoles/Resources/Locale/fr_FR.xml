@@ -122,9 +122,9 @@
   <string name="BetterOtherRoles.Role.Sheriff.TabDescription">Abattez les Imposteurs</string>
   <string name="BetterOtherRoles.Role.SheriffKill">Tuer</string>
   <!-- Sheriff Options -->
-  <string name="BetterOtherRoles.Option.Sheriff.Cooldown">Délai de tir du Shérif</string>
-  <string name="BetterOtherRoles.Option.Sheriff.CanKillNeutrals">Le Shérif peut tuer les Neutres</string>
-  <string name="BetterOtherRoles.Option.Sheriff.HasDeputy">Le Shérif a un Adjoint</string>
+  <string name="BetterOtherRoles.Option.Sheriff.Cooldown">Délai de tir</string>
+  <string name="BetterOtherRoles.Option.Sheriff.CanKillNeutrals">Peut tuer les Neutres</string>
+  <string name="BetterOtherRoles.Option.Sheriff.HasDeputy">A un Adjoint</string>
   <string name="BetterOtherRoles.Option.Sheriff.DeputyChance">Chance d'apparition de l'Adjoint</string>
   <!-- Deputy - Crewmate Killing -->
   <string name="BetterOtherRoles.Role.Deputy">Adjoint</string>
@@ -132,15 +132,15 @@
   <string name="BetterOtherRoles.Role.Deputy.TabDescription">Menottez les Imposteurs</string>
   <string name="BetterOtherRoles.Role.DeputyHandcuff">Menotter</string>
   <!-- Deputy Options (in the Sheriff options) -->
-  <string name="BetterOtherRoles.Option.Deputy.Handcuffs">Nombre de menottes de l'Adjoint</string>
+  <string name="BetterOtherRoles.Option.Deputy.Handcuffs">Nombre de menottes</string>
   <string name="BetterOtherRoles.Option.Deputy.HandcuffCooldown">Délai des menottes</string>
   <string name="BetterOtherRoles.Option.Deputy.HandcuffDuration">Durée des menottes</string>
-  <string name="BetterOtherRoles.Option.Deputy.KnowsSheriff">Le Shérif et l'Adjoint se connaissent</string>
-  <string name="BetterOtherRoles.Option.Deputy.Promotion">L'Adjoint est promu Shérif</string>
+  <string name="BetterOtherRoles.Option.Deputy.KnowsSheriff">Connaît le Shérif (et inversement)</string>
+  <string name="BetterOtherRoles.Option.Deputy.Promotion">Promu Shérif</string>
   <string name="BetterOtherRoles.Option.Deputy.PromotionOff">Non</string>
   <string name="BetterOtherRoles.Option.Deputy.PromotionImmediately">Immédiatement</string>
   <string name="BetterOtherRoles.Option.Deputy.PromotionAfterMeeting">Après la réunion</string>
-  <string name="BetterOtherRoles.Option.Deputy.KeepsHandcuffs">L'Adjoint garde ses menottes une fois promu</string>
+  <string name="BetterOtherRoles.Option.Deputy.KeepsHandcuffs">Garde ses menottes une fois promu</string>
   <!-- MiraAPI keys without a French translation in MiraAPI 0.6.0 -->
   <string name="MiraApi">Mira API</string>
   <string name="MiraApi.VisualsUi">Visuels/Interface</string>
@@ -209,6 +209,12 @@
   <string name="Inactive">Inactif</string>
   <string name="Activated">Activé</string>
   <string name="Deactivated">Désactivé</string>
+  <!-- Options de partie -->
+  <string name="BetterOtherRoles.Options.Groups.Gameplay">Options de partie</string>
+  <string name="BetterOtherRoles.Option.Gameplay.PauseCooldownsInMinigames">Délais figés dans les mini-jeux</string>
+  <string name="BetterOtherRoles.Option.Gameplay.PauseCooldownsCrewmates">Crewmates</string>
+  <string name="BetterOtherRoles.Option.Gameplay.PauseCooldownsImpostors">Imposteurs</string>
+  <string name="BetterOtherRoles.Option.Gameplay.PauseCooldownsNeutrals">Neutres</string>
   <!-- Commandes du chat (Modules/Commands) -->
   <string name="BetterOtherRoles.Command.Unknown">Commande inconnue : /{0}. Tape /help pour la liste.</string>
   <string name="BetterOtherRoles.Command.Failed">La commande a échoué (voir le journal BepInEx).</string>

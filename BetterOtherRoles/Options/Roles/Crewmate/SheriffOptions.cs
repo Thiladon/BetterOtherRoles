@@ -1,3 +1,4 @@
+using BetterOtherRoles.Patches.Options;
 using BetterOtherRoles.Roles.Crewmate;
 using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.Attributes;
@@ -13,6 +14,15 @@ namespace BetterOtherRoles.Options.Roles.Crewmate;
 /// </summary>
 public sealed class SheriffOptions : AbstractRoleOptionGroup<SheriffRole>
 {
+    public SheriffOptions()
+    {
+        // Lobby notification: "Deputy > Number Of Handcuffs" (the other options: "Sheriff > ...", automatic).
+        foreach (var option in DeputyOptions)
+        {
+            option.SetNotificationRole<DeputyRole>();
+        }
+    }
+
     public override string GroupName => MiraLocaleManager.Get("BetterOtherRoles.Role.Sheriff", "Sheriff");
 
     [ModdedNumberOption("BetterOtherRoles.Option.Sheriff.Cooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
