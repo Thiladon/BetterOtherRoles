@@ -259,4 +259,7 @@
 Installe la même version que l'hôte.</string>
   <string name="BetterOtherRoles.Lobby.Name.Kicked">{0} a été expulsé : balises dans le nom.</string>
   <string name="BetterOtherRoles.Lobby.Name.KickReason">BetterOtherRoles : ton nom contient des balises (&lt; &gt;), interdites.</string>
+  <string name="BetterOtherRoles.LocalSettings.CopyLobbyCode">Copier le code du salon</string>
+  <string name="BetterOtherRoles.LocalSettings.CopyLobbyCodeDescription">Copie le code du salon dans le presse-papiers quand tu crées un salon en ligne (hôte seulement), pour le coller tout de suite.</string>
+  <string name="BetterOtherRoles.Lobby.CodeCopied">Code du salon copié : {0}</string>
 </resources>

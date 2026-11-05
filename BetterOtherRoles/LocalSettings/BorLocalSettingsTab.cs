@@ -42,4 +42,15 @@ public class BorLocalSettingsTab(ConfigFile config) : LocalSettingsTab(config)
         "AutoRejoinDelay",
         4f,
         "Delay before going back to the lobby, in seconds (0 to 30).");
+
+    /// <summary>
+    ///     Gets whether the host's lobby code is copied to the clipboard when an online lobby is created
+    ///     (BetterOtherRoles 1.7.1, <see cref="Modules.Lobby.BorLobbyCode"/>).
+    /// </summary>
+    [LocalToggleSetting("BetterOtherRoles.LocalSettings.CopyLobbyCode", "BetterOtherRoles.LocalSettings.CopyLobbyCodeDescription")]
+    public ConfigEntry<bool> CopyLobbyCode { get; private set; } = config.Bind(
+        "BetterOtherRoles.LocalSettings.General",
+        "CopyLobbyCode",
+        true,
+        "Copies the lobby code to the clipboard when you create an online lobby.");
 }

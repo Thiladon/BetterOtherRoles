@@ -191,4 +191,7 @@
 Install the same version as the host.</string>
   <string name="BetterOtherRoles.Lobby.Name.Kicked">{0} was kicked: tags in the name.</string>
   <string name="BetterOtherRoles.Lobby.Name.KickReason">BetterOtherRoles: your name holds tags (&lt; &gt;), which are not allowed.</string>
+  <string name="BetterOtherRoles.LocalSettings.CopyLobbyCode">Copy Lobby Code</string>
+  <string name="BetterOtherRoles.LocalSettings.CopyLobbyCodeDescription">Copies the lobby code to the clipboard when you create an online lobby (host only), so that you can paste it right away.</string>
+  <string name="BetterOtherRoles.Lobby.CodeCopied">Lobby code copied: {0}</string>
 </resources>
