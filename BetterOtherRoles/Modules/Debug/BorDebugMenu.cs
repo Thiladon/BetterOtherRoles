@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Reflection;
-using AmongUs.GameOptions;
 using BetterOtherRoles.Assets;
 using BetterOtherRoles.Patches.Misc;
 using HarmonyLib;
@@ -233,8 +232,10 @@ public sealed class BorPhoneMenu : CustomPaginableMenu
         }
     }
 
-    private void OnEntryClick(Entry entry)
+    private void OnEntryClick(Entry? entry)
     {
+        if (entry == null) return;
+
         if (!entry.Opens)
             ForceClose();
 
@@ -244,20 +245,21 @@ public sealed class BorPhoneMenu : CustomPaginableMenu
     // Copy of the close button, with an arrow, under it; shown when there is a list to go back to.
     private void CreateBackArrow()
     {
-        var close = backButton ? backButton.gameObject : null;
-        if (!close) return;
+        if (!backButton) return;
 
-        _backArrow = Object.Instantiate(close, close!.transform.parent);
-        _backArrow.name = "BorBackArrow";
-        _backArrow.transform.localPosition = close.transform.localPosition + (Vector3.down * BackArrowDown);
+        var close = backButton.gameObject;
+        var arrow = Object.Instantiate(close, close.transform.parent);
+        _backArrow = arrow;
+        arrow.name = "BorBackArrow";
+        arrow.transform.localPosition = close.transform.localPosition + (Vector3.down * BackArrowDown);
 
         // The rollover would put the cross back.
-        foreach (var rollover in _backArrow.GetComponentsInChildren<ButtonRolloverHandler>(true))
+        foreach (var rollover in arrow.GetComponentsInChildren<ButtonRolloverHandler>(true))
         {
             Object.Destroy(rollover);
         }
 
-        var renderer = _backArrow.GetComponentInChildren<SpriteRenderer>(true);
+        var renderer = arrow.GetComponentInChildren<SpriteRenderer>(true);
         if (renderer && renderer!.sprite)
         {
             // At the size of the close button.
@@ -267,7 +269,7 @@ public sealed class BorPhoneMenu : CustomPaginableMenu
             renderer.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), pixelsPerUnit);
         }
 
-        var button = _backArrow.GetComponent<PassiveButton>();
+        var button = arrow.GetComponent<PassiveButton>();
         if (button)
         {
             button.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();

@@ -2,8 +2,6 @@ using System.IO.Compression;
 using System.Text;
 using AmongUs.GameOptions;
 using BepInEx.Configuration;
-using MiraAPI.GameOptions;
-using MiraAPI.PluginLoading;
 using MiraAPI.Presets;
 using MiraAPI.Roles;
 

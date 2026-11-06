@@ -68,27 +68,17 @@ public static class TestModePatches
     }
 
     /// <summary>
-    ///     After an ejection, the game only gives the control back if the game is not lost by deaths (impostors as many
-    ///     as the crewmates): it then waits for the game end, blocked here, and stays on a black screen.
+    ///     Game end checks that always say "no" in test mode, the game end being blocked:
+    ///     - after an ejection, the game only gives the control back if the game is not lost by deaths (impostors as many
+    ///       as the crewmates): it then waited for the game end and stayed on a black screen;
+    ///     - before opening a meeting, the host checks the task win: alone as an impostor, there is no crewmate task, so
+    ///       the tasks counted as done and the meeting never opened ("Waiting for host").
     /// </summary>
     [HarmonyPatch(typeof(LogicGameFlowNormal), nameof(LogicGameFlowNormal.IsGameOverDueToDeath))]
-    [HarmonyPrefix]
-    [HarmonyPriority(Priority.First)]
-    public static bool IsGameOverDueToDeathPrefix(ref bool __result)
-    {
-        if (!BorDevOptions.IsTestModeActive) return true;
-
-        __result = false;
-        return false;
-    }
-
-    /// <summary>
-    ///     Before opening a meeting, the host checks the task win: alone as an impostor, there is no crewmate task, so
-    ///     the tasks count as done, the game end is blocked and the meeting never opens ("Waiting for host").
-    /// </summary>
     [HarmonyPatch(typeof(GameManager), nameof(GameManager.CheckTaskCompletion))]
     [HarmonyPrefix]
-    public static bool CheckTaskCompletionPrefix(ref bool __result)
+    [HarmonyPriority(Priority.First)]
+    public static bool NoGameEndCheckPrefix(ref bool __result)
     {
         if (!BorDevOptions.IsTestModeActive) return true;
 

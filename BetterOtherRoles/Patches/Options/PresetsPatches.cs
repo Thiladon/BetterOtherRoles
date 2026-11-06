@@ -7,7 +7,6 @@ using BetterOtherRoles.Patches.Misc;
 using BetterOtherRoles.Utilities;
 using HarmonyLib;
 using MiraAPI.Patches.Options;
-using MiraAPI.PluginLoading;
 using MiraAPI.Presets;
 using MiraAPI.Translation;
 using Reactor.Utilities;
@@ -144,8 +143,10 @@ public static class PresetsPatches
                 var label = name;
                 if (hasActive && name == active)
                 {
-                    label = string.Format(CheckMark, selected ? CheckColorSelected : CheckColor) + name +
-                            (changed ? string.Format(ChangedMark, selected ? ChangedColorSelected : ChangedColor) : string.Empty);
+                    var checkColor = selected ? CheckColorSelected : CheckColor;
+                    var changedColor = selected ? ChangedColorSelected : ChangedColor;
+                    var changedMark = changed ? string.Format(BetterOtherRolesPlugin.Culture, ChangedMark, changedColor) : string.Empty;
+                    label = string.Format(BetterOtherRolesPlugin.Culture, CheckMark, checkColor) + name + changedMark;
                 }
 
                 button.buttonText.text = label;
@@ -157,9 +158,14 @@ public static class PresetsPatches
 
             KeepFontSize(plugin, marked);
 
-            var description = !hasActive
-                ? Get("Custom", "Custom settings")
-                : string.Format(BetterOtherRolesPlugin.Culture, Get(changed ? "ActiveChanged" : "Active", changed ? "Active preset: {0} (changed)" : "Active preset: {0}"), active);
+            string description;
+            if (!hasActive)
+                description = Get("Custom", "Custom settings");
+            else if (changed)
+                description = Format("ActiveChanged", "Active preset: {0} (changed)", active);
+            else
+                description = Format("Active", "Active preset: {0}", active);
+
             _description = description;
             SetDescription(tab);
 
@@ -200,15 +206,15 @@ public static class PresetsPatches
             // "Save" asks before replacing a preset.
             var saveButton = save!.GetComponent<PassiveButton>();
             saveButton.OnClick = new Button.ButtonClickedEvent();
-            saveButton.OnClick.AddListener((Action)(() => OnSave(tab)));
+            saveButton.OnClick.AddListener((Action)(() => OnSave()));
 
             if (!_loadButton)
             {
                 _loadButton = CreateLargeButton(saveButton, tab, "BorLoadButton", "Load", "Load", () => OnLoad(tab));
                 _exportButton = CreateLargeButton(saveButton, tab, "BorExportButton", "Export", "Export", () => OnExport(tab));
-                _importButton = CreateLargeButton(saveButton, tab, "BorImportButton", "Import", "Import", () => OnImport(tab));
-                _renameButton = CreateIconButton(refresh!.GetComponent<PassiveButton>(), tab, "BorRenameButton", BorAssets.PresetPencil.LoadAsset(), () => OnRename(tab));
-                _deleteButton = CreateIconButton(refresh.GetComponent<PassiveButton>(), tab, "BorDeleteButton", BorAssets.PresetTrash.LoadAsset(), () => OnDelete(tab));
+                _importButton = CreateLargeButton(saveButton, tab, "BorImportButton", "Import", "Import", OnImport);
+                _renameButton = CreateIconButton(refresh!.GetComponent<PassiveButton>(), tab, "BorRenameButton", BorAssets.PresetPencil.LoadAsset(), OnRename);
+                _deleteButton = CreateIconButton(refresh.GetComponent<PassiveButton>(), tab, "BorDeleteButton", BorAssets.PresetTrash.LoadAsset(), OnDelete);
             }
         }
 
@@ -294,14 +300,14 @@ public static class PresetsPatches
 
         // Filled with the selected preset (or the name refused by "No" on the replacement); a name already used asks to
         // replace that preset, "No" gives the name back to change it.
-        private static void OnSave(GamePresetsTab tab, string? name = null)
+        private static void OnSave(string? name = null)
         {
             name ??= _selected == BorPresets.DefaultName ? string.Empty : _selected;
             AskNameToReplace(string.Empty, name, value =>
             {
                 Save(value);
                 Popups.InformLater(Format("Saved", "The preset {0} has been saved.", value));
-            }, value => OnSave(tab, value));
+            }, OnSave);
         }
 
         // Asks a valid name (in lower case); a name already used asks to replace that preset, "No" calls onRefused with
@@ -328,7 +334,7 @@ public static class PresetsPatches
             RefreshMethod.Invoke(null, null);
         }
 
-        private static void OnDelete(GamePresetsTab tab)
+        private static void OnDelete()
         {
             var name = _selected;
             if (name.Length == 0 || name == BorPresets.DefaultName) return;
@@ -341,7 +347,7 @@ public static class PresetsPatches
             });
         }
 
-        private static void OnRename(GamePresetsTab tab)
+        private static void OnRename()
         {
             var name = _selected;
             if (name.Length == 0 || name == BorPresets.DefaultName) return;
@@ -401,7 +407,7 @@ public static class PresetsPatches
             SetDescription(tab);
         }
 
-        private static void OnImport(GamePresetsTab tab)
+        private static void OnImport()
         {
             if (!BorPresets.TryReadCode(GUIUtility.systemCopyBuffer, out var name, out var values))
             {
@@ -1003,8 +1009,13 @@ public static class PresetsPatches
         {
             if (InternalPresetsProperty.GetValue(plugin) is not List<OptionPreset> presets) return;
 
-            presets.Sort((a, b) => a.Name == BorPresets.DefaultName ? (b.Name == BorPresets.DefaultName ? 0 : -1)
-                : b.Name == BorPresets.DefaultName ? 1 : string.Compare(a.Name, b.Name, StringComparison.OrdinalIgnoreCase));
+            presets.Sort((a, b) => (a.Name == BorPresets.DefaultName, b.Name == BorPresets.DefaultName) switch
+            {
+                (true, true) => 0,
+                (true, false) => -1,
+                (false, true) => 1,
+                _ => string.Compare(a.Name, b.Name, StringComparison.OrdinalIgnoreCase),
+            });
             PresetsProperty.SetValue(plugin, presets.ToArray());
         }
 

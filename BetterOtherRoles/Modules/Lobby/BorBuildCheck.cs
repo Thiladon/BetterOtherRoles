@@ -1,6 +1,5 @@
 using BetterOtherRoles.Utilities;
 using HarmonyLib;
-using InnerNet;
 using MiraAPI.Translation;
 using Reactor.Networking.Attributes;
 

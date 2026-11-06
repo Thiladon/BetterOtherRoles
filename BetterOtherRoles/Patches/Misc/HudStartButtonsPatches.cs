@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using HarmonyLib;
 
 namespace BetterOtherRoles.Patches.Misc;
@@ -14,6 +15,7 @@ namespace BetterOtherRoles.Patches.Misc;
 [HarmonyPatch(typeof(HudManager), nameof(HudManager.Start))]
 public static class HudStartButtonsPatches
 {
+    [SuppressMessage("Major Code Smell", "S4487", Justification = "Strong references only: never read, see the summary.")]
     private static ActionButton[]? _keptButtons;
 
     // Before the MiraAPI postfix (normal priority).

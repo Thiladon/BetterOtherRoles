@@ -1,7 +1,6 @@
 using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Roles;
-using MiraAPI.Utilities;
 using TMPro;
 using UnityEngine;
 
@@ -81,11 +80,8 @@ public static class OptionNotificationPatches
         var icon = sprite ? $"<sprite name=\"{sprite!.name}\">" : string.Empty;
         var message = translation.GetString(
             StringNames.LobbyChangeSettingNotification,
-            new Il2CppSystem.Object[]
-            {
-                $"{icon}{Font}{textColor.ToTextColor()}{owner} > {translation.GetString(key)}</color></font>",
-                $"{Font}{value}</font>",
-            });
+            $"{icon}{Font}{textColor.ToTextColor()}{owner} > {translation.GetString(key)}</color></font>",
+            $"{Font}{value}</font>");
         notif.SettingsChangeMessageLogic(key, message, playSound);
         return false;
     }
