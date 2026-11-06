@@ -48,4 +48,22 @@ public sealed class GameplayOptions : AbstractOptionGroup
         {
             Visible = () => OptionGroupSingleton<GameplayOptions>.Instance.PauseCooldownsInMinigames.Value,
         };
+
+    /// <summary>
+    ///     Gets when the impostors have their own chat (<see cref="Modules.Chat.BorImpostorChat"/>): never, in meetings,
+    ///     or during the whole game (<see cref="ImpostorChatMode"/>).
+    /// </summary>
+    public ModdedEnumOption ImpostorChat { get; } =
+        new("BetterOtherRoles.Option.Gameplay.ImpostorChat", (int)ImpostorChatMode.Meetings, typeof(ImpostorChatMode),
+            ["BetterOtherRoles.Option.Gameplay.ImpostorChatOff", "BetterOtherRoles.Option.Gameplay.ImpostorChatMeetings", "BetterOtherRoles.Option.Gameplay.ImpostorChatWholeGame"]);
+}
+
+/// <summary>
+///     When the impostors have their own chat.
+/// </summary>
+public enum ImpostorChatMode
+{
+    Off,
+    Meetings,
+    WholeGame,
 }

@@ -147,6 +147,15 @@
   <string name="BetterOtherRoles.Option.Gameplay.PauseCooldownsCrewmates">Crewmates</string>
   <string name="BetterOtherRoles.Option.Gameplay.PauseCooldownsImpostors">Impostors</string>
   <string name="BetterOtherRoles.Option.Gameplay.PauseCooldownsNeutrals">Neutrals</string>
+  <string name="BetterOtherRoles.Option.Gameplay.ImpostorChat">Impostor Chat</string>
+  <string name="BetterOtherRoles.Option.Gameplay.ImpostorChatOff">No Chat</string>
+  <string name="BetterOtherRoles.Option.Gameplay.ImpostorChatMeetings">In Meetings</string>
+  <string name="BetterOtherRoles.Option.Gameplay.ImpostorChatWholeGame">Whole Game</string>
+  <!-- Impostor chat (Modules/Chat) -->
+  <string name="BetterOtherRoles.ImpostorChat.Active">Impostor chat (Tab: public chat)</string>
+  <string name="BetterOtherRoles.ImpostorChat.ReadOnly">Impostor chat, read only (Tab: public chat)</string>
+  <string name="BetterOtherRoles.ImpostorChat.Only">Impostor chat</string>
+  <string name="BetterOtherRoles.ImpostorChat.CannotWrite">Dead impostors can only read this chat.</string>
   <!-- Chat commands (Modules/Commands) -->
   <string name="BetterOtherRoles.Command.Unknown">Unknown command: /{0}. Type /help for the list.</string>
   <string name="BetterOtherRoles.Command.Failed">The command failed (see the BepInEx log).</string>

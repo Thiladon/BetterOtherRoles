@@ -1,4 +1,5 @@
 using System.Reflection;
+using BetterOtherRoles.Modules.Chat;
 using BetterOtherRoles.Modules.Debug;
 using BetterOtherRoles.Patches.Misc;
 using HarmonyLib;
@@ -44,7 +45,7 @@ public static class BorCommandManager
     {
         var text = __instance.freeChatField.Text.Trim();
         ChatInputPatches.AddToHistory(text);
-        if (!text.StartsWith('/')) return true;
+        if (!text.StartsWith('/')) return !BorImpostorChat.TrySend(__instance, text);
 
         var space = text.IndexOfAny([' ', '\t']);
         var name = space < 0 ? text[1..] : text[1..space];

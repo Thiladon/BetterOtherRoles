@@ -1,3 +1,4 @@
+using BetterOtherRoles.Modules.Chat;
 using HarmonyLib;
 
 namespace BetterOtherRoles.Patches.Misc;
@@ -14,6 +15,7 @@ public static class ChatClearPatches
         if (!HudManager.InstanceExists || !HudManager.Instance.Chat) return;
 
         var chat = HudManager.Instance.Chat;
+        BorImpostorChat.Clear();
         chat.chatBubblePool.ReclaimAll();
         chat.AlignAllBubbles();
 

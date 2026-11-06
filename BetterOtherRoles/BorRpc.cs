@@ -18,4 +18,5 @@ public enum BorRpc : uint
     Teleport,
     BuildCheck,
     Kick,
+    ImpostorChat,
 }

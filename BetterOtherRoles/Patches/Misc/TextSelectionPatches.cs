@@ -247,6 +247,18 @@ public static class TextSelectionPatches
         RefreshMark(__instance, state);
     }
 
+    // A text box whose Start has not run yet has no collider list: the game threw a NullReferenceException when it
+    // checked a click on it (start of a game). Not hit, without calling the game.
+    [HarmonyPatch(typeof(TextBoxTMP), nameof(TextBoxTMP.CheckCollision))]
+    [HarmonyPrefix]
+    public static bool CheckCollisionPrefix(TextBoxTMP __instance, ref bool __result)
+    {
+        if (__instance.colliders != null) return true;
+
+        __result = false;
+        return false;
+    }
+
     // The box keeps the focus when it is clicked (the chat box has no collider: the game would take the focus away
     // then give it back with the caret at the end).
     [HarmonyPatch(typeof(TextBoxTMP), nameof(TextBoxTMP.CheckCollision))]
