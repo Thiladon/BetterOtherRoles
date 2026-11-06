@@ -1,5 +1,6 @@
 using System.Reflection;
 using BetterOtherRoles.Modules.Debug;
+using BetterOtherRoles.Patches.Misc;
 using HarmonyLib;
 using MiraAPI.Translation;
 
@@ -42,6 +43,7 @@ public static class BorCommandManager
     public static bool SendChatPrefix(ChatController __instance)
     {
         var text = __instance.freeChatField.Text.Trim();
+        ChatInputPatches.AddToHistory(text);
         if (!text.StartsWith('/')) return true;
 
         var space = text.IndexOfAny([' ', '\t']);
