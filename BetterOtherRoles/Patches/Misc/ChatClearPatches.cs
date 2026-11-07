@@ -16,6 +16,7 @@ public static class ChatClearPatches
 
         var chat = HudManager.Instance.Chat;
         BorImpostorChat.Clear();
+        BorInfoHistory.Clear();
         chat.chatBubblePool.ReclaimAll();
         chat.AlignAllBubbles();
 

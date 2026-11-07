@@ -263,6 +263,11 @@
   <string name="BetterOtherRoles.Command.Version.Host">{0} (hôte)</string>
   <string name="BetterOtherRoles.Command.Version.Waiting">pas encore reçu</string>
   <string name="BetterOtherRoles.Command.Version.Line">{0} {1} : {2}</string>
+  <string name="BetterOtherRoles.Command.Info.Usage">[manche]</string>
+  <string name="BetterOtherRoles.Command.Info.Description">rejoue les informations de rôle reçues (dernière manche par défaut).</string>
+  <string name="BetterOtherRoles.Command.Info.Round">Manche {0} :</string>
+  <string name="BetterOtherRoles.Command.Info.None">Aucune information de rôle à rejouer.</string>
+  <string name="BetterOtherRoles.Command.Info.NoneInRound">Aucune information de rôle pour la manche {0}.</string>
   <string name="BetterOtherRoles.Lobby.Build.Kicked">{0} a été expulsé : pas le même build du mod.</string>
   <string name="BetterOtherRoles.Lobby.Build.Waiting">Lancement impossible : en attente du build de {0}.</string>
   <string name="BetterOtherRoles.Lobby.Build.KickReason">BetterOtherRoles : ton build du mod ({0}) n'est pas celui de l'hôte ({1}).
