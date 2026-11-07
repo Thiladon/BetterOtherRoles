@@ -19,6 +19,7 @@ public sealed class GameplayOptions : AbstractOptionGroup
         PauseCooldownsCrewmates.SetNotificationParent(PauseCooldownsInMinigames);
         PauseCooldownsImpostors.SetNotificationParent(PauseCooldownsInMinigames);
         PauseCooldownsNeutrals.SetNotificationParent(PauseCooldownsInMinigames);
+        ImpostorChatSeparate.SetNotificationParent(ImpostorChat);
     }
 
     public override uint GroupPriority => 3;
@@ -56,6 +57,18 @@ public sealed class GameplayOptions : AbstractOptionGroup
     public ModdedEnumOption ImpostorChat { get; } =
         new("BetterOtherRoles.Option.Gameplay.ImpostorChat", (int)ImpostorChatMode.Meetings, typeof(ImpostorChatMode),
             ["BetterOtherRoles.Option.Gameplay.ImpostorChatOff", "BetterOtherRoles.Option.Gameplay.ImpostorChatMeetings", "BetterOtherRoles.Option.Gameplay.ImpostorChatWholeGame"]);
+
+    /// <summary>
+    ///     Gets whether the impostor chat is a chat of its own (red button, own list). Off: out of meetings, a living
+    ///     impostor writes in the chat of the game, sent to the impostors only (red bubbles in the public list); in
+    ///     meetings, everyone has the public chat. Only for the whole game mode (off in meetings only would leave no
+    ///     impostor chat).
+    /// </summary>
+    public ModdedToggleOption ImpostorChatSeparate { get; } =
+        new("BetterOtherRoles.Option.Gameplay.ImpostorChatSeparate", true)
+        {
+            Visible = () => OptionGroupSingleton<GameplayOptions>.Instance.ImpostorChat.Value == (int)ImpostorChatMode.WholeGame,
+        };
 }
 
 /// <summary>

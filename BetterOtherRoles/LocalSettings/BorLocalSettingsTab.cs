@@ -53,4 +53,26 @@ public class BorLocalSettingsTab(ConfigFile config) : LocalSettingsTab(config)
         "CopyLobbyCode",
         true,
         "Copies the lobby code to the clipboard when you create an online lobby.");
+
+    /// <summary>
+    ///     Gets whether the names in the chat are in the color of the role, when it is known
+    ///     (<see cref="Patches.Misc.ChatRoleColorPatches"/>).
+    /// </summary>
+    [LocalToggleSetting("BetterOtherRoles.LocalSettings.ChatRoleColors", "BetterOtherRoles.LocalSettings.ChatRoleColorsDescription")]
+    public ConfigEntry<bool> ChatRoleColors { get; private set; } = config.Bind(
+        "BetterOtherRoles.LocalSettings.Chat",
+        "ChatRoleColors",
+        true,
+        "Shows the names in the chat in the color of the role, when you know it.");
+
+    /// <summary>
+    ///     Gets whether the notification of a new chat message is shown in game too (TOU-Mira 1.7.9 ShowChatNotifsInGame;
+    ///     the game shows it in the lobby only, <see cref="Patches.Misc.ChatNotificationPatches"/>).
+    /// </summary>
+    [LocalToggleSetting("BetterOtherRoles.LocalSettings.ChatNotificationsInGame", "BetterOtherRoles.LocalSettings.ChatNotificationsInGameDescription")]
+    public ConfigEntry<bool> ChatNotificationsInGame { get; private set; } = config.Bind(
+        "BetterOtherRoles.LocalSettings.Chat",
+        "ChatNotificationsInGame",
+        true,
+        "Shows the notification of a new chat message in game too.");
 }

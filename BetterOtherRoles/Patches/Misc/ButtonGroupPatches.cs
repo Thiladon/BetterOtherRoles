@@ -28,6 +28,10 @@ public static class ButtonGroupPatches
     private static SpriteRenderer? _frame;
     private static Sprite? _frameSprite;
     private static int _lastLayout;
+    private static bool _dirty;
+
+    // Panels of buttons out of the container under the frame too (impostor chat), hidden like the ones of the group.
+    private static readonly List<Transform> ExtraPanels = [];
 
     [HarmonyPostfix]
     public static void UpdatePostfix(HudManager __instance)
@@ -38,8 +42,9 @@ public static class ButtonGroupPatches
         if (!container) return;
 
         var layout = GetLayout(container);
-        if (layout != _lastLayout || !_frame)
+        if (layout != _lastLayout || !_frame || _dirty)
         {
+            _dirty = false;
             Rebuild(container, __instance.SettingsButton.transform);
 
             // The buttons moved closer: their new places are the expected layout.
@@ -52,6 +57,24 @@ public static class ButtonGroupPatches
             if (panel && panel.enabled)
                 panel.enabled = false;
         }
+    }
+
+    /// <summary>
+    ///     Puts the frame under buttons out of the container too, through their panels (hidden, as the ones of the
+    ///     group): the chat button and the red button of <see cref="Modules.Chat.BorImpostorChat"/>, one frame with the
+    ///     same margins for the chat buttons and the settings button. Empty: the group only.
+    /// </summary>
+    /// <param name="panels">The panels, their places (an inactive one too).</param>
+    public static void SetExtraPanels(List<Transform> panels)
+    {
+        var same = panels.Count == ExtraPanels.Count;
+        for (var i = 0; same && i < panels.Count; i++)
+            same = ExtraPanels[i] && panels[i].Pointer == ExtraPanels[i].Pointer;
+        if (same) return;
+
+        ExtraPanels.Clear();
+        ExtraPanels.AddRange(panels);
+        _dirty = true;
     }
 
     /// <summary>
@@ -83,6 +106,16 @@ public static class ButtonGroupPatches
             hash = (hash * 31) + (child.gameObject.activeSelf ? 1 : 0);
             hash = (hash * 31) + Mathf.RoundToInt(child.localPosition.x * 100f);
             hash = (hash * 31) + Mathf.RoundToInt(child.localPosition.y * 100f);
+        }
+
+        // The extra panels move with their buttons, out of the container.
+        foreach (var extra in ExtraPanels)
+        {
+            if (!extra) continue;
+
+            var position = container.InverseTransformPoint(extra.position);
+            hash = (hash * 31) + Mathf.RoundToInt(position.x * 100f);
+            hash = (hash * 31) + Mathf.RoundToInt(position.y * 100f);
         }
 
         return hash;
@@ -147,10 +180,24 @@ public static class ButtonGroupPatches
             z = Mathf.Max(z, position.z);
         }
 
+        // The extra panels widen the frame only (at the height of the group).
+        var extraPanels = new List<SpriteRenderer>();
+        foreach (var extra in ExtraPanels)
+        {
+            if (!extra) continue;
+
+            var position = container.InverseTransformPoint(extra.position);
+            minX = Mathf.Min(minX, position.x);
+            maxX = Mathf.Max(maxX, position.x);
+
+            var renderer = extra.GetComponent<SpriteRenderer>();
+            if (renderer)
+                extraPanels.Add(renderer!);
+        }
+
         var source = members[0];
         if (!_frameSprite)
             _frameSprite = BorSpriteUtils.ToSliced(source.sprite, new Vector4(PanelBorder, 0f, PanelBorder, 0f));
-
 
         var frame = _frame!;
         frame.sprite = _frameSprite!;
@@ -165,7 +212,7 @@ public static class ButtonGroupPatches
         frame.gameObject.layer = container.gameObject.layer;
         frame.gameObject.SetActive(true);
 
-        foreach (var panel in members)
+        foreach (var panel in members.Concat(extraPanels))
         {
             panel.enabled = false;
             HiddenPanels.Add(panel);
@@ -182,11 +229,17 @@ public static class ButtonGroupPatches
         for (var i = 0; i < button.childCount; i++)
         {
             var renderer = button.GetChild(i).GetComponent<SpriteRenderer>();
-            if (renderer && renderer.sprite && renderer.sprite.name.StartsWith(PanelSpritePrefix, StringComparison.Ordinal))
+            if (renderer && IsPanel(renderer))
                 return renderer;
         }
 
         return null;
+    }
+
+    // A frame with the vanilla panel sprite.
+    private static bool IsPanel(SpriteRenderer renderer)
+    {
+        return renderer.sprite && renderer.sprite.name.StartsWith(PanelSpritePrefix, StringComparison.Ordinal);
     }
 
     // Next to the container, not inside: its GridArrange would place the frame as a button.

@@ -44,24 +44,30 @@ public static class NameColorPatches
         var localRole = PlayerControl.LocalPlayer ? PlayerControl.LocalPlayer.Data?.Role : null;
         if (!AmongUsClient.Instance.IsGameStarted || !localRole) return;
 
-        var amImpostor = localRole!.IsImpostor;
         foreach (var player in PlayerControl.AllPlayerControls)
         {
             var role = player ? player.Data?.Role : null;
             if (!role) continue;
 
-            var color = amImpostor && role!.IsImpostor ? Palette.ImpostorRed : Color.white;
-            if (player.AmOwner)
-            {
-                color = GetRoleColor(role!);
-            }
-            else if (KnowsEachOther(localRole, role!))
-            {
-                color = BorColors.Sheriff;
-            }
-
-            SetPlayerNameColor(player, color);
+            SetPlayerNameColor(player, GetKnownColor(localRole!, player, role!) ?? Color.white);
         }
+    }
+
+    /// <summary>
+    ///     Gets the color the local player knows for the name of a player: its own role, the Sheriff and the Deputy who
+    ///     know each other, the other impostors for an impostor. Null when nothing is known.
+    /// </summary>
+    /// <param name="localRole">The role of the local player.</param>
+    /// <param name="player">The player.</param>
+    /// <param name="role">The role of the player.</param>
+    /// <returns>The color, or null.</returns>
+    public static Color? GetKnownColor(RoleBehaviour localRole, PlayerControl player, RoleBehaviour role)
+    {
+        if (player.AmOwner) return GetRoleColor(role);
+        if (KnowsEachOther(localRole, role)) return BorColors.Sheriff;
+        if (localRole.IsImpostor && role.IsImpostor) return Palette.ImpostorRed;
+
+        return null;
     }
 
     /// <summary>

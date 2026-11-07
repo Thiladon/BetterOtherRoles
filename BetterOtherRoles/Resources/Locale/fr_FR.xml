@@ -219,6 +219,7 @@
   <string name="BetterOtherRoles.Option.Gameplay.ImpostorChatOff">Pas de chat</string>
   <string name="BetterOtherRoles.Option.Gameplay.ImpostorChatMeetings">En réunion</string>
   <string name="BetterOtherRoles.Option.Gameplay.ImpostorChatWholeGame">En partie</string>
+  <string name="BetterOtherRoles.Option.Gameplay.ImpostorChatSeparate">Chats séparés</string>
   <!-- Chat des imposteurs (Modules/Chat) -->
   <string name="BetterOtherRoles.ImpostorChat.Active">Chat des imposteurs (Tab : chat public)</string>
   <string name="BetterOtherRoles.ImpostorChat.ReadOnly">Chat des imposteurs, lecture seule (Tab : chat public)</string>
@@ -270,6 +271,11 @@ Installe la même version que l'hôte.</string>
   <string name="BetterOtherRoles.Lobby.Name.KickReason">BetterOtherRoles : ton nom contient des balises (&lt; &gt;), interdites.</string>
   <string name="BetterOtherRoles.LocalSettings.CopyLobbyCode">Copier le code du salon</string>
   <string name="BetterOtherRoles.LocalSettings.CopyLobbyCodeDescription">Copie le code du salon dans le presse-papiers quand tu crées un salon en ligne (hôte seulement), pour le coller tout de suite.</string>
+  <string name="BetterOtherRoles.LocalSettings.Chat">Chat</string>
+  <string name="BetterOtherRoles.LocalSettings.ChatRoleColors">Couleur des rôles dans le chat</string>
+  <string name="BetterOtherRoles.LocalSettings.ChatRoleColorsDescription">Affiche le nom d'un joueur dans la couleur de son rôle dans le chat, seulement si tu connais ce rôle : toi-même, un coéquipier.</string>
+  <string name="BetterOtherRoles.LocalSettings.ChatNotificationsInGame">Notifications du chat en partie</string>
+  <string name="BetterOtherRoles.LocalSettings.ChatNotificationsInGameDescription">Affiche aussi en partie la petite fenêtre d'un nouveau message pendant quelques secondes (le jeu ne l'affiche que dans le salon). Le salon n'est pas modifié.</string>
   <string name="BetterOtherRoles.Lobby.CodeCopied">Code du salon copié : {0}</string>
   <string name="BetterOtherRoles.QuickJoin.Previous">Salon précédent :</string>
   <string name="BetterOtherRoles.QuickJoin.PressTab">Appuie sur Tab pour le rejoindre</string>

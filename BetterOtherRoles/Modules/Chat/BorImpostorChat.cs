@@ -36,7 +36,9 @@ namespace BetterOtherRoles.Modules.Chat;
 ///         </item>
 ///     </list>
 ///     The two lists share the bubble pool of the game: the shown list is the scroller content and the active bubbles of
-///     the pool, swapped when switching.
+///     the pool, swapped when switching. With <see cref="GameplayOptions.ImpostorChatSeparate"/> off, there is no impostor
+///     chat of its own (no red button): out of meetings, a living impostor writes in the chat of the game, sent to the
+///     impostors only, their messages in the public list with a red bubble; in meetings, everyone has the public chat.
 /// </summary>
 [HarmonyPatch]
 public static class BorImpostorChat
@@ -58,17 +60,6 @@ public static class BorImpostorChat
     // Space between the red button and the game button, beyond the width of the icon.
     private const float ButtonGap = 0f;
 
-    // The grown panel is cut by this on its left and on its top and bottom (world): its margins were larger than the
-    // ones of the settings button.
-    private const float PanelLeftTrim = 0.07f;
-    private const float PanelHeightTrim = 0.03f;
-
-    // The left margin, measured like the right one, looks a pixel smaller (world, 0.01 is a pixel at 800 x 600).
-    private const float LeftMarginExtra = 0.01f;
-
-    // The panel a bit to the left under the buttons (world, 0.01 is a pixel at 800 x 600): they look centered in it.
-    private const float PanelNudge = 0.01f;
-
     private static Transform? _publicItems;
     private static Transform? _impostorItems;
     private static PoolList? _publicBubbles;
@@ -89,26 +80,13 @@ public static class BorImpostorChat
     private const string DotName = "chatIconNotification";
     private static readonly string[] IconNames = ["Inactive", "Active", "Selected"];
 
-    // Width of the game icon when it is missing, and the share of the panel height kept at each of its (rounded) ends
-    // when it grows.
+    // Width of the game icon when it is missing.
     private const float DefaultIconWidth = 0.56f;
-    private const float PanelEndShare = 0.35f;
 
-    // One button (red button to game button, in the space of the game button), the grown panel and what it was, the
+    // One button (red button to game button, in the space of the game button), the frame under the red button, the
     // game button in red.
     private static float _pitch;
-    private static Sprite? _slicedPanel;
-    private static Sprite? _panelSprite;
-    private static SpriteDrawMode _panelDrawMode;
-    private static Vector3 _panelPosition;
-    private static Vector2 _panelSize;
-    private static float _panelRight;
-    private static float _panelMiddle;
-    private static SpriteRenderer? _settingsPanel;
-    private static bool _settingsPanelSearched;
-    private static readonly Dictionary<IntPtr, (SpriteRenderer Renderer, int Order)> IconOrders = [];
     private static bool _chatButtonMoved;
-    private static Color _settingsPanelColor = Color.white;
     private static bool _panelGrown;
     private static bool _gameButtonRed;
 
@@ -118,6 +96,11 @@ public static class BorImpostorChat
     public static bool IsShown { get; private set; }
 
     private static ImpostorChatMode Mode => (ImpostorChatMode)OptionGroupSingleton<GameplayOptions>.Instance.ImpostorChat.Value;
+
+    // Each chat has its own list; off: the impostor messages are in the public list. The option is only shown (and only
+    // counts) for the whole game mode: in meetings only, the impostor chat is always a chat of its own.
+    private static bool Separate =>
+        Mode != ImpostorChatMode.WholeGame || OptionGroupSingleton<GameplayOptions>.Instance.ImpostorChatSeparate.Value;
 
     /// <summary>
     ///     Gets whether the local player can show the impostor chat: an impostor (dead or not), in a meeting, or in game
@@ -147,6 +130,9 @@ public static class BorImpostorChat
 
     // Only the impostor chat: a living impostor out of meetings.
     private static bool IsImpostorOnly => CanShow && !CanShowPublic;
+
+    // The red button, next to the game one: both chats can be shown, each with its own list.
+    private static bool HasButton => Separate && CanShow && !IsImpostorOnly;
 
     // In game, out of the intro and the ejection.
     private static bool IsInGame =>
@@ -201,13 +187,19 @@ public static class BorImpostorChat
         if (impostor && !CanShow) impostor = false;
         if (!impostor && IsImpostorOnly) impostor = true;
 
+        // One list: the impostor chat is only the chat of a living impostor out of meetings.
+        if (!Separate) impostor = IsImpostorOnly;
+
         if (impostor != IsShown)
         {
             IsShown = impostor;
-            SwapLists(chat!, impostor);
-            _publicItems!.gameObject.SetActive(!impostor);
-            _impostorItems!.gameObject.SetActive(impostor);
-            chat!.AlignAllBubbles();
+            if (Separate)
+            {
+                SwapLists(chat!, impostor);
+                _publicItems!.gameObject.SetActive(!impostor);
+                _impostorItems!.gameObject.SetActive(impostor);
+                chat!.AlignAllBubbles();
+            }
         }
 
         if (impostor && _unreadDot)
@@ -273,16 +265,20 @@ public static class BorImpostorChat
         var chat = GetChat();
         if (!chat || !EnsureLists(chat!)) return;
 
-        // The game lights its unread dot for any message: kept for its button only when it opens the impostor chat.
+        // The game lights its unread dot for any message: kept for its button only when it shows the message (one list,
+        // or the impostor chat only).
+        var separate = Separate;
         var gameDot = chat!.chatNotifyDot;
         var gameDotWasOn = gameDot && gameDot.enabled;
 
         _addingImpostor = true;
         try
         {
-            SwapLists(chat, true);
+            if (separate)
+                SwapLists(chat, true);
+
             chat.AddChat(sender, text, true);
-            if (gameDot && !gameDotWasOn && !IsImpostorOnly)
+            if (separate && gameDot && !gameDotWasOn && !IsImpostorOnly)
                 gameDot.enabled = false;
 
             var bubbles = chat.chatBubblePool.activeChildren;
@@ -292,12 +288,17 @@ public static class BorImpostorChat
         }
         finally
         {
-            SwapLists(chat!, IsShown);
-            chat!.AlignAllBubbles();
+            if (separate)
+            {
+                SwapLists(chat!, IsShown);
+                chat!.AlignAllBubbles();
+            }
+
             _addingImpostor = false;
         }
 
-        if ((!IsShown || !chat.IsOpenOrOpening) && _unreadDot)
+        // One list: the unread dot of the game tells it.
+        if (separate && (!IsShown || !chat.IsOpenOrOpening) && _unreadDot)
             _unreadDot!.enabled = true;
     }
 
@@ -437,7 +438,9 @@ public static class BorImpostorChat
         button.localRotation = Quaternion.identity;
         button.localScale = Vector3.one;
 
-        foreach (var name in IconNames.Append(DotName))
+        // Its panel (hidden) too: the frame of the button group is placed from it (the game moves the one of the game
+        // button between the lobby and the game).
+        foreach (var name in IconNames.Append(DotName).Append(PanelName))
         {
             var gameChild = gameButton.Find(name);
             var child = button.Find(name);
@@ -448,120 +451,25 @@ public static class BorImpostorChat
         }
     }
 
-    // The panel of the game button (under the chat and settings buttons) grows on the left by one button, in 9 slices
-    // (its rounded ends kept), its right end in place; given back when the red button is hidden.
+    // The frame of the button group (ButtonGroupPatches) under the red button too, with the margins it has for the
+    // other buttons: one frame for the chat buttons and the settings button. Given back when the red button is hidden.
     private static void GrowPanel(ChatController chat, bool grow)
     {
-        var panel = chat.chatButton ? chat.chatButton.transform.Find(PanelName)?.GetComponent<SpriteRenderer>() : null;
-        if (!panel) return;
-
         if (!grow)
         {
             if (!_panelGrown) return;
 
             _panelGrown = false;
-            panel!.sprite = _panelSprite;
-            panel.drawMode = _panelDrawMode;
-            panel.transform.localPosition = _panelPosition;
-            RestoreIconOrders();
-            ShowSettingsPanel(true);
+            ButtonGroupPatches.SetExtraPanels([]);
             return;
         }
 
-        if (!_panelGrown)
-        {
-            if (!panel!.sprite) return;
+        var panel = chat.chatButton ? chat.chatButton.transform.Find(PanelName) : null;
+        var redPanel = _button ? _button!.transform.Find(PanelName) : null;
+        if (!panel || !redPanel) return;
 
-            _panelGrown = true;
-            _panelSprite = panel.sprite;
-            _panelDrawMode = panel.drawMode;
-            _panelPosition = panel.transform.localPosition;
-            _panelSize = _panelDrawMode == SpriteDrawMode.Simple ? _panelSprite.rect.size / _panelSprite.pixelsPerUnit : panel.size;
-            _panelRight = RightEdge(chat, panel);
-            _panelMiddle = chat.chatButton.transform.InverseTransformPoint(panel.bounds.center).y;
-            if (!_slicedPanel)
-            {
-                var rect = _panelSprite.rect;
-                var end = rect.height * PanelEndShare;
-                _slicedPanel = Sprite.Create(_panelSprite.texture, rect, new Vector2(_panelSprite.pivot.x / rect.width, _panelSprite.pivot.y / rect.height),
-                    _panelSprite.pixelsPerUnit, 0, SpriteMeshType.FullRect, new Vector4(end, end, end, end));
-                _slicedPanel.hideFlags |= HideFlags.DontUnloadUnusedAsset;
-            }
-        }
-
-        // One panel under the chat buttons and the settings button: up to the right end of the panel of the settings
-        // button, which is hidden (transparent: its bounds still tell where it is).
-        var settingsPanel = GetSettingsPanel();
-        var right = _panelRight;
-        if (settingsPanel)
-        {
-            ShowSettingsPanel(false);
-            right = Mathf.Max(right, RightEdge(chat, settingsPanel!));
-        }
-
-        // Nearer the camera than the settings icon: every icon is drawn after it by its order instead (lowering the
-        // panel would put it behind the meeting screen).
-        RaiseIcons(chat, settingsPanel, panel!.sortingOrder);
-
-        // In the space of the panel: the pitch is in the space of the game button, its parent. Set every frame.
-        var scale = panel!.transform.lossyScale;
-        var toRight = (right - _panelRight) * chat.chatButton.transform.lossyScale.x / Mathf.Max(scale.x, 0.0001f);
-        var growth = (_pitch / Mathf.Max(panel.transform.localScale.x, 0.0001f)) - (PanelLeftTrim / Mathf.Max(scale.x, 0.0001f)) + toRight;
-        var height = _panelSize.y - (2f * PanelHeightTrim / Mathf.Max(scale.y, 0.0001f));
-        panel.sprite = _slicedPanel;
-        panel.drawMode = SpriteDrawMode.Sliced;
-        var width = _panelSize.x + growth;
-
-        // Same margin on the left of the red icon as on the right of the settings icon (measured on the icons).
-        var redIcon = _button ? _button!.transform.Find(IconNames[0])?.GetComponent<SpriteRenderer>() : null;
-        var settingsIcon = HudManager.InstanceExists && HudManager.Instance.SettingsButton
-            ? HudManager.Instance.SettingsButton.transform.Find(IconNames[0])?.GetComponent<SpriteRenderer>()
-            : null;
-        if (redIcon && settingsIcon)
-        {
-            var rightWorld = chat.chatButton.transform.TransformPoint(new Vector3(right, 0f, 0f)).x - PanelNudge;
-            var margin = rightWorld - IconMax(settingsIcon!) + LeftMarginExtra;
-            width = (rightWorld - (IconMin(redIcon!) - margin)) / Mathf.Max(scale.x, 0.0001f);
-        }
-
-        panel.size = new Vector2(width, height);
-
-        // Its right end where it was (under the settings button): measured, not computed from the pivot.
-        panel.transform.localPosition = _panelPosition;
-        var nudge = PanelNudge / Mathf.Max(chat.chatButton.transform.lossyScale.x, 0.0001f);
-        var middle = chat.chatButton.transform.InverseTransformPoint(panel.bounds.center).y;
-        panel.transform.localPosition += new Vector3(right - RightEdge(chat, panel) - nudge, _panelMiddle - middle, 0f);
-    }
-
-    // Icons over the grown panel (chat buttons, red one included, and settings button) drawn after it; their orders
-    // are given back when it shrinks.
-    private static void RaiseIcons(ChatController chat, SpriteRenderer? settingsPanel, int panelOrder)
-    {
-        var roots = new List<Transform> { chat.chatButton.transform };
-        if (HudManager.InstanceExists && HudManager.Instance.SettingsButton)
-            roots.Add(HudManager.Instance.SettingsButton.transform);
-
-        foreach (var root in roots)
-        {
-            foreach (var renderer in root.GetComponentsInChildren<SpriteRenderer>(true))
-            {
-                if (renderer.name == PanelName || renderer == settingsPanel || renderer.sortingOrder > panelOrder) continue;
-
-                IconOrders.TryAdd(renderer.Pointer, (renderer, renderer.sortingOrder));
-                renderer.sortingOrder = panelOrder + 1;
-            }
-        }
-    }
-
-    private static void RestoreIconOrders()
-    {
-        foreach (var (renderer, order) in IconOrders.Values)
-        {
-            if (renderer)
-                renderer.sortingOrder = order;
-        }
-
-        IconOrders.Clear();
+        _panelGrown = true;
+        ButtonGroupPatches.SetExtraPanels([panel!, redPanel!]);
     }
 
     // Span of an icon from its sprite and transform: an inactive icon (the Inactive one while the button is hovered or
@@ -580,48 +488,11 @@ public static class BorImpostorChat
         return icon.transform.TransformPoint(min ? bounds.min : bounds.max).x;
     }
 
-    // Panel of the settings button: named like the one of the chat button, or a panel sprite (never its icon).
-    private static SpriteRenderer? GetSettingsPanel()
-    {
-        if (_settingsPanel || _settingsPanelSearched) return _settingsPanel;
-
-        var settings = HudManager.InstanceExists ? HudManager.Instance.SettingsButton : null;
-        if (!settings) return null;
-
-        _settingsPanelSearched = true;
-        foreach (var renderer in settings!.GetComponentsInChildren<SpriteRenderer>(true))
-        {
-            var sprite = renderer.sprite ? renderer.sprite.name : string.Empty;
-            if (_settingsPanel) continue;
-
-            if (renderer.name == PanelName || sprite.Contains("Panel", StringComparison.OrdinalIgnoreCase))
-                _settingsPanel = renderer;
-        }
-
-        if (_settingsPanel)
-            _settingsPanelColor = _settingsPanel!.color;
-        return _settingsPanel;
-    }
-
-    private static void ShowSettingsPanel(bool shown)
-    {
-        if (!_settingsPanel) return;
-
-        var color = _settingsPanelColor;
-        _settingsPanel!.color = shown ? color : new Color(color.r, color.g, color.b, 0f);
-    }
-
-    // Right end of the panel, in the space of the game button (the parent of the panel).
-    private static float RightEdge(ChatController chat, SpriteRenderer panel)
-    {
-        return chat.chatButton.transform.InverseTransformPoint(panel.bounds.max).x;
-    }
-
     // The red button next to the game one, in its panel, when both chats can be shown; the game button in red when
     // only the impostor chat can be.
     private static void RefreshButtons(ChatController chat)
     {
-        var both = CanShow && !IsImpostorOnly && _button;
+        var both = HasButton && _button;
         if (_button && _button!.gameObject.activeSelf != both)
             _button.gameObject.SetActive(both);
 
@@ -638,7 +509,7 @@ public static class BorImpostorChat
         }
 
         GrowPanel(chat, both);
-        TintGameButton(chat, IsImpostorOnly);
+        TintGameButton(chat, IsImpostorOnly && Separate);
     }
 
     // The chat button of the game one button left of the settings button (as the red one is left of it): the three
@@ -690,9 +561,7 @@ public static class BorImpostorChat
         _shownForImpostor = false;
         _gameButtonRed = false;
         _panelGrown = false;
-        _settingsPanel = null;
-        _settingsPanelSearched = false;
-        IconOrders.Clear();
+        ButtonGroupPatches.SetExtraPanels([]);
         _chatButtonMoved = false;
         _inputReadOnly = false;
         GreyedColors.Clear();
@@ -724,8 +593,12 @@ public static class BorImpostorChat
             _shownForImpostor = false;
         }
 
+        // Hidden chat (end of a meeting for a living player): the panel of the settings button, made transparent while
+        // the panel of the chat button was grown under it, is shown again.
         if (chat.gameObject.activeSelf)
             RefreshButtons(chat);
+        else
+            GrowPanel(chat, false);
     }
 
     // A dead impostor reads the impostor chat only: its chat box is greyed and cannot be written in.
@@ -785,13 +658,13 @@ public static class BorImpostorChat
             return;
         }
 
-        if (__instance.IsOpenOrOpening && CanShow && CanShowPublic && Input.GetKeyDown(KeyCode.Tab))
+        if (__instance.IsOpenOrOpening && HasButton && Input.GetKeyDown(KeyCode.Tab))
         {
             Show(!IsShown);
             return;
         }
 
-        if (!_button || _button!.gameObject.activeSelf != CanShow)
+        if (!_button || _button!.gameObject.activeSelf != HasButton)
             RefreshLook(__instance);
     }
 
@@ -829,7 +702,7 @@ public static class BorImpostorChat
     [HarmonyPrefix]
     public static void AddPublicPrefix(ChatController __instance, out bool __state)
     {
-        __state = IsShown && !_addingImpostor && _publicItems;
+        __state = IsShown && !_addingImpostor && _publicItems && Separate;
         if (__state)
             SwapLists(__instance, false);
     }
