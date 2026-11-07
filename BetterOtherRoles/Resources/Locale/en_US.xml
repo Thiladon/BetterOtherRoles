@@ -22,6 +22,7 @@
   <string name="BetterOtherRoles.Options.Groups.RoleAssignment">Role Assignment</string>
   <string name="BetterOtherRoles.Options.Groups.Lobby">Lobby</string>
   <string name="BetterOtherRoles.Option.Lobby.AnyPlayerCanStopStart">Any Player Can Stop Start</string>
+  <string name="BetterOtherRoles.Option.Lobby.ShowRulesOnJoin">Show Rules On Join</string>
   <string name="BetterOtherRoles.Option.Lobby.MaxPlayers">Max Players</string>
   <string name="BetterOtherRoles.Maps.Dleks">dlekS</string>
   <string name="BetterOtherRoles.Maps.DleksTooltip">ehT dlekS: the medium-sized ship you know and (maybe) love, but flipped!</string>
@@ -206,6 +207,14 @@
   <string name="BetterOtherRoles.Command.SetName.Tags">The characters &lt; and &gt; are not allowed.</string>
   <string name="BetterOtherRoles.Command.SetName.Taken">Another player is already named {0}.</string>
   <string name="BetterOtherRoles.Command.SetName.Done">Your name is now {0}, until the end of the next game.</string>
+  <string name="BetterOtherRoles.Command.Rules.Usage">[show]</string>
+  <string name="BetterOtherRoles.Command.Rules.Description">shows your lobby rules, or sends them to everyone (show).</string>
+  <string name="BetterOtherRoles.Command.Rules.DescriptionPlayer">shows the rules of the lobby.</string>
+  <string name="BetterOtherRoles.Rules.Title">Lobby rules:</string>
+  <string name="BetterOtherRoles.Rules.None">The host has no rules.</string>
+  <string name="BetterOtherRoles.Rules.NoFile">No rules: write them in {0}.</string>
+  <string name="BetterOtherRoles.Rules.Cut">The rules were cut after {0} characters.</string>
+  <string name="BetterOtherRoles.Rules.Wait">Wait a little before asking for the rules again.</string>
   <string name="BetterOtherRoles.Lobby.Build.Kicked">{0} was kicked: not the same build of the mod.</string>
   <string name="BetterOtherRoles.Lobby.Build.Waiting">Cannot start: waiting for the build of {0}.</string>
   <string name="BetterOtherRoles.Lobby.Build.KickReason">BetterOtherRoles: your build of the mod ({0}) is not the host's build ({1}).

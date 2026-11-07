@@ -29,6 +29,7 @@
   <string name="BetterOtherRoles.Options.Groups.RoleAssignment">Attribution des rôles</string>
   <string name="BetterOtherRoles.Options.Groups.Lobby">Salon</string>
   <string name="BetterOtherRoles.Option.Lobby.AnyPlayerCanStopStart">Tout le monde peut arrêter le lancement</string>
+  <string name="BetterOtherRoles.Option.Lobby.ShowRulesOnJoin">Montrer les règles à l'arrivée</string>
   <string name="BetterOtherRoles.Option.Lobby.MaxPlayers">Nombre de joueurs max</string>
   <string name="BetterOtherRoles.Maps.Dleks">dlekS</string>
   <string name="BetterOtherRoles.Maps.DleksTooltip">ehT dlekS : le vaisseau de taille moyenne que vous connaissez et (potentiellement) appréciez, mais à l'envers !</string>
@@ -274,6 +275,14 @@
   <string name="BetterOtherRoles.Command.SetName.Tags">Les caractères &lt; et &gt; sont interdits.</string>
   <string name="BetterOtherRoles.Command.SetName.Taken">Un autre joueur s'appelle déjà {0}.</string>
   <string name="BetterOtherRoles.Command.SetName.Done">Ton nom est maintenant {0}, jusqu'à la fin de la prochaine partie.</string>
+  <string name="BetterOtherRoles.Command.Rules.Usage">[show]</string>
+  <string name="BetterOtherRoles.Command.Rules.Description">affiche tes règles du salon, ou les envoie à tout le monde (show).</string>
+  <string name="BetterOtherRoles.Command.Rules.DescriptionPlayer">affiche les règles du salon.</string>
+  <string name="BetterOtherRoles.Rules.Title">Règles du salon :</string>
+  <string name="BetterOtherRoles.Rules.None">L'hôte n'a pas de règles.</string>
+  <string name="BetterOtherRoles.Rules.NoFile">Aucune règle : écris-les dans {0}.</string>
+  <string name="BetterOtherRoles.Rules.Cut">Les règles ont été coupées après {0} caractères.</string>
+  <string name="BetterOtherRoles.Rules.Wait">Patiente un peu avant de redemander les règles.</string>
   <string name="BetterOtherRoles.Lobby.Build.Kicked">{0} a été expulsé : pas le même build du mod.</string>
   <string name="BetterOtherRoles.Lobby.Build.Waiting">Lancement impossible : en attente du build de {0}.</string>
   <string name="BetterOtherRoles.Lobby.Build.KickReason">BetterOtherRoles : ton build du mod ({0}) n'est pas celui de l'hôte ({1}).

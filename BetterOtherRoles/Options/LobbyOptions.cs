@@ -37,4 +37,10 @@ public sealed class LobbyOptions : AbstractOptionGroup
     ///     Gets whether every player can stop the game start countdown (the host and the admins always can).
     /// </summary>
     public ModdedToggleOption AnyPlayerCanStopStart { get; } = new("BetterOtherRoles.Option.Lobby.AnyPlayerCanStopStart", false);
+
+    /// <summary>
+    ///     Gets whether the host sends its rules to each player joining the lobby, once (<see cref="BorLobbyRules"/>).
+    ///     Left out of the presets: it belongs to the host.
+    /// </summary>
+    public ModdedToggleOption ShowRulesOnJoin { get; } = new("BetterOtherRoles.Option.Lobby.ShowRulesOnJoin", true, false);
 }
