@@ -200,6 +200,12 @@
   <string name="BetterOtherRoles.Command.Info.Round">Round {0}:</string>
   <string name="BetterOtherRoles.Command.Info.None">No role information to replay.</string>
   <string name="BetterOtherRoles.Command.Info.NoneInRound">No role information in round {0}.</string>
+  <string name="BetterOtherRoles.Command.SetName.Usage">{name}</string>
+  <string name="BetterOtherRoles.Command.SetName.Description">changes your name until the end of the next game.</string>
+  <string name="BetterOtherRoles.Command.SetName.TooLong">The name cannot be longer than {0} characters.</string>
+  <string name="BetterOtherRoles.Command.SetName.Tags">The characters &lt; and &gt; are not allowed.</string>
+  <string name="BetterOtherRoles.Command.SetName.Taken">Another player is already named {0}.</string>
+  <string name="BetterOtherRoles.Command.SetName.Done">Your name is now {0}, until the end of the next game.</string>
   <string name="BetterOtherRoles.Lobby.Build.Kicked">{0} was kicked: not the same build of the mod.</string>
   <string name="BetterOtherRoles.Lobby.Build.Waiting">Cannot start: waiting for the build of {0}.</string>
   <string name="BetterOtherRoles.Lobby.Build.KickReason">BetterOtherRoles: your build of the mod ({0}) is not the host's build ({1}).

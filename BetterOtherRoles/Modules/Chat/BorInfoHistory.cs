@@ -63,8 +63,5 @@ public static class BorInfoHistory
     // At the vote and not at the start of the meeting: a role may send its information when the meeting starts.
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.VotingComplete))]
     [HarmonyPrefix]
-    public static void VotingCompletePrefix()
-    {
-        CurrentRound++;
-    }
+    public static void VotingCompletePrefix() => CurrentRound++;
 }

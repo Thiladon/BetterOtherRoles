@@ -268,6 +268,12 @@
   <string name="BetterOtherRoles.Command.Info.Round">Manche {0} :</string>
   <string name="BetterOtherRoles.Command.Info.None">Aucune information de rôle à rejouer.</string>
   <string name="BetterOtherRoles.Command.Info.NoneInRound">Aucune information de rôle pour la manche {0}.</string>
+  <string name="BetterOtherRoles.Command.SetName.Usage">{nom}</string>
+  <string name="BetterOtherRoles.Command.SetName.Description">change ton nom jusqu'à la fin de la prochaine partie.</string>
+  <string name="BetterOtherRoles.Command.SetName.TooLong">Le nom ne peut pas dépasser {0} caractères.</string>
+  <string name="BetterOtherRoles.Command.SetName.Tags">Les caractères &lt; et &gt; sont interdits.</string>
+  <string name="BetterOtherRoles.Command.SetName.Taken">Un autre joueur s'appelle déjà {0}.</string>
+  <string name="BetterOtherRoles.Command.SetName.Done">Ton nom est maintenant {0}, jusqu'à la fin de la prochaine partie.</string>
   <string name="BetterOtherRoles.Lobby.Build.Kicked">{0} a été expulsé : pas le même build du mod.</string>
   <string name="BetterOtherRoles.Lobby.Build.Waiting">Lancement impossible : en attente du build de {0}.</string>
   <string name="BetterOtherRoles.Lobby.Build.KickReason">BetterOtherRoles : ton build du mod ({0}) n'est pas celui de l'hôte ({1}).

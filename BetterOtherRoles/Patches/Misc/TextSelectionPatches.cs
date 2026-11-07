@@ -44,7 +44,7 @@ public static class TextSelectionPatches
     {
         if (!box || States.ContainsKey(box.Pointer)) return;
 
-        // The game never lets "<" or ">" be typed: the rich text only shows the selection mark.
+        // The rich text shows the selection mark; the text typed is shown as is (Plain), "<" can be typed in the chat.
         if (box.outputText)
             box.outputText.richText = true;
         States[box.Pointer] = new State { Area = area };
@@ -240,7 +240,8 @@ public static class TextSelectionPatches
     [HarmonyPostfix]
     public static void LoseFocusPostfix(TextBoxTMP __instance)
     {
-        if (!States.TryGetValue(__instance.Pointer, out var state)) return;
+        // Harmony runs the postfix even when the prefix kept the focus (click or drag in the box): nothing lost.
+        if (__instance.hasFocus || !States.TryGetValue(__instance.Pointer, out var state)) return;
 
         state.Anchor = -1;
         state.Dragging = false;
@@ -364,22 +365,29 @@ public static class TextSelectionPatches
         return state.Anchor >= 0 && start != end;
     }
 
-    // Shown text: the text of the box, with the selection marked.
+    // Typed text shown as is: its tags are not applied, and each character stays at its index (caret, selection).
+    private static string Plain(string text)
+    {
+        return text.Contains('<') ? $"<noparse>{text.Replace("</noparse>", string.Empty, StringComparison.OrdinalIgnoreCase)}</noparse>" : text;
+    }
+
+    // Shown text: the text of the box, with the selection marked. Left to the game without a mark nor a tag to escape
+    // (it may show a placeholder).
     private static void RefreshMark(TextBoxTMP box, State state)
     {
         var output = box.outputText;
         if (!output) return;
 
+        var text = box.text ?? string.Empty;
         string shown;
         if (box.hasFocus && TryGetRange(box, state, out var start, out var end))
         {
-            var text = box.text;
-            shown = text[..start] + MarkStart + text[start..end] + MarkEnd + text[end..];
+            shown = Plain(text[..start]) + MarkStart + Plain(text[start..end]) + MarkEnd + Plain(text[end..]);
             state.Marked = true;
         }
-        else if (state.Marked)
+        else if (state.Marked || text.Contains('<'))
         {
-            shown = box.text ?? string.Empty;
+            shown = Plain(text);
             state.Marked = false;
         }
         else

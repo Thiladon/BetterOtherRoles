@@ -10,6 +10,8 @@ namespace BetterOtherRoles.Patches.Misc;
 ///     Ctrl+X cuts it, Ctrl+V pastes (game); Up and Down go through the last <see cref="HistorySize"/> messages sent during
 ///     the session (commands included). The keys only act while the chat box has the focus. Words longer than a line are
 ///     cut instead of shrunk, in the box and in the chat bubbles.
+///     Every printable character can be typed in the chat box (the game allows letters, digits and a few symbols only,
+///     TextBoxTMP.IsCharAllowed); the messages of the players are shown as typed, their tags not applied (&lt;noparse&gt;).
 /// </summary>
 [HarmonyPatch]
 public static class ChatInputPatches
@@ -24,6 +26,9 @@ public static class ChatInputPatches
     // Messages sent, the oldest first, and the one shown in the box (History.Count: none, the box as typed).
     private static readonly List<string> History = [];
     private static int _historyIndex;
+
+    // The text box of the chat: the only one taking every character.
+    private static TextBoxTMP? _chatBox;
 
     // Place of the text in the chat box given by the game (AlignText).
     private static float? _textY;
@@ -56,12 +61,32 @@ public static class ChatInputPatches
         _historyIndex = History.Count;
     }
 
+    [HarmonyPatch(typeof(TextBoxTMP), nameof(TextBoxTMP.IsCharAllowed))]
+    [HarmonyPostfix]
+    public static void IsCharAllowedPostfix(TextBoxTMP __instance, char i, ref bool __result)
+    {
+        if (!__result && !char.IsControl(i) && _chatBox && __instance.Pointer == _chatBox!.Pointer)
+            __result = true;
+    }
+
+    /// <summary>
+    ///     The message of a player shown as typed: a tag in it ("&lt;size=500&gt;") is text, not applied.
+    /// </summary>
+    [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChat))]
+    [HarmonyPrefix]
+    public static void AddChatPrefix(ref string chatText)
+    {
+        if (chatText.Contains('<'))
+            chatText = $"<noparse>{chatText.Replace("</noparse>", string.Empty, StringComparison.OrdinalIgnoreCase)}</noparse>";
+    }
+
     [HarmonyPatch(typeof(FreeChatInputField), nameof(FreeChatInputField.Awake))]
     [HarmonyPostfix]
     public static void AwakePostfix(FreeChatInputField __instance)
     {
         __instance.textArea.characterLimit = CharacterLimit;
         __instance.textArea.AllowPaste = true;
+        _chatBox = __instance.textArea;
         CutLongWords(__instance.textArea.outputText);
         TextSelectionPatches.Enable(__instance.textArea, __instance.Background);
         _textY = null;
