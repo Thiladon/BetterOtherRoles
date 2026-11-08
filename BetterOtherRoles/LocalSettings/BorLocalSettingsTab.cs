@@ -75,4 +75,75 @@ public class BorLocalSettingsTab(ConfigFile config) : LocalSettingsTab(config)
         "ChatNotificationsInGame",
         true,
         "Shows the notification of a new chat message in game too.");
+
+    /// <summary>
+    ///     Gets on which players the progress is shown with the name: task counter of a crewmate, or the progress of a
+    ///     role (TOU-Mira 1.7.9 DisplayPlayerProgress, <see cref="Patches.Misc.RoleNamePatches"/>).
+    /// </summary>
+    [LocalEnumSetting(
+        "BetterOtherRoles.LocalSettings.PlayerProgress",
+        "BetterOtherRoles.LocalSettings.PlayerProgressDescription",
+        [
+            "BetterOtherRoles.LocalSettings.PlayerProgress.Never",
+            "BetterOtherRoles.LocalSettings.PlayerProgress.OnSelf",
+            "BetterOtherRoles.LocalSettings.PlayerProgress.OnOthers",
+            "BetterOtherRoles.LocalSettings.PlayerProgress.Always",
+        ])]
+    public ConfigEntry<ProgressDisplay> PlayerProgress { get; private set; } = config.Bind(
+        "BetterOtherRoles.LocalSettings.Players",
+        "PlayerProgress",
+        ProgressDisplay.OnOthers,
+        "On which players the progress (tasks, role) is shown with the name.");
+
+    /// <summary>
+    ///     Gets where the role is shown in game, above or below the name (<see cref="Patches.Misc.RoleNamePatches"/>).
+    /// </summary>
+    [LocalEnumSetting(
+        "BetterOtherRoles.LocalSettings.RoleInGame",
+        "BetterOtherRoles.LocalSettings.RoleInGameDescription",
+        [
+            "BetterOtherRoles.LocalSettings.RolePlace.Above",
+            "BetterOtherRoles.LocalSettings.RolePlace.Below",
+        ])]
+    public ConfigEntry<RolePlace> RoleInGame { get; private set; } = config.Bind(
+        "BetterOtherRoles.LocalSettings.Players",
+        "RoleInGame",
+        RolePlace.Above,
+        "Where the role is shown in game: above or below the name.");
+
+    /// <summary>
+    ///     Gets where the role is shown in meetings, above or below the name (<see cref="Patches.Misc.RoleNamePatches"/>).
+    /// </summary>
+    [LocalEnumSetting(
+        "BetterOtherRoles.LocalSettings.RoleInMeeting",
+        "BetterOtherRoles.LocalSettings.RoleInMeetingDescription",
+        [
+            "BetterOtherRoles.LocalSettings.RolePlace.Above",
+            "BetterOtherRoles.LocalSettings.RolePlace.Below",
+        ])]
+    public ConfigEntry<RolePlace> RoleInMeeting { get; private set; } = config.Bind(
+        "BetterOtherRoles.LocalSettings.Players",
+        "RoleInMeeting",
+        RolePlace.Below,
+        "Where the role is shown in meetings: above or below the name.");
+}
+
+/// <summary>
+///     Where the role is shown, from the name.
+/// </summary>
+public enum RolePlace
+{
+    Above,
+    Below,
+}
+
+/// <summary>
+///     On which players the progress is shown with the name.
+/// </summary>
+public enum ProgressDisplay
+{
+    Never,
+    OnSelf,
+    OnOthers,
+    Always,
 }
