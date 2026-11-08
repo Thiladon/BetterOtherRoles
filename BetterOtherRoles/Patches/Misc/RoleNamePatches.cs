@@ -129,13 +129,14 @@ public static class RoleNamePatches
         _ => false,
     };
 
-    // The progress of the role, or the task counter of a crewmate: its own only (the dead: Ghost settings, later).
+    // The progress of the role, or the task counter of a crewmate: its own, or every one for a dead player who sees
+    // them (BorGhostInfo).
     private static bool TryGetProgress(RoleBehaviour? role, PlayerControl player, bool inMeeting, out string progress)
     {
         if (role is IBorProgress tally) return tally.TryGetProgress(player, inMeeting, out progress);
 
         progress = string.Empty;
-        return player.AmOwner && BorTaskInfo.TryGet(player, out progress);
+        return (player.AmOwner || BorGhostInfo.SeesTasks) && BorTaskInfo.TryGet(player, out progress);
     }
 
     // "Tasks (2/5)" on the tab of the task list, for a crewmate.

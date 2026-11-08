@@ -144,6 +144,36 @@ public class BorLocalSettingsTab(ConfigFile config) : LocalSettingsTab(config)
         "RoleInMeeting",
         RolePlace.Below,
         "Where the role is shown in meetings: above or below the name.");
+
+    /// <summary>
+    ///     Gets whether a dead player sees the task counter of every crewmate (<see cref="Modules.Roles.BorGhostInfo"/>).
+    /// </summary>
+    [LocalToggleSetting("BetterOtherRoles.LocalSettings.GhostsSeeTasks", "BetterOtherRoles.LocalSettings.GhostsSeeTasksDescription")]
+    public ConfigEntry<bool> GhostsSeeTasks { get; private set; } = config.Bind(
+        "BetterOtherRoles.LocalSettings.Ghosts",
+        "GhostsSeeTasks",
+        true,
+        "Once dead, you see the task counter of every crewmate.");
+
+    /// <summary>
+    ///     Gets whether a dead player sees the role of every player, with the name and in its color (<see cref="Modules.Roles.BorGhostInfo"/>).
+    /// </summary>
+    [LocalToggleSetting("BetterOtherRoles.LocalSettings.GhostsSeeRoles", "BetterOtherRoles.LocalSettings.GhostsSeeRolesDescription")]
+    public ConfigEntry<bool> GhostsSeeRoles { get; private set; } = config.Bind(
+        "BetterOtherRoles.LocalSettings.Ghosts",
+        "GhostsSeeRoles",
+        true,
+        "Once dead, you see the role of every player.");
+
+    /// <summary>
+    ///     Gets whether a dead player sees who voted, even with anonymous votes (<see cref="Patches.Misc.GhostVotePatches"/>).
+    /// </summary>
+    [LocalToggleSetting("BetterOtherRoles.LocalSettings.GhostsSeeVotes", "BetterOtherRoles.LocalSettings.GhostsSeeVotesDescription")]
+    public ConfigEntry<bool> GhostsSeeVotes { get; private set; } = config.Bind(
+        "BetterOtherRoles.LocalSettings.Ghosts",
+        "GhostsSeeVotes",
+        true,
+        "Once dead, you see who voted, even with anonymous votes.");
 }
 
 /// <summary>

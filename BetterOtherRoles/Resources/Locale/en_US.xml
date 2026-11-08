@@ -247,6 +247,13 @@ Install the same version as the host.</string>
   <string name="BetterOtherRoles.LocalSettings.RoleInMeetingDescription">Where the role is shown with the name in meetings, at the same size. The name does not move.</string>
   <string name="BetterOtherRoles.LocalSettings.RolePlace.Above">Above The Name</string>
   <string name="BetterOtherRoles.LocalSettings.RolePlace.Below">Below The Name</string>
+  <string name="BetterOtherRoles.LocalSettings.Ghosts">Ghosts</string>
+  <string name="BetterOtherRoles.LocalSettings.GhostsSeeTasks">Ghosts See Tasks</string>
+  <string name="BetterOtherRoles.LocalSettings.GhostsSeeTasksDescription">Once dead, you see the task counter of every crewmate, on the players chosen in Progress On Names.</string>
+  <string name="BetterOtherRoles.LocalSettings.GhostsSeeRoles">Ghosts See Roles</string>
+  <string name="BetterOtherRoles.LocalSettings.GhostsSeeRolesDescription">Once dead, you see the role of every player with its name, and in its color with Names In Role Color on Everyone.</string>
+  <string name="BetterOtherRoles.LocalSettings.GhostsSeeVotes">Ghosts See Votes</string>
+  <string name="BetterOtherRoles.LocalSettings.GhostsSeeVotesDescription">Once dead, you see who voted in meetings, even with anonymous votes.</string>
   <string name="BetterOtherRoles.Lobby.CodeCopied">Lobby code copied: {0}</string>
   <string name="BetterOtherRoles.QuickJoin.Previous">Previous lobby:</string>
   <string name="BetterOtherRoles.QuickJoin.PressTab">Press Tab to join it</string>

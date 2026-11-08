@@ -1,4 +1,5 @@
 using BetterOtherRoles.LocalSettings;
+using BetterOtherRoles.Modules.Roles;
 using BetterOtherRoles.Options;
 using BetterOtherRoles.Options.Roles.Crewmate;
 using BetterOtherRoles.Patches.Roles;
@@ -32,6 +33,7 @@ public static class NameColorPatches
         if (!_listening)
         {
             Settings.NameColors.SettingChanged += (_, _) => Refresh();
+            Settings.GhostsSeeRoles.SettingChanged += (_, _) => Refresh();
             _listening = true;
         }
 
@@ -50,6 +52,15 @@ public static class NameColorPatches
 
         _coloredMeetingId = __instance.GetInstanceID();
         Refresh();
+    }
+
+    // Once dead, the local player may see every role (BorGhostInfo).
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Die))]
+    [HarmonyPostfix]
+    public static void DiePostfix(PlayerControl __instance)
+    {
+        if (__instance.AmOwner)
+            Refresh();
     }
 
     public static void Refresh()
@@ -82,7 +93,8 @@ public static class NameColorPatches
 
     /// <summary>
     ///     Gets the color the local player knows for the name of a player: its own role, the Sheriff and the Deputy who
-    ///     know each other, the other impostors for an impostor. Null when nothing is known.
+    ///     know each other, the other impostors for an impostor, every role for a dead player who sees them
+    ///     (<see cref="BorGhostInfo.SeesRoles"/>). Null when nothing is known.
     /// </summary>
     /// <param name="localRole">The role of the local player.</param>
     /// <param name="player">The player.</param>
@@ -90,7 +102,7 @@ public static class NameColorPatches
     /// <returns>The color, or null.</returns>
     public static Color? GetKnownColor(RoleBehaviour localRole, PlayerControl player, RoleBehaviour role)
     {
-        if (player.AmOwner) return GetRoleColor(role);
+        if (player.AmOwner || BorGhostInfo.SeesRoles) return GetRoleColor(role);
         if (KnowsEachOther(localRole, role)) return BorColors.Sheriff;
         if (localRole.IsImpostor && role.IsImpostor) return Palette.ImpostorRed;
 
@@ -100,7 +112,8 @@ public static class NameColorPatches
     /// <summary>
     ///     Gets whether the local player knows the role of a player, shown with its name (<see cref="RoleNamePatches"/>):
     ///     its own role, the Sheriff and the Deputy who know each other, the other impostors for an impostor with
-    ///     <see cref="GameplayOptions.ImpostorsKnowRoles"/>.
+    ///     <see cref="GameplayOptions.ImpostorsKnowRoles"/>, every role for a dead player who sees them
+    ///     (<see cref="BorGhostInfo.SeesRoles"/>).
     /// </summary>
     /// <param name="localRole">The role of the local player.</param>
     /// <param name="player">The player.</param>
@@ -108,7 +121,7 @@ public static class NameColorPatches
     /// <returns>True when the role is known.</returns>
     public static bool KnowsRole(RoleBehaviour localRole, PlayerControl player, RoleBehaviour role)
     {
-        if (player.AmOwner || KnowsEachOther(localRole, role)) return true;
+        if (player.AmOwner || BorGhostInfo.SeesRoles || KnowsEachOther(localRole, role)) return true;
 
         return localRole.IsImpostor && role.IsImpostor && OptionGroupSingleton<GameplayOptions>.Instance.ImpostorsKnowRoles.Value;
     }

@@ -315,6 +315,13 @@ Installe la même version que l'hôte.</string>
   <string name="BetterOtherRoles.LocalSettings.RoleInMeetingDescription">Où le rôle s'affiche avec le nom en réunion, à la même taille. Le nom ne bouge pas.</string>
   <string name="BetterOtherRoles.LocalSettings.RolePlace.Above">Au-dessus du nom</string>
   <string name="BetterOtherRoles.LocalSettings.RolePlace.Below">Sous le nom</string>
+  <string name="BetterOtherRoles.LocalSettings.Ghosts">Fantômes</string>
+  <string name="BetterOtherRoles.LocalSettings.GhostsSeeTasks">Les morts voient les tâches</string>
+  <string name="BetterOtherRoles.LocalSettings.GhostsSeeTasksDescription">Une fois mort, tu vois le compteur de tâches de chaque crewmate, sur les joueurs choisis dans « Progression sur les noms ».</string>
+  <string name="BetterOtherRoles.LocalSettings.GhostsSeeRoles">Les morts voient les rôles</string>
+  <string name="BetterOtherRoles.LocalSettings.GhostsSeeRolesDescription">Une fois mort, tu vois le rôle de chaque joueur avec son nom, et dans sa couleur avec « Noms en couleur du rôle » sur « Tout le monde ».</string>
+  <string name="BetterOtherRoles.LocalSettings.GhostsSeeVotes">Les morts voient les votes</string>
+  <string name="BetterOtherRoles.LocalSettings.GhostsSeeVotesDescription">Une fois mort, tu vois qui a voté en réunion, même avec les votes anonymes.</string>
   <string name="BetterOtherRoles.Lobby.CodeCopied">Code du salon copié : {0}</string>
   <string name="BetterOtherRoles.QuickJoin.Previous">Salon précédent :</string>
   <string name="BetterOtherRoles.QuickJoin.PressTab">Appuie sur Tab pour le rejoindre</string>
