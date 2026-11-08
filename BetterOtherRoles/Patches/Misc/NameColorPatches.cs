@@ -1,3 +1,4 @@
+using BetterOtherRoles.Options;
 using BetterOtherRoles.Options.Roles.Crewmate;
 using BetterOtherRoles.Roles.Crewmate;
 using HarmonyLib;
@@ -71,6 +72,22 @@ public static class NameColorPatches
     }
 
     /// <summary>
+    ///     Gets whether the local player knows the role of a player, shown with its name (<see cref="RoleNamePatches"/>):
+    ///     its own role, the Sheriff and the Deputy who know each other, the other impostors for an impostor with
+    ///     <see cref="GameplayOptions.ImpostorsKnowRoles"/>.
+    /// </summary>
+    /// <param name="localRole">The role of the local player.</param>
+    /// <param name="player">The player.</param>
+    /// <param name="role">The role of the player.</param>
+    /// <returns>True when the role is known.</returns>
+    public static bool KnowsRole(RoleBehaviour localRole, PlayerControl player, RoleBehaviour role)
+    {
+        if (player.AmOwner || KnowsEachOther(localRole, role)) return true;
+
+        return localRole.IsImpostor && role.IsImpostor && OptionGroupSingleton<GameplayOptions>.Instance.ImpostorsKnowRoles.Value;
+    }
+
+    /// <summary>
     ///     "Sheriff And Deputy Know Each Other" (BOR: setNameColors): the Sheriff sees the Deputy, and the Deputy sees the Sheriff.
     /// </summary>
     private static bool KnowsEachOther(RoleBehaviour localRole, RoleBehaviour otherRole)
@@ -81,7 +98,12 @@ public static class NameColorPatches
         return (localRole is SheriffRole && otherRole is DeputyRole) || (localRole is DeputyRole && otherRole is SheriffRole);
     }
 
-    private static Color GetRoleColor(RoleBehaviour role)
+    /// <summary>
+    ///     Gets the color of a role: its own for a mod role, impostor red or white for a game role.
+    /// </summary>
+    /// <param name="role">The role.</param>
+    /// <returns>The color.</returns>
+    public static Color GetRoleColor(RoleBehaviour role)
     {
         if (role is ICustomRole customRole) return customRole.RoleColor;
 

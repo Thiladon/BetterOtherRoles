@@ -22,6 +22,21 @@ public static class AliveRolePatches
         return AliveRoles.TryGetValue(player.PlayerId, out var role) ? role : null;
     }
 
+    /// <summary>
+    ///     Gets the role of a living player, the last one while alive for a dead player (its ghost role says nothing).
+    /// </summary>
+    /// <param name="player">The player.</param>
+    /// <returns>The role, or null if the player has none.</returns>
+    public static RoleBehaviour? GetRole(PlayerControl player)
+    {
+        var data = player.Data;
+        if (!data || !data.Role) return null;
+        if (!data.IsDead || !RoleManager.InstanceExists) return data.Role;
+
+        var aliveRole = Get(player);
+        return aliveRole == null ? data.Role : RoleManager.Instance.GetRole(aliveRole.Value);
+    }
+
     [HarmonyPostfix]
     public static void InitializePostfix(RoleBehaviour __instance, PlayerControl player)
     {

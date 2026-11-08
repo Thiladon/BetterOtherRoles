@@ -28,23 +28,12 @@ public static class ChatRoleColorPatches
         // The game adds no bubble for some messages (a dead player seen by a living one).
         if (!bubble || bubble!.playerInfo != sourcePlayer.Data) return;
 
-        var localRole = GetAliveRole(PlayerControl.LocalPlayer);
-        var role = GetAliveRole(sourcePlayer);
+        var localRole = AliveRolePatches.GetRole(PlayerControl.LocalPlayer);
+        var role = AliveRolePatches.GetRole(sourcePlayer);
         if (!localRole || !role) return;
 
         var color = NameColorPatches.GetKnownColor(localRole!, sourcePlayer, role!);
         if (color != null)
             bubble.NameText.color = color.Value;
-    }
-
-    // The role of a living player, the last one while alive for a dead player (its ghost role says nothing).
-    private static RoleBehaviour? GetAliveRole(PlayerControl player)
-    {
-        var data = player.Data;
-        if (!data || !data.Role) return null;
-        if (!data.IsDead || !RoleManager.InstanceExists) return data.Role;
-
-        var aliveRole = AliveRolePatches.Get(player);
-        return aliveRole == null ? data.Role : RoleManager.Instance.GetRole(aliveRole.Value);
     }
 }

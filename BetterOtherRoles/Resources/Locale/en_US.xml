@@ -153,6 +153,7 @@
   <string name="BetterOtherRoles.Option.Gameplay.ImpostorChatMeetings">In Meetings</string>
   <string name="BetterOtherRoles.Option.Gameplay.ImpostorChatWholeGame">Whole Game</string>
   <string name="BetterOtherRoles.Option.Gameplay.ImpostorChatSeparate">Separate Chats</string>
+  <string name="BetterOtherRoles.Option.Gameplay.ImpostorsKnowRoles">Impostors Know Each Other's Roles</string>
   <!-- Impostor chat (Modules/Chat) -->
   <string name="BetterOtherRoles.ImpostorChat.Active">Impostor chat (Tab: public chat)</string>
   <string name="BetterOtherRoles.ImpostorChat.ReadOnly">Impostor chat, read only (Tab: public chat)</string>

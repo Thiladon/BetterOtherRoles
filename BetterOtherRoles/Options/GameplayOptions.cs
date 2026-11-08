@@ -69,6 +69,12 @@ public sealed class GameplayOptions : AbstractOptionGroup
         {
             Visible = () => OptionGroupSingleton<GameplayOptions>.Instance.ImpostorChat.Value == (int)ImpostorChatMode.WholeGame,
         };
+
+    /// <summary>
+    ///     Gets whether the impostors see the role of the other impostors above their names
+    ///     (<see cref="Patches.Misc.RoleNamePatches"/>); without it, they only see them in red.
+    /// </summary>
+    public ModdedToggleOption ImpostorsKnowRoles { get; } = new("BetterOtherRoles.Option.Gameplay.ImpostorsKnowRoles", false);
 }
 
 /// <summary>
