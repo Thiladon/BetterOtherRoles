@@ -1,8 +1,11 @@
+using BetterOtherRoles.LocalSettings;
 using BetterOtherRoles.Options;
 using BetterOtherRoles.Options.Roles.Crewmate;
+using BetterOtherRoles.Patches.Roles;
 using BetterOtherRoles.Roles.Crewmate;
 using HarmonyLib;
 using MiraAPI.GameOptions;
+using MiraAPI.LocalSettings;
 using MiraAPI.Roles;
 using UnityEngine;
 
@@ -10,19 +13,28 @@ namespace BetterOtherRoles.Patches.Misc;
 
 /// <summary>
 ///     Name colors, based on BetterOtherRoles 1.7.1 (HudManagerUpdatePatch.resetNameTagsAndColors / setNameColors):
-///     own name in the role color, impostors see the other impostors in red.
+///     own name in the role color, impostors see the other impostors in red. A dead player keeps its role while alive
+///     (<see cref="Roles.AliveRolePatches.GetRole"/>), as the role with the name and the chat.
 ///     BOR refreshed them every frame; here they are only refreshed when needed:
-///     game start, each meeting, and each role change (<see cref="Utilities.BorPlayerExtensions.ChangeRole"/>).
+///     game start, each meeting, each role change (<see cref="Utilities.BorPlayerExtensions.ChangeRole"/>) and each
+///     change of the local setting <see cref="BorLocalSettingsTab.NameColors"/> (never: game colors, on me, on everyone).
 /// </summary>
 [HarmonyPatch]
 public static class NameColorPatches
 {
     private static int _coloredMeetingId;
+    private static bool _listening;
 
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.OnDestroy))]
     [HarmonyPostfix]
     public static void IntroCutsceneOnDestroyPostfix()
     {
+        if (!_listening)
+        {
+            Settings.NameColors.SettingChanged += (_, _) => Refresh();
+            _listening = true;
+        }
+
         Refresh();
     }
 
@@ -42,16 +54,30 @@ public static class NameColorPatches
 
     public static void Refresh()
     {
-        var localRole = PlayerControl.LocalPlayer ? PlayerControl.LocalPlayer.Data?.Role : null;
-        if (!AmongUsClient.Instance.IsGameStarted || !localRole) return;
+        var localRole = PlayerControl.LocalPlayer ? AliveRolePatches.GetRole(PlayerControl.LocalPlayer) : null;
+        if (!AmongUsClient.Instance || !AmongUsClient.Instance.IsGameStarted || !localRole) return;
 
+        var display = Settings.NameColors.Value;
         foreach (var player in PlayerControl.AllPlayerControls)
         {
-            var role = player ? player.Data?.Role : null;
+            var role = player ? AliveRolePatches.GetRole(player) : null;
             if (!role) continue;
 
-            SetPlayerNameColor(player, GetKnownColor(localRole!, player, role!) ?? Color.white);
+            SetPlayerNameColor(player, GetNameColor(display, localRole!, player, role!));
         }
+    }
+
+    private static BorLocalSettingsTab Settings => LocalSettingsTabSingleton<BorLocalSettingsTab>.Instance;
+
+    // The color known for the role when the setting shows it on this player, else the game color (impostors in red
+    // for an impostor).
+    private static Color GetNameColor(NameColorDisplay display, RoleBehaviour localRole, PlayerControl player, RoleBehaviour role)
+    {
+        var shown = display == NameColorDisplay.Everyone || (display == NameColorDisplay.OnSelf && player.AmOwner);
+        var known = shown ? GetKnownColor(localRole, player, role) : null;
+        if (known.HasValue) return known.Value;
+
+        return localRole.IsImpostor && role.IsImpostor ? Palette.ImpostorRed : Color.white;
     }
 
     /// <summary>

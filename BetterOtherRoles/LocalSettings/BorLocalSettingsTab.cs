@@ -77,6 +77,24 @@ public class BorLocalSettingsTab(ConfigFile config) : LocalSettingsTab(config)
         "Shows the notification of a new chat message in game too.");
 
     /// <summary>
+    ///     Gets on which players the name is in the color of the role (<see cref="Patches.Misc.NameColorPatches"/>):
+    ///     never (game colors), on me only, or on everyone whose role is known.
+    /// </summary>
+    [LocalEnumSetting(
+        "BetterOtherRoles.LocalSettings.NameColors",
+        "BetterOtherRoles.LocalSettings.NameColorsDescription",
+        [
+            "BetterOtherRoles.LocalSettings.NameColors.Never",
+            "BetterOtherRoles.LocalSettings.NameColors.OnSelf",
+            "BetterOtherRoles.LocalSettings.NameColors.Everyone",
+        ])]
+    public ConfigEntry<NameColorDisplay> NameColors { get; private set; } = config.Bind(
+        "BetterOtherRoles.LocalSettings.Players",
+        "NameColors",
+        NameColorDisplay.OnSelf,
+        "On which players the name is in the color of the role.");
+
+    /// <summary>
     ///     Gets on which players the progress is shown with the name: task counter of a crewmate, or the progress of a
     ///     role (TOU-Mira 1.7.9 DisplayPlayerProgress, <see cref="Patches.Misc.RoleNamePatches"/>).
     /// </summary>
@@ -135,6 +153,16 @@ public enum RolePlace
 {
     Above,
     Below,
+}
+
+/// <summary>
+///     On which players the name is in the color of the role.
+/// </summary>
+public enum NameColorDisplay
+{
+    Never,
+    OnSelf,
+    Everyone,
 }
 
 /// <summary>

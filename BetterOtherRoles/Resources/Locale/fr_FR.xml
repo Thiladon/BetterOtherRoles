@@ -298,6 +298,11 @@ Installe la même version que l'hôte.</string>
   <string name="BetterOtherRoles.LocalSettings.ChatNotificationsInGame">Notifications du chat en partie</string>
   <string name="BetterOtherRoles.LocalSettings.ChatNotificationsInGameDescription">Affiche aussi en partie la petite fenêtre d'un nouveau message pendant quelques secondes (le jeu ne l'affiche que dans le salon). Le salon n'est pas modifié.</string>
   <string name="BetterOtherRoles.LocalSettings.Players">Joueurs</string>
+  <string name="BetterOtherRoles.LocalSettings.NameColors">Noms en couleur du rôle</string>
+  <string name="BetterOtherRoles.LocalSettings.NameColorsDescription">Sur quels joueurs le nom est dans la couleur de son rôle, quand tu le connais. Sinon les couleurs du jeu : blanc, imposteurs en rouge pour un imposteur.</string>
+  <string name="BetterOtherRoles.LocalSettings.NameColors.Never">Non</string>
+  <string name="BetterOtherRoles.LocalSettings.NameColors.OnSelf">Soi-même</string>
+  <string name="BetterOtherRoles.LocalSettings.NameColors.Everyone">Tout le monde</string>
   <string name="BetterOtherRoles.LocalSettings.PlayerProgress">Progression sur les noms</string>
   <string name="BetterOtherRoles.LocalSettings.PlayerProgressDescription">Sur quels joueurs la progression s'affiche avec le nom : compteur de tâches d'un crewmate, ou progression d'un rôle.</string>
   <string name="BetterOtherRoles.LocalSettings.PlayerProgress.Never">Jamais</string>

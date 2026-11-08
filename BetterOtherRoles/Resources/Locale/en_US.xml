@@ -230,6 +230,11 @@ Install the same version as the host.</string>
   <string name="BetterOtherRoles.LocalSettings.ChatNotificationsInGame">Chat Notifications In Game</string>
   <string name="BetterOtherRoles.LocalSettings.ChatNotificationsInGameDescription">Shows the small window of a new message for a few seconds during a game too (the game only shows it in the lobby). The lobby is not changed.</string>
   <string name="BetterOtherRoles.LocalSettings.Players">Players</string>
+  <string name="BetterOtherRoles.LocalSettings.NameColors">Names In Role Color</string>
+  <string name="BetterOtherRoles.LocalSettings.NameColorsDescription">On which players the name is in the color of the role, when you know it. Otherwise the colors of the game: white, impostors in red for an impostor.</string>
+  <string name="BetterOtherRoles.LocalSettings.NameColors.Never">No</string>
+  <string name="BetterOtherRoles.LocalSettings.NameColors.OnSelf">On Me</string>
+  <string name="BetterOtherRoles.LocalSettings.NameColors.Everyone">Everyone</string>
   <string name="BetterOtherRoles.LocalSettings.PlayerProgress">Progress On Names</string>
   <string name="BetterOtherRoles.LocalSettings.PlayerProgressDescription">On which players the progress is shown with the name: task counter of a crewmate, or the progress of a role.</string>
   <string name="BetterOtherRoles.LocalSettings.PlayerProgress.Never">Never</string>
