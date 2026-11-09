@@ -1,3 +1,4 @@
+using BetterOtherRoles.Modules.Cooldowns;
 using HarmonyLib;
 
 namespace BetterOtherRoles.Patches.Misc;
@@ -29,6 +30,14 @@ public static class ActionButtonCooldownPatches
         var start = Track(Timers, __instance.Pointer, __0);
         if (start > 0f)
             __1 = start;
+    }
+
+    // Tenths of a second with the local setting (BorCooldownText).
+    [HarmonyPostfix]
+    [HarmonyPatch(nameof(ActionButton.SetCoolDown))]
+    public static void SetCoolDownPostfix(ActionButton __instance, float __0)
+    {
+        BorCooldownText.Apply(__instance, __0);
     }
 
     // A value going up means a new countdown: it becomes the start value.

@@ -1,5 +1,6 @@
 using System.Text;
 using System.Text.RegularExpressions;
+using BetterOtherRoles.Modules.Display;
 using BetterOtherRoles.Options;
 using HarmonyLib;
 using MiraAPI.GameOptions;
@@ -28,8 +29,28 @@ public static class LobbyRoleListPatches
     private static readonly Regex ColorAlpha = new("<color=(#[0-9A-Fa-f]{6})([0-9A-Fa-f]{2})?>", RegexOptions.Compiled);
     private static readonly StringBuilder Text = new();
 
+    // Distance from the top of the screen, in world units, without the FPS counter.
+    private const float TopMargin = 0.1f;
+
     private static TextMeshPro? _text;
+    private static AspectPosition? _position;
     private static float _lastRefresh;
+
+    // Always below the place of the FPS counter, shown or not (BorFpsCounter.ReservedRatio, part of the window
+    // height, converted to world units: the screen is 2 × orthographicSize high).
+    private static void UpdatePosition()
+    {
+        var camera = Camera.main;
+        if (!_position || !camera) return;
+
+        var offset = BorFpsCounter.ReservedRatio * camera!.orthographicSize * 2f;
+        var distance = _position!.DistanceFromEdge;
+        if (Mathf.Abs(distance.y - (TopMargin + offset)) < 0.001f) return;
+
+        distance.y = TopMargin + offset;
+        _position.DistanceFromEdge = distance;
+        _position.AdjustPosition();
+    }
 
     [HarmonyPostfix]
     public static void UpdatePostfix(HudManager __instance)
@@ -48,6 +69,7 @@ public static class LobbyRoleListPatches
         if (!_text && !Create(__instance)) return;
 
         _text!.gameObject.SetActive(true);
+        UpdatePosition();
         if (Time.time - _lastRefresh < RefreshInterval) return;
 
         _lastRefresh = Time.time;
@@ -66,12 +88,12 @@ public static class LobbyRoleListPatches
         UnityEngine.Object.Destroy(copy.GetComponent<PingTracker>());
         copy.name = "BorLobbyRoleList";
 
-        var position = copy.GetComponent<AspectPosition>();
-        if (position)
+        _position = copy.GetComponent<AspectPosition>();
+        if (_position)
         {
-            position.Alignment = AspectPosition.EdgeAlignments.LeftTop;
-            position.DistanceFromEdge = new Vector3(0.43f, 0.1f, 1f);
-            position.AdjustPosition();
+            _position!.Alignment = AspectPosition.EdgeAlignments.LeftTop;
+            _position.DistanceFromEdge = new Vector3(0.43f, TopMargin, 1f);
+            _position.AdjustPosition();
         }
 
         _text = copy.GetComponent<TextMeshPro>();

@@ -174,6 +174,73 @@ public class BorLocalSettingsTab(ConfigFile config) : LocalSettingsTab(config)
         "GhostsSeeVotes",
         true,
         "Once dead, you see who voted, even with anonymous votes.");
+
+    /// <summary>
+    ///     Gets whether the FPS counter is shown (TOU-Mira 1.7.9 ShowFpsCounter, <see cref="Modules.Display.BorFpsCounter"/>).
+    /// </summary>
+    [LocalToggleSetting("BetterOtherRoles.LocalSettings.ShowFps", "BetterOtherRoles.LocalSettings.ShowFpsDescription")]
+    public ConfigEntry<bool> ShowFps { get; private set; } = config.Bind(
+        "BetterOtherRoles.LocalSettings.Interface",
+        "ShowFps",
+        false,
+        "Shows the FPS counter (frames per second).");
+
+    /// <summary>
+    ///     Gets the corner of the screen where the FPS counter is shown (<see cref="Modules.Display.BorFpsCounter"/>).
+    /// </summary>
+    [LocalEnumSetting(
+        "BetterOtherRoles.LocalSettings.FpsPlace",
+        "BetterOtherRoles.LocalSettings.FpsPlaceDescription",
+        [
+            "BetterOtherRoles.LocalSettings.FpsPlace.TopLeft",
+            "BetterOtherRoles.LocalSettings.FpsPlace.TopRight",
+            "BetterOtherRoles.LocalSettings.FpsPlace.BottomLeft",
+            "BetterOtherRoles.LocalSettings.FpsPlace.BottomRight",
+        ])]
+    public ConfigEntry<FpsPlace> FpsPlace { get; private set; } = config.Bind(
+        "BetterOtherRoles.LocalSettings.Interface",
+        "FpsPlace",
+        LocalSettings.FpsPlace.TopLeft,
+        "Corner of the screen where the FPS counter is shown.");
+
+    /// <summary>
+    ///     Gets how the button cooldowns are shown: whole seconds as the game, tenths under 10 s
+    ///     (TOU-Mira 1.7.9 PreciseCooldowns) or tenths everywhere (<see cref="Modules.Cooldowns.BorCooldownText"/>).
+    /// </summary>
+    [LocalEnumSetting(
+        "BetterOtherRoles.LocalSettings.CooldownDisplay",
+        "BetterOtherRoles.LocalSettings.CooldownDisplayDescription",
+        [
+            "BetterOtherRoles.LocalSettings.CooldownDisplay.Whole",
+            "BetterOtherRoles.LocalSettings.CooldownDisplay.DecimalsUnder10",
+            "BetterOtherRoles.LocalSettings.CooldownDisplay.Decimals",
+        ])]
+    public ConfigEntry<CooldownDisplay> CooldownDisplay { get; private set; } = config.Bind(
+        "BetterOtherRoles.LocalSettings.Interface",
+        "CooldownDisplay",
+        LocalSettings.CooldownDisplay.DecimalsUnder10,
+        "How the button cooldowns are shown: whole seconds, tenths under 10 s, or tenths everywhere.");
+}
+
+/// <summary>
+///     How the button cooldowns are shown.
+/// </summary>
+public enum CooldownDisplay
+{
+    Whole,
+    DecimalsUnder10,
+    Decimals,
+}
+
+/// <summary>
+///     Corner of the screen where the FPS counter is shown.
+/// </summary>
+public enum FpsPlace
+{
+    TopLeft,
+    TopRight,
+    BottomLeft,
+    BottomRight,
 }
 
 /// <summary>

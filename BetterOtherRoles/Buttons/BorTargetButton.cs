@@ -65,12 +65,15 @@ public abstract class BorTargetButton<T> : CustomActionButton<T>
             if (EffectActive && EffectDuration > 0)
             {
                 Button.SetFillUp(Timer, EffectDuration);
-                Button.cooldownTimerText.text = Timer.ToString(CooldownTimerFormatString, NumberFormatInfo.InvariantInfo);
+                BorCooldownText.SetText(Button, BorCooldownText.UsesDecimals(Timer)
+                    ? BorCooldownText.Format(Timer)
+                    : Timer.ToString(CooldownTimerFormatString, NumberFormatInfo.InvariantInfo));
                 Button.cooldownTimerText.gameObject.SetActive(true);
             }
             else
             {
                 Button.SetCooldownFormat(Timer, _cooldownStart > 0f ? _cooldownStart : Cooldown, CooldownTimerFormatString);
+                BorCooldownText.Apply(Button, Timer);
             }
         }
 

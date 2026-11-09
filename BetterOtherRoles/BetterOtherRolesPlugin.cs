@@ -3,6 +3,7 @@ using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Unity.IL2CPP;
 using BetterOtherRoles.Modules.Admin;
+using BetterOtherRoles.Modules.Display;
 using BetterOtherRoles.Modules.Localization;
 using BetterOtherRoles.Modules.Presets;
 using BetterOtherRoles.Patches.Misc;
@@ -84,6 +85,7 @@ public partial class BetterOtherRolesPlugin : BasePlugin, IMiraPlugin
         Harmony.PatchAll();
         SaveFilePatches.ReloadData();
         WindowTitlePatches.Apply();
+        AddComponent<BorFpsCounter>();
 
         Info($"{Name} loaded!");
     }
