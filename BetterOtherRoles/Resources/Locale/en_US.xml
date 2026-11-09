@@ -236,7 +236,7 @@ Install the same version as the host.</string>
   <string name="BetterOtherRoles.LocalSettings.NameColors.OnSelf">On Me</string>
   <string name="BetterOtherRoles.LocalSettings.NameColors.Everyone">Everyone</string>
   <string name="BetterOtherRoles.LocalSettings.PlayerProgress">Progress On Names</string>
-  <string name="BetterOtherRoles.LocalSettings.PlayerProgressDescription">On which players the progress is shown with the name: task counter of a crewmate, or the progress of a role.</string>
+  <string name="BetterOtherRoles.LocalSettings.PlayerProgressDescription">On which players the progress is shown with the name: task counter of a crewmate, or the progress of a role. In meetings, your own counter is always shown, except on Never.</string>
   <string name="BetterOtherRoles.LocalSettings.PlayerProgress.Never">Never</string>
   <string name="BetterOtherRoles.LocalSettings.PlayerProgress.OnSelf">On Me</string>
   <string name="BetterOtherRoles.LocalSettings.PlayerProgress.OnOthers">On Others</string>

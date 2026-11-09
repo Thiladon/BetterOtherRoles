@@ -112,7 +112,7 @@ public static class RoleNamePatches
             line = $"<color=#{ColorUtility.ToHtmlStringRGBA(NameColorPatches.GetRoleColor(role!))}>{roleName}</color>";
         }
 
-        if (ShowsProgress(player) && TryGetProgress(role, player, inMeeting, out var progress))
+        if (ShowsProgress(player, inMeeting) && TryGetProgress(role, player, inMeeting, out var progress))
             line = line.Length == 0 ? progress : $"{line} {progress}";
 
         if (line.Length == 0 || size == null) return line;
@@ -120,9 +120,11 @@ public static class RoleNamePatches
         return $"<size={size}>{line}</size>";
     }
 
-    // The local setting: on me, on the others, on everyone or never.
-    private static bool ShowsProgress(PlayerControl player) => Settings.PlayerProgress.Value switch
+    // The local setting: on me, on the others, on everyone or never. In meetings, always on me unless never.
+    private static bool ShowsProgress(PlayerControl player, bool inMeeting) => Settings.PlayerProgress.Value switch
     {
+        ProgressDisplay.Never => false,
+        _ when inMeeting && player.AmOwner => true,
         ProgressDisplay.Always => true,
         ProgressDisplay.OnSelf => player.AmOwner,
         ProgressDisplay.OnOthers => !player.AmOwner,

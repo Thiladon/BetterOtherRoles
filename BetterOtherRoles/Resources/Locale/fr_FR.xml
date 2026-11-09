@@ -304,7 +304,7 @@ Installe la même version que l'hôte.</string>
   <string name="BetterOtherRoles.LocalSettings.NameColors.OnSelf">Soi-même</string>
   <string name="BetterOtherRoles.LocalSettings.NameColors.Everyone">Tout le monde</string>
   <string name="BetterOtherRoles.LocalSettings.PlayerProgress">Progression sur les noms</string>
-  <string name="BetterOtherRoles.LocalSettings.PlayerProgressDescription">Sur quels joueurs la progression s'affiche avec le nom : compteur de tâches d'un crewmate, ou progression d'un rôle.</string>
+  <string name="BetterOtherRoles.LocalSettings.PlayerProgressDescription">Sur quels joueurs la progression s'affiche avec le nom : compteur de tâches d'un crewmate, ou progression d'un rôle. En réunion, ton propre compteur reste toujours affiché, sauf sur « Jamais ».</string>
   <string name="BetterOtherRoles.LocalSettings.PlayerProgress.Never">Jamais</string>
   <string name="BetterOtherRoles.LocalSettings.PlayerProgress.OnSelf">Sur moi</string>
   <string name="BetterOtherRoles.LocalSettings.PlayerProgress.OnOthers">Sur les autres</string>
