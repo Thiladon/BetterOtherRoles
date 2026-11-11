@@ -1143,8 +1143,38 @@ public static class RoleGuidePatches
         private static RoleTypes? _lastRole;
         private static BaseModifier? _lastModifier;
 
+        private const int RolesTabIndex = 2;
+
         // MiraAPI opens the roles tab itself in Open: not a choice of the player.
         private static bool _opening;
+
+        /// <summary>
+        ///     Opens the guide on the page of a role (a clickable term of the chat, <see cref="Modules.Chat.BorChatLinks"/>).
+        /// </summary>
+        public static void Show(RoleBehaviour role)
+        {
+            _lastTab = RolesTabIndex;
+            _lastRole = role.Role;
+            _lastModifier = null;
+            OpenGuide();
+        }
+
+        /// <summary>
+        ///     Opens the guide on the page of a modifier.
+        /// </summary>
+        public static void Show(BaseModifier modifier)
+        {
+            _lastTab = ModifiersTabIndex;
+            _lastRole = null;
+            _lastModifier = modifier;
+            OpenGuide();
+        }
+
+        private static void OpenGuide()
+        {
+            if (MatchInfoGuide.Instance)
+                MatchInfoGuide.Instance.Open();
+        }
 
         // Before the MiraAPI prefix (priority First): it returns false, which skips the prefixes after it.
         [HarmonyPatch(typeof(MatchInfoGuide), nameof(MatchInfoGuide.Open))]

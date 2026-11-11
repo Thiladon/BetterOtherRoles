@@ -23,6 +23,9 @@ public static class ChatInputPatches
 
     private const int HistorySize = 20;
 
+    // "<" while a message is sent (a private use character, never typed nor shown).
+    private const char SentTagStart = '';
+
     // Messages sent, the oldest first, and the one shown in the box (History.Count: none, the box as typed).
     private static readonly List<string> History = [];
     private static int _historyIndex;
@@ -70,14 +73,30 @@ public static class ChatInputPatches
     }
 
     /// <summary>
-    ///     The message of a player shown as typed: a tag in it ("&lt;size=500&gt;") is text, not applied.
+    ///     The tags of a message are kept when it is sent: the game removes them (PlayerControl.RpcSendChat, "&lt;.*?&gt;"),
+    ///     so "&lt;" is sent as <see cref="SentTagStart"/>, put back on arrival (<see cref="AddChatPrefix"/>). Every
+    ///     player has the mod (Reactor requires it).
+    /// </summary>
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcSendChat))]
+    [HarmonyPrefix]
+    public static void RpcSendChatPrefix(ref string chatText)
+    {
+        chatText = chatText.Replace('<', SentTagStart);
+    }
+
+    /// <summary>
+    ///     The message of a player shown as typed: a tag in it ("&lt;size=500&gt;") is text, not applied. Only the
+    ///     messages sent with <see cref="SentTagStart"/>: a message with real tags cannot come from a player (the game
+    ///     removes them when sending), it comes from the server (welcome message of a modded server), its tags applied.
     /// </summary>
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.AddChat))]
     [HarmonyPrefix]
     public static void AddChatPrefix(ref string chatText)
     {
-        if (chatText.Contains('<'))
-            chatText = $"<noparse>{chatText.Replace("</noparse>", string.Empty, StringComparison.OrdinalIgnoreCase)}</noparse>";
+        if (!chatText.Contains(SentTagStart)) return;
+
+        chatText = chatText.Replace(SentTagStart, '<');
+        chatText = $"<noparse>{chatText.Replace("</noparse>", string.Empty, StringComparison.OrdinalIgnoreCase)}</noparse>";
     }
 
     [HarmonyPatch(typeof(FreeChatInputField), nameof(FreeChatInputField.Awake))]

@@ -399,6 +399,11 @@ public static class TextSelectionPatches
 
         output.text = shown;
         output.ForceMeshUpdate(true, true);
+
+        // The game sized the chat box on the text with its tags applied ("<size=500>"): sized again on the text shown.
+        var field = box.GetComponentInParent<FreeChatInputField>();
+        if (field)
+            field.UpdateCharCount();
     }
 
     // The game puts the caret at the same height from the third line on: put on the line of the character before it,
