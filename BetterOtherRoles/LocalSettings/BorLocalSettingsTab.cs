@@ -146,6 +146,17 @@ public class BorLocalSettingsTab(ConfigFile config) : LocalSettingsTab(config)
         "Where the role is shown in meetings: above or below the name.");
 
     /// <summary>
+    ///     Gets whether "(L)" or "(D)" is shown after the names in meetings, from the real color of each player
+    ///     (BetterOtherRoles 1.7.1 ShowLighterDarker, <see cref="Patches.Misc.ColorTypePatches"/>).
+    /// </summary>
+    [LocalToggleSetting("BetterOtherRoles.LocalSettings.ShowColorType", "BetterOtherRoles.LocalSettings.ShowColorTypeDescription")]
+    public ConfigEntry<bool> ShowColorType { get; private set; } = config.Bind(
+        "BetterOtherRoles.LocalSettings.Players",
+        "ShowColorType",
+        true,
+        "Shows (L) or (D) after the names in meetings: lighter or darker color.");
+
+    /// <summary>
     ///     Gets whether a dead player sees the task counter of every crewmate (<see cref="Modules.Roles.BorGhostInfo"/>).
     /// </summary>
     [LocalToggleSetting("BetterOtherRoles.LocalSettings.GhostsSeeTasks", "BetterOtherRoles.LocalSettings.GhostsSeeTasksDescription")]

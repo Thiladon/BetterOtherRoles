@@ -247,6 +247,10 @@ Install the same version as the host.</string>
   <string name="BetterOtherRoles.LocalSettings.RoleInMeetingDescription">Where the role is shown with the name in meetings, at the same size. The name does not move.</string>
   <string name="BetterOtherRoles.LocalSettings.RolePlace.Above">Above The Name</string>
   <string name="BetterOtherRoles.LocalSettings.RolePlace.Below">Below The Name</string>
+  <string name="BetterOtherRoles.LocalSettings.ShowColorType">Lighter / Darker Color</string>
+  <string name="BetterOtherRoles.LocalSettings.ShowColorTypeDescription">In meetings, shows (L) after the name of a player with a lighter color, (D) with a darker one. Lighter colors: pink, orange, yellow, white, cyan, lime, rose, banana, coral.</string>
+  <string name="BetterOtherRoles.ColorType.LighterLetter">L</string>
+  <string name="BetterOtherRoles.ColorType.DarkerLetter">D</string>
   <string name="BetterOtherRoles.LocalSettings.Ghosts">Ghosts</string>
   <string name="BetterOtherRoles.LocalSettings.GhostsSeeTasks">Ghosts See Tasks</string>
   <string name="BetterOtherRoles.LocalSettings.GhostsSeeTasksDescription">Once dead, you see the task counter of every crewmate, on the players chosen in Progress On Names.</string>
