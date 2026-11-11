@@ -75,6 +75,12 @@ public sealed class GameplayOptions : AbstractOptionGroup
     ///     (<see cref="Patches.Misc.RoleNamePatches"/>); without it, they only see them in red.
     /// </summary>
     public ModdedToggleOption ImpostorsKnowRoles { get; } = new("BetterOtherRoles.Option.Gameplay.ImpostorsKnowRoles", false);
+
+    /// <summary>
+    ///     Gets whether a dead player has to finish its tasks before zooming out (BetterOtherRoles 1.7.1
+    ///     finishTasksBeforeHauntingOrZoomingOut, zoom part; <see cref="Modules.Display.BorZoom"/>).
+    /// </summary>
+    public ModdedToggleOption FinishTasksBeforeZoom { get; } = new("BetterOtherRoles.Option.Gameplay.FinishTasksBeforeZoom", true);
 }
 
 /// <summary>

@@ -32,4 +32,20 @@ public static class BorKeybinds
         "bor_debug_menu",
         "BetterOtherRoles.Debug.Menu.Keybind",
         KeyboardKeyCode.F8);
+
+    /// <summary>
+    ///     Gets the keybind zooming out, once dead (<see cref="Modules.Display.BorZoom"/>).
+    /// </summary>
+    public static MiraKeybind ZoomOut { get; } = new BorKeybind(
+        "bor_zoom_out",
+        "BetterOtherRoles.Zoom.Out",
+        KeyboardKeyCode.KeypadMinus);
+
+    /// <summary>
+    ///     Gets the keybind zooming back in.
+    /// </summary>
+    public static MiraKeybind ZoomIn { get; } = new BorKeybind(
+        "bor_zoom_in",
+        "BetterOtherRoles.Zoom.In",
+        KeyboardKeyCode.KeypadPlus);
 }

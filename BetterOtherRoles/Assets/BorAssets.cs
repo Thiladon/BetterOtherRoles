@@ -27,6 +27,16 @@ public static class BorAssets
 
     public static LoadableAsset<Sprite> DebugButtonActive { get; } = new LoadableResourceAsset(ButtonsPath + "DebugButtonActive.png");
 
+    // Zoom button (BetterOtherRoles 1.7.1 images, redrawn at the size of the guide ones: 102 x 92): minus to zoom out,
+    // plus to zoom back in.
+    public static LoadableAsset<Sprite> ZoomOutButton { get; } = new LoadableResourceAsset(ButtonsPath + "Minus_Button.png");
+
+    public static LoadableAsset<Sprite> ZoomOutButtonActive { get; } = new LoadableResourceAsset(ButtonsPath + "Minus_ButtonActive.png");
+
+    public static LoadableAsset<Sprite> ZoomInButton { get; } = new LoadableResourceAsset(ButtonsPath + "Plus_Button.png");
+
+    public static LoadableAsset<Sprite> ZoomInButtonActive { get; } = new LoadableResourceAsset(ButtonsPath + "Plus_ButtonActive.png");
+
     // Close button of the role guide, like the game settings one (idle and under the mouse).
     public static LoadableAsset<Sprite> CloseButton { get; } = new LoadableResourceAsset(MenusPath + "CloseButton.png", MenuPixelsPerUnit);
 

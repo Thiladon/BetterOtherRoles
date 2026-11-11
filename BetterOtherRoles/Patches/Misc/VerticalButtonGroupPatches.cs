@@ -1,6 +1,9 @@
+using BetterOtherRoles.Modules.Display;
 using BetterOtherRoles.Utilities;
 using HarmonyLib;
+using MiraAPI.Utilities.Assets;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace BetterOtherRoles.Patches.Misc;
 
@@ -23,6 +26,15 @@ public static class VerticalButtonGroupPatches
     private const string FrameName = "BorVerticalGroupFrame";
 
     private static readonly List<SpriteRenderer> HiddenPanels = [];
+
+    // Under this size, the guide button is being animated (or hidden by a scale of 0).
+    private const float MinGuideScale = 0.01f;
+
+    // Size of the guide button out of meetings, for the spacing of the buttons.
+    private static float _guideScaleY;
+
+    // Width on screen (world units) and pivot of the first icon of each renderer: the guide icon.
+    private static readonly Dictionary<int, (float Width, Vector2 Pivot)> TemplateSizes = [];
     private static SpriteRenderer? _frame;
     private static Sprite? _frameSprite;
     private static int _lastLayout;
@@ -45,6 +57,86 @@ public static class VerticalButtonGroupPatches
         return true;
     }
 
+    /// <summary>
+    ///     Makes a button of the group: a copy of the role guide button with other icons and click, hidden, added under
+    ///     the guide button (<see cref="Add"/>).
+    /// </summary>
+    /// <param name="guide">The role guide button.</param>
+    /// <param name="name">The name of the button object.</param>
+    /// <param name="icon">The icon.</param>
+    /// <param name="iconActive">The icon under the mouse.</param>
+    /// <param name="onClick">What a click does.</param>
+    /// <param name="scale">Size of the icons compared to the guide icon (<see cref="SetIcons"/>).</param>
+    /// <returns>The button.</returns>
+    public static GameObject CreateButton(Transform guide, string name, LoadableAsset<Sprite> icon, LoadableAsset<Sprite> iconActive, Action onClick, float scale = 1f)
+    {
+        // Copied without anything of ours added to the guide button.
+        var copy = Object.Instantiate(guide.gameObject);
+        copy.name = name;
+        for (var i = copy.transform.childCount - 1; i >= 0; i--)
+        {
+            var child = copy.transform.GetChild(i);
+            if (child.name.StartsWith("Bor", StringComparison.Ordinal))
+                Object.Destroy(child.gameObject);
+        }
+
+        // Guide button scripts: AspectPosition would move the copy to the screen edge every frame (MiraAPI removes it
+        // from the guide button, but later than the copy).
+        Object.Destroy(copy.GetComponent<AspectPosition>());
+        Object.Destroy(copy.GetComponent<MatchInfoHudButton>());
+
+        SetIcons(copy.transform, icon, iconActive, scale);
+
+        var button = copy.GetComponent<PassiveButton>();
+        if (button)
+        {
+            button.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
+            button.OnClick.AddListener(onClick);
+        }
+
+        copy.SetActive(false);
+        Add(copy);
+        return copy;
+    }
+
+    /// <summary>
+    ///     Replaces the icons of a button (Inactive and Active children, as on the vanilla top right buttons), with the
+    ///     pivot of the guide icons and their size on screen, whatever the size of the image.
+    /// </summary>
+    /// <param name="button">The button.</param>
+    /// <param name="icon">The icon.</param>
+    /// <param name="iconActive">The icon under the mouse.</param>
+    /// <param name="scale">Size compared to the guide icon (an image without margin is drawn smaller).</param>
+    public static void SetIcons(Transform button, LoadableAsset<Sprite> icon, LoadableAsset<Sprite> iconActive, float scale = 1f)
+    {
+        foreach (var (name, asset) in new[] { ("Inactive", icon), ("Active", iconActive) })
+        {
+            var renderer = button.Find(name)?.GetComponent<SpriteRenderer>();
+            if (!renderer || !renderer!.sprite)
+            {
+                var children = string.Join(", ", Enumerable.Range(0, button.childCount).Select(i => button.GetChild(i).name));
+                Warning($"{button.name}: no {name} icon among {children}.");
+                continue;
+            }
+
+            var texture = asset.LoadAsset().texture;
+            if (renderer.sprite.texture == texture) continue;
+
+            // Size of the guide icon, kept by the first icon set on this renderer.
+            var template = renderer.sprite;
+            var key = renderer.GetInstanceID();
+            if (!TemplateSizes.TryGetValue(key, out var size))
+            {
+                size = (template.rect.width / template.pixelsPerUnit, template.pivot / template.rect.size);
+                TemplateSizes[key] = size;
+            }
+
+            var sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), size.Pivot, texture.width / (size.Width * scale));
+            sprite.name = texture.name;
+            renderer.sprite = sprite;
+        }
+    }
+
     [HarmonyPostfix]
     public static void UpdatePostfix(HudManager __instance)
     {
@@ -52,6 +144,7 @@ public static class VerticalButtonGroupPatches
         if (!guide) return;
 
         TestModePatches.RefreshDebugButton(guide!);
+        BorZoom.RefreshButton(guide!);
 
         var layout = GetLayout(guide!);
         if (layout != _lastLayout || !_frame)
@@ -94,16 +187,26 @@ public static class VerticalButtonGroupPatches
         var guidePanel = ButtonGroupPatches.FindPanel(guide);
         if (!guidePanel) return;
 
+        // The size of the guide button out of meetings: the meeting opening animation changes it, the group may be
+        // rebuilt meanwhile (a button hidden when the meeting starts).
+        if (!MeetingHud.Instance && guide.localScale.y > MinGuideScale)
+            _guideScaleY = guide.localScale.y;
+
         var members = new List<SpriteRenderer> { guidePanel! };
-        var spacing = ButtonSpacing / guide.localScale.y;
+        var spacing = ButtonSpacing / (_guideScaleY > MinGuideScale ? _guideScaleY : Mathf.Max(guide.localScale.y, MinGuideScale));
+
+        // Bottom of the last panel in the guide button space, from the local places only (not measured on screen).
+        var bottom = 0f;
         foreach (var button in GetAddedButtons(guide))
         {
             if (!button.gameObject.activeSelf) continue;
 
             button.localPosition = new Vector3(0f, -members.Count * spacing, button.localPosition.z);
             var panel = ButtonGroupPatches.FindPanel(button);
-            if (panel)
-                members.Add(panel!);
+            if (!panel) continue;
+
+            members.Add(panel!);
+            bottom = button.localPosition.y + (panel!.transform.localPosition.y * button.localScale.y);
         }
 
         foreach (var panel in HiddenPanels)
@@ -135,7 +238,6 @@ public static class VerticalButtonGroupPatches
 
         // In the guide button space: from its panel down to the last button.
         var top = guidePanel!.transform.localPosition;
-        var bottom = guide.InverseTransformPoint(members[^1].transform.position).y;
         var scale = guidePanel.transform.localScale.y;
         frame.sprite = _frameSprite;
         frame.drawMode = SpriteDrawMode.Sliced;

@@ -15,6 +15,8 @@
   <string name="BetterOtherRoles.Options.Groups.Dev">Options de dév.</string>
   <string name="BetterOtherRoles.Option.Dev.TestMode">Debug Mode (moins de 4 joueurs, pas de fin de partie)</string>
   <string name="BetterOtherRoles.Debug.Menu.Keybind">Ouvrir le menu Debug</string>
+  <string name="BetterOtherRoles.Zoom.Out">Dézoomer (mort)</string>
+  <string name="BetterOtherRoles.Zoom.In">Zoomer (mort)</string>
   <string name="BetterOtherRoles.Debug.Menu.SetRole">Changer de rôle</string>
   <string name="BetterOtherRoles.Debug.Menu.ResetCooldowns">Réinitialiser les délais</string>
   <string name="BetterOtherRoles.Debug.Menu.Revive">Ressusciter</string>
@@ -222,6 +224,7 @@
   <string name="BetterOtherRoles.Option.Gameplay.ImpostorChatWholeGame">En partie</string>
   <string name="BetterOtherRoles.Option.Gameplay.ImpostorChatSeparate">Chats séparés</string>
   <string name="BetterOtherRoles.Option.Gameplay.ImpostorsKnowRoles">Les imposteurs connaissent leurs rôles</string>
+  <string name="BetterOtherRoles.Option.Gameplay.FinishTasksBeforeZoom">Finir ses tâches avant de dézoomer</string>
   <!-- Chat des imposteurs (Modules/Chat) -->
   <string name="BetterOtherRoles.ImpostorChat.Active">Chat des imposteurs (Tab : chat public)</string>
   <string name="BetterOtherRoles.ImpostorChat.ReadOnly">Chat des imposteurs, lecture seule (Tab : chat public)</string>
