@@ -227,6 +227,48 @@ public static class BorZoom
         return false;
     }
 
+    // GetSafeOrthographicSize is one line, copied into its callers by IL2CPP: the patch above is not always called.
+    // The places of the interface are given here too. Task list, sliding panels, player list: placed each frame.
+    [HarmonyPatch(typeof(AspectPosition), nameof(AspectPosition.ComputePosition), typeof(AspectPosition.EdgeAlignments), typeof(Vector3))]
+    [HarmonyPrefix]
+    public static bool ComputePositionPrefix(AspectPosition.EdgeAlignments alignment, Vector3 relativePos, ref Vector3 __result)
+    {
+        var interfaceCamera = InterfaceCamera;
+        if (!IsZoomed || !interfaceCamera) return true;
+
+        var safeArea = Screen.safeArea;
+        var aspect = Mathf.Min(interfaceCamera!.aspect, safeArea.width / safeArea.height);
+        __result = AspectPosition.ComputePosition(alignment, relativePos, interfaceCamera.orthographicSize, aspect);
+        return false;
+    }
+
+    // Buttons at the screen edges, placed when shown: placed with the interface camera, lent for the time of the call.
+    [HarmonyPatch(typeof(AspectPosition), nameof(AspectPosition.AdjustPosition), typeof(float))]
+    [HarmonyPrefix]
+    public static void AdjustPositionPrefix(AspectPosition __instance, out bool __state)
+    {
+        __state = false;
+        var interfaceCamera = InterfaceCamera;
+        if (!IsZoomed || !interfaceCamera || (__instance.parentCam && __instance.parentCam != Camera.main)) return;
+
+        _lentFrom = __instance.parentCam;
+        __instance.parentCam = interfaceCamera;
+        __state = true;
+    }
+
+    [HarmonyPatch(typeof(AspectPosition), nameof(AspectPosition.AdjustPosition), typeof(float))]
+    [HarmonyPostfix]
+    public static void AdjustPositionPostfix(AspectPosition __instance, bool __state)
+    {
+        if (!__state) return;
+
+        __instance.parentCam = _lentFrom;
+        _lentFrom = null;
+    }
+
+    // Camera of an AspectPosition while the interface camera is lent to it (AdjustPositionPrefix).
+    private static Camera? _lentFrom;
+
     // Menus fitted to the screen (AspectSize shrinks them when the screen is too small, Debug menu...): fitted to the
     // interface camera, the screen would look 4 times bigger.
     [HarmonyPatch(typeof(AspectSize), "GetScale")]
