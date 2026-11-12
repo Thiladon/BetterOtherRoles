@@ -1,4 +1,5 @@
 using BetterOtherRoles.Assets;
+using BetterOtherRoles.Modules.Roles;
 using BetterOtherRoles.Options;
 using BetterOtherRoles.Patches.Misc;
 using HarmonyLib;
@@ -59,7 +60,7 @@ public static class BorZoom
 
     // With the option, a dead player zooms out once its tasks are done (none for an impostor).
     private static bool MayZoom =>
-        IsDeadInGame && (!OptionGroupSingleton<GameplayOptions>.Instance.FinishTasksBeforeZoom.Value || TasksDone(PlayerControl.LocalPlayer));
+        IsDeadInGame && (!OptionGroupSingleton<GameplayOptions>.Instance.FinishTasksBeforeZoom.Value || BorTaskInfo.AreDone(PlayerControl.LocalPlayer));
 
     private static bool CanZoomOut => IsAllowedNow && MayZoom;
 
@@ -136,19 +137,6 @@ public static class BorZoom
             VerticalButtonGroupPatches.SetIcons(_button.transform, BorAssets.ZoomInButton, BorAssets.ZoomInButtonActive);
         else
             VerticalButtonGroupPatches.SetIcons(_button.transform, BorAssets.ZoomOutButton, BorAssets.ZoomOutButtonActive);
-    }
-
-    private static bool TasksDone(PlayerControl player)
-    {
-        var tasks = player.Data.Tasks;
-        if (tasks == null) return true;
-
-        foreach (var task in tasks)
-        {
-            if (!task.Complete) return false;
-        }
-
-        return true;
     }
 
     private static void SetSize(float size)

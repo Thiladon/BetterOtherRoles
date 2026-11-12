@@ -69,16 +69,179 @@ public static class BorDebugActions
     }
 
     /// <summary>
-    ///     Calls an emergency meeting from the host, without going to the button.
+    ///     Calls an emergency meeting from the host, without going to the button. A dead host cannot call one in the
+    ///     game: a living player calls it instead.
     /// </summary>
     public static void StartMeeting()
     {
-        var host = PlayerControl.LocalPlayer;
-        if (MeetingHud.Instance || ExileController.Instance || host.Data.IsDead) return;
+        if (MeetingHud.Instance || ExileController.Instance) return;
 
-        MeetingRoomManager.Instance.AssignSelf(host, null);
-        HudManager.Instance.OpenMeetingRoom(host);
-        host.RpcStartMeeting(null);
+        var caller = PlayerControl.LocalPlayer;
+        if (caller.Data.IsDead)
+            caller = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.Data != null && !x.Data.IsDead && !x.Data.Disconnected);
+        if (!caller) return;
+
+        MeetingRoomManager.Instance.AssignSelf(caller, null);
+        HudManager.Instance.OpenMeetingRoom(caller);
+        caller!.RpcStartMeeting(null);
+    }
+
+    /// <summary>
+    ///     Finishes the tasks of a player, sent by the host to everyone: the player completes them themselves (their
+    ///     tasks are theirs to send).
+    /// </summary>
+    /// <param name="player">The player.</param>
+    [MethodRpc((uint)BorRpc.FinishTasks)]
+    public static void RpcFinishTasks(this PlayerControl player)
+    {
+        if (!player || !player.AmOwner || player.Data?.Tasks == null) return;
+
+        foreach (var task in player.Data.Tasks.ToArray())
+        {
+            if (!task.Complete)
+                player.RpcCompleteTask(task.Id);
+        }
+    }
+
+    /// <summary>
+    ///     Gives a player its tasks back from the start, sent by the host to everyone: each client marks them not done
+    ///     and makes new ones in their place, as the game does at the start (PlayerControl.CoSetTasks).
+    ///     The type of a task is read on the task itself (Index): the task list of the player data loses it once synced
+    ///     (NetworkedPlayerInfo.Deserialize only sends the id and whether it is done).
+    /// </summary>
+    /// <param name="player">The player.</param>
+    [MethodRpc((uint)BorRpc.ResetTasks)]
+    public static void RpcResetTasks(this PlayerControl player)
+    {
+        if (!player || player.Data?.Tasks == null || !ShipStatus.Instance) return;
+
+        foreach (var info in player.Data.Tasks)
+        {
+            info.Complete = false;
+        }
+
+        for (var i = 0; i < player.myTasks.Count; i++)
+        {
+            var old = player.myTasks[i] ? player.myTasks[i].TryCast<NormalPlayerTask>() : null;
+            if (!old || player.Data.FindTaskById(old!.Id) == null) continue;
+
+            var task = CreateTask(player, (byte)old.Index, old.Id);
+            if (!task) continue;
+
+            CloseTaskMinigame(old);
+            player.myTasks[i] = task;
+            UnityEngine.Object.Destroy(old.gameObject);
+        }
+
+        GameData.Instance.RecomputeTaskCounts();
+    }
+
+    /// <summary>
+    ///     Gets the tasks of the map a player does not have yet (type of task).
+    /// </summary>
+    /// <param name="player">The player.</param>
+    /// <returns>The tasks, models of the map.</returns>
+    public static NormalPlayerTask[] GetMissingTasks(PlayerControl player)
+    {
+        if (!ShipStatus.Instance) return [];
+
+        var owned = GetTasks(player).Select(x => x.Index).ToHashSet();
+        return ShipStatus.Instance.CommonTasks
+            .Concat(ShipStatus.Instance.LongTasks)
+            .Concat(ShipStatus.Instance.ShortTasks)
+            .Where(x => x && !owned.Contains(x.Index))
+            .ToArray();
+    }
+
+    /// <summary>
+    ///     Gets the tasks of a player (the normal ones, those of the task list).
+    /// </summary>
+    /// <param name="player">The player.</param>
+    /// <returns>The tasks.</returns>
+    public static NormalPlayerTask[] GetTasks(PlayerControl player)
+    {
+        return player.myTasks.ToArray()
+            .Select(x => x ? x.TryCast<NormalPlayerTask>() : null)
+            .Where(x => x && player.Data.FindTaskById(x!.Id) != null)
+            .Select(x => x!)
+            .ToArray();
+    }
+
+    /// <summary>
+    ///     Gives a player one more task, sent by the host to everyone: added to the task list of the player data, with
+    ///     the next id, and made as the game does at the start (PlayerControl.CoSetTasks).
+    /// </summary>
+    /// <param name="player">The player.</param>
+    /// <param name="typeId">The type of the task (NormalPlayerTask.Index on the map).</param>
+    [MethodRpc((uint)BorRpc.AddTask)]
+    public static void RpcAddTask(this PlayerControl player, byte typeId)
+    {
+        if (!player || player.Data?.Tasks == null || !ShipStatus.Instance) return;
+
+        uint id = 0;
+        foreach (var info in player.Data.Tasks)
+        {
+            id = Math.Max(id, info.Id + 1);
+        }
+
+        var task = CreateTask(player, typeId, id);
+        if (!task) return;
+
+        player.Data.Tasks.Add(new NetworkedPlayerInfo.TaskInfo(typeId, id));
+        player.myTasks.Add(task);
+        GameData.Instance.RecomputeTaskCounts();
+    }
+
+    /// <summary>
+    ///     Takes a task away from a player, sent by the host to everyone: removed from the task list of the player data
+    ///     and from its tasks (its window closed when open).
+    /// </summary>
+    /// <param name="player">The player.</param>
+    /// <param name="taskId">The id of the task.</param>
+    [MethodRpc((uint)BorRpc.RemoveTask)]
+    public static void RpcRemoveTask(this PlayerControl player, uint taskId)
+    {
+        if (!player || player.Data?.Tasks == null) return;
+
+        for (var i = player.Data.Tasks.Count - 1; i >= 0; i--)
+        {
+            if (player.Data.Tasks[i].Id == taskId)
+                player.Data.Tasks.RemoveAt(i);
+        }
+
+        for (var i = player.myTasks.Count - 1; i >= 0; i--)
+        {
+            var task = player.myTasks[i] ? player.myTasks[i].TryCast<NormalPlayerTask>() : null;
+            if (!task || task!.Id != taskId) continue;
+
+            CloseTaskMinigame(task);
+            player.myTasks.RemoveAt(i);
+            UnityEngine.Object.Destroy(task.gameObject);
+        }
+
+        GameData.Instance.RecomputeTaskCounts();
+    }
+
+    // A task of the map made for a player, as in PlayerControl.CoSetTasks.
+    private static NormalPlayerTask? CreateTask(PlayerControl player, byte typeId, uint id)
+    {
+        var prefab = ShipStatus.Instance.GetTaskById(typeId);
+        if (!prefab) return null;
+
+        var task = UnityEngine.Object.Instantiate(prefab, player.transform);
+        task.Id = id;
+        task.Index = prefab.Index;
+        task.Owner = player;
+        task.Initialize();
+        return task;
+    }
+
+    // The window of a task being done is closed before the task goes away.
+    private static void CloseTaskMinigame(PlayerTask task)
+    {
+        var minigame = Minigame.Instance;
+        if (minigame && minigame.MyTask != null && minigame.MyTask.Pointer == task.Pointer)
+            minigame.Close();
     }
 
     /// <summary>

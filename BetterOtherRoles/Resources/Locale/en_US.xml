@@ -10,9 +10,16 @@
   <string name="BetterOtherRoles.Debug.Menu.Keybind">Open the Debug menu</string>
   <string name="BetterOtherRoles.Zoom.Out">Zoom Out (dead)</string>
   <string name="BetterOtherRoles.Zoom.In">Zoom In (dead)</string>
+  <string name="BetterOtherRoles.Haunt.Never">Haunting was disabled by the host!</string>
+  <string name="BetterOtherRoles.Haunt.NextRound">You must wait until the next round to haunt!</string>
+  <string name="BetterOtherRoles.Haunt.Tasks">Finish your tasks to haunt!</string>
   <string name="BetterOtherRoles.Debug.Menu.SetRole">Change role</string>
   <string name="BetterOtherRoles.Debug.Menu.ResetCooldowns">Reset cooldowns</string>
   <string name="BetterOtherRoles.Debug.Menu.Revive">Revive</string>
+  <string name="BetterOtherRoles.Debug.Menu.FinishTasks">Finish tasks</string>
+  <string name="BetterOtherRoles.Debug.Menu.ResetTasks">Reset tasks</string>
+  <string name="BetterOtherRoles.Debug.Menu.AddTask">Add a task</string>
+  <string name="BetterOtherRoles.Debug.Menu.RemoveTask">Remove a task</string>
   <string name="BetterOtherRoles.Debug.Menu.Kill">Kill</string>
   <string name="BetterOtherRoles.Debug.Menu.Meeting">Call a meeting</string>
   <string name="BetterOtherRoles.Debug.Menu.TeleportTo">Go to a player</string>
@@ -156,6 +163,11 @@
   <string name="BetterOtherRoles.Option.Gameplay.ImpostorChatWholeGame">Whole Game</string>
   <string name="BetterOtherRoles.Option.Gameplay.ImpostorChatSeparate">Separate Chats</string>
   <string name="BetterOtherRoles.Option.Gameplay.ImpostorsKnowRoles">Impostors Know Each Other's Roles</string>
+  <string name="BetterOtherRoles.Option.Gameplay.DeadCanHaunt">Dead Players Can Haunt</string>
+  <string name="BetterOtherRoles.Option.Gameplay.DeadCanHauntAlways">Always</string>
+  <string name="BetterOtherRoles.Option.Gameplay.DeadCanHauntNextRound">From Next Round</string>
+  <string name="BetterOtherRoles.Option.Gameplay.DeadCanHauntNever">Never</string>
+  <string name="BetterOtherRoles.Option.Gameplay.FinishTasksBeforeHaunt">Finish Tasks Before Haunting</string>
   <string name="BetterOtherRoles.Option.Gameplay.FinishTasksBeforeZoom">Finish Tasks Before Zooming Out</string>
   <!-- Impostor chat (Modules/Chat) -->
   <string name="BetterOtherRoles.ImpostorChat.Active">Impostor chat (Tab: public chat)</string>

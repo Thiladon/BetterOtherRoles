@@ -28,12 +28,29 @@ public static class HauntMenuButtonsPatches
     /// </summary>
     public static bool IsHauntMenuOpen => Minigame.Instance && Minigame.Instance.TryCast<HauntMenuMinigame>();
 
+    /// <summary>
+    ///     The game puts the haunt menu under the ability button (CrewmateGhostRole.UseAbility), on its left. Moved under
+    ///     the HUD, centered at the same height: the map hides the ability button (SetHudActive), which would stop the
+    ///     menu and its target following. The opening animation goes on to the new place (Minigame.TargetPosition).
+    /// </summary>
     [HarmonyPatch(typeof(HauntMenuMinigame), nameof(HauntMenuMinigame.Begin))]
     [HarmonyPostfix]
-    public static void BeginPostfix()
+    public static void BeginPostfix(HauntMenuMinigame __instance)
     {
-        if (HudManager.InstanceExists)
-            HudManager.Instance.ToggleMapButton(true);
+        if (!HudManager.InstanceExists) return;
+
+        var hud = HudManager.Instance;
+        hud.ToggleMapButton(true);
+
+        var menu = __instance.transform;
+        var parent = menu.parent;
+        if (!parent || parent == hud.transform) return;
+
+        var target = hud.transform.InverseTransformPoint(parent.TransformPoint(__instance.TargetPosition));
+        menu.SetParent(hud.transform, true);
+        __instance.TargetPosition = new Vector2(0f, target.y);
+        var position = menu.localPosition;
+        menu.localPosition = new Vector3(0f, position.y, position.z);
     }
 
     // The normal map of the game (MapBehaviour.ShowNormalMap), without the check that the player can move.
@@ -61,10 +78,6 @@ public static class HauntMenuButtonsPatches
                 __instance.UpdateTrackedPosition();
             }
         }
-
-        // The game puts the haunt menu under the ability button (CrewmateGhostRole.UseAbility), that SetHudActive
-        // hides: the menu would stop following its target. Moved under the HUD, at the same place.
-        Minigame.Instance.transform.SetParent(HudManager.Instance.transform, true);
 
         __instance.GenericShow();
         __instance.taskOverlay.Show();

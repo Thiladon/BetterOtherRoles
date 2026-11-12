@@ -21,4 +21,8 @@ public enum BorRpc : uint
     ImpostorChat,
     RulesRequest,
     Rules,
+    FinishTasks,
+    ResetTasks,
+    AddTask,
+    RemoveTask,
 }

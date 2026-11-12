@@ -33,4 +33,22 @@ public static class BorTaskInfo
         text = $"<color={Color}>({done}/{tasks.Count})</color>";
         return true;
     }
+
+    /// <summary>
+    ///     Gets whether a player has done all its tasks (true without tasks).
+    /// </summary>
+    /// <param name="player">The player.</param>
+    /// <returns>True when no task is left.</returns>
+    public static bool AreDone(PlayerControl player)
+    {
+        var tasks = player.Data ? player.Data.Tasks : null;
+        if (tasks == null) return true;
+
+        foreach (var task in tasks)
+        {
+            if (!task.Complete) return false;
+        }
+
+        return true;
+    }
 }

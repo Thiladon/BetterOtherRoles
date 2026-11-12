@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Reflection;
 using BetterOtherRoles.Assets;
+using BetterOtherRoles.Modules.Roles;
 using BetterOtherRoles.Patches.Misc;
+using BetterOtherRoles.Patches.Roles;
 using HarmonyLib;
 using MiraAPI.Hud;
 using MiraAPI.Roles;
@@ -21,6 +23,8 @@ public static class BorDebugMenu
 {
     private static readonly Color ActionColor = Color.white;
     private static readonly Color DangerColor = new Color32(255, 80, 80, 255);
+    private static readonly Color CommonTaskColor = new Color32(250, 217, 52, 255);
+    private static readonly Color LongTaskColor = new Color32(255, 150, 50, 255);
 
     /// <summary>
     ///     Opens the list of actions, or closes the menu when it is open (keybind <see cref="Keybinds.BorKeybinds.DebugMenu"/>).
@@ -55,6 +59,10 @@ public static class BorDebugMenu
             Opens(Text("SetRole", "Change role"), ActionColor, m => m.Show(Players(_ => true, ShowRoles, opens: true))),
             Opens(Text("ResetCooldowns", "Reset cooldowns"), ActionColor, m => m.Show(Players(IsAlive, (_, x) => x.RpcResetCooldowns()))),
             Opens(Text("Revive", "Revive"), ActionColor, m => m.Show(Players(x => !IsAlive(x), (_, x) => x.RpcRevive()))),
+            Opens(Text("FinishTasks", "Finish tasks"), ActionColor, m => m.Show(Players(HasTasks, (_, x) => x.RpcFinishTasks()))),
+            Opens(Text("ResetTasks", "Reset tasks"), ActionColor, m => m.Show(Players(HasTasks, (_, x) => x.RpcResetTasks()))),
+            Opens(Text("AddTask", "Add a task"), ActionColor, m => m.Show(Players(HasTaskList, ShowMissingTasks, opens: true))),
+            Opens(Text("RemoveTask", "Remove a task"), ActionColor, m => m.Show(Players(HasTasks, ShowTasks, opens: true))),
             Opens(Text("Kill", "Kill"), DangerColor, m => m.Show(Players(IsAlive, (_, x) => BorDebugActions.Kill(x)))),
             Does(Text("Meeting", "Call a meeting"), ActionColor, BorDebugActions.StartMeeting),
             Opens(Text("TeleportTo", "Go to a player"), ActionColor, m => m.Show(Players(IsOtherAlive, (_, x) => BorDebugActions.Teleport(PlayerControl.LocalPlayer, x)))),
@@ -72,6 +80,9 @@ public static class BorDebugMenu
 
     private static bool IsOtherAlive(PlayerControl player) => IsAlive(player) && !player.AmOwner;
 
+    // A player of the crewmates' team with tasks, alive or dead (BorTaskInfo).
+    private static bool HasTasks(PlayerControl player) => BorTaskInfo.TryGet(player, out _);
+
     // The players matching, then the action on the one picked (done once the menu is closed, unless it opens a list).
     private static List<BorPhoneMenu.Entry> Players(Func<PlayerControl, bool> match, Action<BorPhoneMenu, PlayerControl> onPick, bool opens = false)
     {
@@ -83,6 +94,47 @@ public static class BorDebugMenu
                     onPick(m, x);
             }, opens, x))
             .ToList();
+    }
+
+    // A player of the crewmates' team, even without tasks left to show (tasks can be given to them).
+    private static bool HasTaskList(PlayerControl player)
+    {
+        var role = AliveRolePatches.GetRole(player);
+        return role && role!.TeamType == RoleTeamTypes.Crewmate && player.Data.Tasks != null;
+    }
+
+    // The tasks of the map the player does not have: common in yellow, long in orange, short in white.
+    private static void ShowMissingTasks(BorPhoneMenu menu, PlayerControl player)
+    {
+        var ship = ShipStatus.Instance;
+        menu.Show(BorDebugActions.GetMissingTasks(player)
+            .Select(task => new BorPhoneMenu.Entry(GetTaskName(task), GetTaskColor(ship, task), _ =>
+            {
+                if (player && BorDebugActions.CanUse)
+                    player.RpcAddTask((byte)task.Index);
+            }))
+            .OrderBy(x => x.Text, StringComparer.CurrentCultureIgnoreCase));
+    }
+
+    // The tasks of the player, the done ones in green.
+    private static void ShowTasks(BorPhoneMenu menu, PlayerControl player)
+    {
+        menu.Show(BorDebugActions.GetTasks(player)
+            .Select(task => new BorPhoneMenu.Entry(GetTaskName(task), task.IsComplete ? Color.green : Color.white, _ =>
+            {
+                if (player && BorDebugActions.CanUse)
+                    player.RpcRemoveTask(task.Id);
+            }))
+            .OrderBy(x => x.Text, StringComparer.CurrentCultureIgnoreCase));
+    }
+
+    private static string GetTaskName(PlayerTask task) => TranslationController.Instance.GetString(task.TaskType);
+
+    private static Color GetTaskColor(ShipStatus ship, NormalPlayerTask task)
+    {
+        if (ship.CommonTasks.Any(x => x.Index == task.Index)) return CommonTaskColor;
+
+        return ship.LongTasks.Any(x => x.Index == task.Index) ? LongTaskColor : Color.white;
     }
 
     private static void ShowRoles(BorPhoneMenu menu, PlayerControl player)
