@@ -66,13 +66,13 @@ public static class BorZoom
     // From the start of a meeting to the end of the ejection.
     private static bool IsMeeting => MeetingHud.Instance || ExileController.Instance;
 
-    // A menu over the game: the wheel and the keys are for it.
+    // A menu over the game: the wheel and the keys are for it (not the haunt menu, which follows a player).
     private static bool IsMenuOpen
     {
         get
         {
             var hud = HudManager.Instance;
-            return Minigame.Instance || (MapBehaviour.Instance && MapBehaviour.Instance.IsOpen) ||
+            return (Minigame.Instance && !HauntMenuButtonsPatches.IsHauntMenuOpen) || (MapBehaviour.Instance && MapBehaviour.Instance.IsOpen) ||
                    (hud.Chat && hud.Chat.IsOpenOrOpening) || (hud.GameMenu && hud.GameMenu.IsOpen) ||
                    (MatchInfoGuide.Instance && MatchInfoGuide.Instance.IsActive);
         }

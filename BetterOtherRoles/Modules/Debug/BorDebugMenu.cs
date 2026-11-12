@@ -41,7 +41,13 @@ public static class BorDebugMenu
     /// </summary>
     public static void Open()
     {
-        if (!BorDebugActions.CanUse || Minigame.Instance || !PlayerControl.LocalPlayer) return;
+        if (!BorDebugActions.CanUse || !PlayerControl.LocalPlayer) return;
+
+        // The haunt menu of a dead player gives way to the debug menu, any other minigame keeps it closed.
+        if (HauntMenuButtonsPatches.IsHauntMenuOpen)
+            Minigame.Instance.Close();
+        else if (Minigame.Instance)
+            return;
 
         PlayerControl.LocalPlayer.NetTransform.Halt();
         BorPhoneMenu.Open(
