@@ -187,6 +187,17 @@ public class BorLocalSettingsTab(ConfigFile config) : LocalSettingsTab(config)
         "Once dead, you see who voted, even with anonymous votes.");
 
     /// <summary>
+    ///     Gets whether a dead player keeps the tab of his role while alive, under the task list
+    ///     (<see cref="Patches.Misc.GhostRoleTabPatches"/>).
+    /// </summary>
+    [LocalToggleSetting("BetterOtherRoles.LocalSettings.GhostsKeepRoleTab", "BetterOtherRoles.LocalSettings.GhostsKeepRoleTabDescription")]
+    public ConfigEntry<bool> GhostsKeepRoleTab { get; private set; } = config.Bind(
+        "BetterOtherRoles.LocalSettings.Ghosts",
+        "GhostsKeepRoleTab",
+        true,
+        "Once dead, you keep the tab of your role under the task list.");
+
+    /// <summary>
     ///     Gets whether the FPS counter is shown (TOU-Mira 1.7.9 ShowFpsCounter, <see cref="Modules.Display.BorFpsCounter"/>).
     /// </summary>
     [LocalToggleSetting("BetterOtherRoles.LocalSettings.ShowFps", "BetterOtherRoles.LocalSettings.ShowFpsDescription")]
@@ -194,25 +205,7 @@ public class BorLocalSettingsTab(ConfigFile config) : LocalSettingsTab(config)
         "BetterOtherRoles.LocalSettings.Interface",
         "ShowFps",
         false,
-        "Shows the FPS counter (frames per second).");
-
-    /// <summary>
-    ///     Gets the corner of the screen where the FPS counter is shown (<see cref="Modules.Display.BorFpsCounter"/>).
-    /// </summary>
-    [LocalEnumSetting(
-        "BetterOtherRoles.LocalSettings.FpsPlace",
-        "BetterOtherRoles.LocalSettings.FpsPlaceDescription",
-        [
-            "BetterOtherRoles.LocalSettings.FpsPlace.TopLeft",
-            "BetterOtherRoles.LocalSettings.FpsPlace.TopRight",
-            "BetterOtherRoles.LocalSettings.FpsPlace.BottomLeft",
-            "BetterOtherRoles.LocalSettings.FpsPlace.BottomRight",
-        ])]
-    public ConfigEntry<FpsPlace> FpsPlace { get; private set; } = config.Bind(
-        "BetterOtherRoles.LocalSettings.Interface",
-        "FpsPlace",
-        LocalSettings.FpsPlace.TopLeft,
-        "Corner of the screen where the FPS counter is shown.");
+        "Shows the frames per second next to the ping.");
 
     /// <summary>
     ///     Gets how the button cooldowns are shown: whole seconds as the game, tenths under 10 s
@@ -241,17 +234,6 @@ public enum CooldownDisplay
     Whole,
     DecimalsUnder10,
     Decimals,
-}
-
-/// <summary>
-///     Corner of the screen where the FPS counter is shown.
-/// </summary>
-public enum FpsPlace
-{
-    TopLeft,
-    TopRight,
-    BottomLeft,
-    BottomRight,
 }
 
 /// <summary>

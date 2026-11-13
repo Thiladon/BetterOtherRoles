@@ -1,6 +1,5 @@
 using System.Text;
 using System.Text.RegularExpressions;
-using BetterOtherRoles.Modules.Display;
 using BetterOtherRoles.Options;
 using HarmonyLib;
 using MiraAPI.GameOptions;
@@ -29,21 +28,22 @@ public static class LobbyRoleListPatches
     private static readonly Regex ColorAlpha = new("<color=(#[0-9A-Fa-f]{6})([0-9A-Fa-f]{2})?>", RegexOptions.Compiled);
     private static readonly StringBuilder Text = new();
 
-    // Distance from the top of the screen, in world units, without the FPS counter.
+    // Distance from the top of the screen: in world units, plus a part of the window height (where the FPS counter
+    // used to be, the place is kept).
     private const float TopMargin = 0.1f;
+    private const float TopRatio = 0.03f;
 
     private static TextMeshPro? _text;
     private static AspectPosition? _position;
     private static float _lastRefresh;
 
-    // Always below the place of the FPS counter, shown or not (BorFpsCounter.ReservedRatio, part of the window
-    // height, converted to world units: the screen is 2 × orthographicSize high).
+    // The part of the window height converted to world units: the screen is 2 × orthographicSize high.
     private static void UpdatePosition()
     {
         var camera = Camera.main;
         if (!_position || !camera) return;
 
-        var offset = BorFpsCounter.ReservedRatio * camera!.orthographicSize * 2f;
+        var offset = TopRatio * camera!.orthographicSize * 2f;
         var distance = _position!.DistanceFromEdge;
         if (Mathf.Abs(distance.y - (TopMargin + offset)) < 0.001f) return;
 
