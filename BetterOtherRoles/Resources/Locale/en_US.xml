@@ -182,6 +182,10 @@
   <string name="BetterOtherRoles.Option.BetterPolus.ThemeNormal">Normal</string>
   <string name="BetterOtherRoles.Option.BetterPolus.ThemeHalloween">Halloween</string>
   <string name="BetterOtherRoles.Option.BetterPolus.ReactorSabotage">Reactor Sabotage Countdown</string>
+  <!-- Game Tweaks options -->
+  <string name="BetterOtherRoles.Options.Groups.GameTweaks">Game Tweaks</string>
+  <string name="BetterOtherRoles.Option.GameTweaks.ParallelMedScans">Parallel MedBay Scans</string>
+  <string name="BetterOtherRoles.Option.GameTweaks.RandomScanPosition">Random Position During MedBay Scans</string>
   <!-- Impostor chat (Modules/Chat) -->
   <string name="BetterOtherRoles.ImpostorChat.Active">Impostor chat (Tab: public chat)</string>
   <string name="BetterOtherRoles.ImpostorChat.ReadOnly">Impostor chat, read only (Tab: public chat)</string>
