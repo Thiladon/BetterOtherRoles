@@ -25,8 +25,15 @@ public sealed class SheriffOptions : AbstractRoleOptionGroup<SheriffRole>
 
     public override string GroupName => MiraLocaleManager.Get("BetterOtherRoles.Role.Sheriff", "Sheriff");
 
-    [ModdedNumberOption("BetterOtherRoles.Option.Sheriff.Cooldown", 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)]
-    public float Cooldown { get; set; } = 30f;
+    /// <summary>
+    ///     Gets the cooldown of the kill, after each use and each meeting.
+    /// </summary>
+    public ModdedNumberOption Cooldown { get; } = BorCooldownOptions.Cooldown("BetterOtherRoles.Option.Sheriff.Cooldown", 30f);
+
+    /// <summary>
+    ///     Gets the cooldown of the kill when the game starts (end of the intro), then <see cref="Cooldown"/>.
+    /// </summary>
+    public ModdedNumberOption StartCooldown { get; } = BorCooldownOptions.StartCooldown("BetterOtherRoles.Option.Sheriff.StartCooldown");
 
     [ModdedToggleOption("BetterOtherRoles.Option.Sheriff.CanKillNeutrals")]
     public bool CanKillNeutrals { get; set; } = false;
@@ -45,7 +52,7 @@ public sealed class SheriffOptions : AbstractRoleOptionGroup<SheriffRole>
     /// </summary>
     [MiraIgnore]
     public IModdedOption[] DeputyOptions =>
-        [DeputyHandcuffs, DeputyHandcuffCooldown, DeputyHandcuffDuration, DeputyKnowsSheriff, DeputyPromotion, DeputyKeepsHandcuffs];
+        [DeputyHandcuffs, DeputyHandcuffCooldown, DeputyHandcuffStartCooldown, DeputyHandcuffDuration, DeputyKnowsSheriff, DeputyPromotion, DeputyKeepsHandcuffs];
 
     // Deputy options (BetterOtherRoles 1.7.1, ids 104 to 109).
     public ModdedNumberOption DeputyHandcuffs { get; } =
@@ -55,10 +62,10 @@ public sealed class SheriffOptions : AbstractRoleOptionGroup<SheriffRole>
         };
 
     public ModdedNumberOption DeputyHandcuffCooldown { get; } =
-        new("BetterOtherRoles.Option.Deputy.HandcuffCooldown", 30f, 10f, 60f, 2.5f, MiraNumberSuffixes.Seconds)
-        {
-            Visible = () => OptionGroupSingleton<SheriffOptions>.Instance.HasDeputy,
-        };
+        BorCooldownOptions.Cooldown("BetterOtherRoles.Option.Deputy.HandcuffCooldown", 30f, () => OptionGroupSingleton<SheriffOptions>.Instance.HasDeputy);
+
+    public ModdedNumberOption DeputyHandcuffStartCooldown { get; } =
+        BorCooldownOptions.StartCooldown("BetterOtherRoles.Option.Deputy.HandcuffStartCooldown", () => OptionGroupSingleton<SheriffOptions>.Instance.HasDeputy);
 
     public ModdedNumberOption DeputyHandcuffDuration { get; } =
         new("BetterOtherRoles.Option.Deputy.HandcuffDuration", 15f, 5f, 60f, 2.5f, MiraNumberSuffixes.Seconds)

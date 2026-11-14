@@ -1,4 +1,3 @@
-using System.Reflection;
 using BetterOtherRoles.Options;
 using HarmonyLib;
 using MiraAPI.GameOptions;
@@ -66,7 +65,6 @@ public static class LobbySizeOptionPatches
         if (AmongUsClient.Instance && !AmongUsClient.Instance.AmHost)
             behaviour.SetAsPlayer();
 
-        // The scrolled height already has the room for the option (ToggleGameModePatch, called while MiraAPI builds the tab).
         _option = behaviour.TryCast<NumberOption>();
         AddToController(menu);
     }
@@ -105,21 +103,12 @@ public static class LobbySizeOptionPatches
     }
 
     /// <summary>
-    ///     MiraAPI sets the scrolled height again when the game mode changes, without the room made for the option.
+    ///     Gets whether the row is shown (room made for it in the scrolled height, <see cref="SettingsScrollPatches"/>).
     /// </summary>
-    [HarmonyPatch]
-    public static class ToggleGameModePatch
-    {
-        // Internal class of MiraAPI.
-        public static MethodBase TargetMethod()
-        {
-            return AccessTools.Method(typeof(MiraPluginManager).Assembly.GetType("MiraAPI.Patches.Options.GameOptionsMenuPatch", true), "ToggleGamemodeOptions");
-        }
+    public static bool RowShown => _option && _option!.gameObject.activeInHierarchy;
 
-        public static void Postfix(GameOptionsMenu instance)
-        {
-            if (instance && instance.scrollBar)
-                instance.scrollBar.SetYBoundsMax(instance.scrollBar.ContentYBounds.max + Shift);
-        }
-    }
+    /// <summary>
+    ///     Gets the room made for the row.
+    /// </summary>
+    public static float RowHeight => Shift;
 }

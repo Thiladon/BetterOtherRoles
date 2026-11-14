@@ -23,11 +23,10 @@ public sealed class SheriffShootButton : BorTargetButton<PlayerControl>
 
     public override string Name => MiraLocaleManager.Get("BetterOtherRoles.Role.SheriffKill", "Kill");
 
-    public override float Cooldown => OptionGroupSingleton<SheriffOptions>.Instance.Cooldown;
+    public override float Cooldown => OptionGroupSingleton<SheriffOptions>.Instance.Cooldown.Value;
 
-    // Same as the impostors' kill cooldown at the start of the game. MiraAPI then uses Cooldown after each
-    // click and after meetings.
-    public override float InitialCooldown => 10f;
+    // When the game starts. MiraAPI then uses Cooldown after each click and after meetings.
+    public override float InitialCooldown => OptionGroupSingleton<SheriffOptions>.Instance.StartCooldown.Value;
 
     public override ButtonLocation Location => ButtonLocation.BottomRight;
 

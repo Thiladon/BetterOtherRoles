@@ -133,6 +133,7 @@
   <string name="BetterOtherRoles.Role.SheriffKill">Kill</string>
   <!-- Sheriff Options -->
   <string name="BetterOtherRoles.Option.Sheriff.Cooldown">Kill Cooldown</string>
+  <string name="BetterOtherRoles.Option.Sheriff.StartCooldown">Kill Start Cooldown</string>
   <string name="BetterOtherRoles.Option.Sheriff.CanKillNeutrals">Can Kill Neutral Roles</string>
   <string name="BetterOtherRoles.Option.Sheriff.HasDeputy">Has A Deputy</string>
   <string name="BetterOtherRoles.Option.Sheriff.DeputyChance">Deputy Spawn Chance</string>
@@ -144,6 +145,7 @@
   <!-- Deputy Options (in the Sheriff options) -->
   <string name="BetterOtherRoles.Option.Deputy.Handcuffs">Number Of Handcuffs</string>
   <string name="BetterOtherRoles.Option.Deputy.HandcuffCooldown">Handcuff Cooldown</string>
+  <string name="BetterOtherRoles.Option.Deputy.HandcuffStartCooldown">Handcuff Start Cooldown</string>
   <string name="BetterOtherRoles.Option.Deputy.HandcuffDuration">Handcuff Duration</string>
   <string name="BetterOtherRoles.Option.Deputy.KnowsSheriff">Knows The Sheriff (And Vice Versa)</string>
   <string name="BetterOtherRoles.Option.Deputy.Promotion">Promoted To Sheriff</string>
@@ -191,6 +193,8 @@
   <string name="BetterOtherRoles.Option.GameTweaks.NightVisionCams">Night Vision Cams When The Lights Are Off</string>
   <string name="BetterOtherRoles.Option.GameTweaks.ImpostorsIgnoreNightVision">Impostors Ignore Night Vision</string>
   <string name="BetterOtherRoles.Setting.KillDistanceVeryShort">Very Short</string>
+  <string name="BetterOtherRoles.Setting.Instant">Instant</string>
+  <string name="BetterOtherRoles.Setting.KillStartCooldown">Kill Start Cooldown</string>
   <!-- Impostor chat (Modules/Chat) -->
   <string name="BetterOtherRoles.ImpostorChat.Active">Impostor chat (Tab: public chat)</string>
   <string name="BetterOtherRoles.ImpostorChat.ReadOnly">Impostor chat, read only (Tab: public chat)</string>

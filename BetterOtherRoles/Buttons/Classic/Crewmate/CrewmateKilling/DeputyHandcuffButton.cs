@@ -23,6 +23,9 @@ public sealed class DeputyHandcuffButton : BorTargetButton<PlayerControl>
 
     public override float Cooldown => OptionGroupSingleton<SheriffOptions>.Instance.DeputyHandcuffCooldown.Value;
 
+    // When the game starts. MiraAPI then uses Cooldown after each click and after meetings.
+    public override float InitialCooldown => OptionGroupSingleton<SheriffOptions>.Instance.DeputyHandcuffStartCooldown.Value;
+
     public override int MaxUses => (int)OptionGroupSingleton<SheriffOptions>.Instance.DeputyHandcuffs.Value;
 
     public override ButtonLocation Location => ButtonLocation.BottomRight;

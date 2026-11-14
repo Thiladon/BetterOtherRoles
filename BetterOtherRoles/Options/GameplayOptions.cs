@@ -25,6 +25,14 @@ public sealed class GameplayOptions : AbstractOptionGroup
     public override uint GroupPriority => 3;
 
     /// <summary>
+    ///     Gets the cooldown of the impostors' kill when the game starts (10 s in the game), then the kill cooldown of
+    ///     the game. Shown in the vanilla game settings tab, under the kill cooldown, not here
+    ///     (<see cref="KillCooldownPatches"/>).
+    /// </summary>
+    public ModdedNumberOption KillStartCooldown { get; } =
+        BorCooldownOptions.StartCooldown("BetterOtherRoles.Setting.KillStartCooldown", () => false, KillCooldownPatches.Refresh);
+
+    /// <summary>
     ///     Gets whether the cooldowns stop in minigames and at the admin table (BetterOtherRoles 1.7.1), for the
     ///     factions chosen below. Off: they keep running for everyone (vanilla, TOU-Mira 1.7.9 TickCooldownsInMinigame).
     ///     Always paused in a vent, whatever this option (<see cref="BorCooldowns"/>).
