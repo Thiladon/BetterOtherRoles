@@ -256,6 +256,8 @@
   <string name="BetterOtherRoles.Option.GameTweaks.RandomScanPosition">Position au hasard pendant le scan MedBay</string>
   <string name="BetterOtherRoles.Option.GameTweaks.RandomWirePositions">Panneaux de fils au hasard</string>
   <string name="BetterOtherRoles.Option.GameTweaks.RandomUploadPosition">Upload au hasard</string>
+  <string name="BetterOtherRoles.Option.GameTweaks.NightVisionCams">Caméras en vision nocturne quand les lumières sont coupées</string>
+  <string name="BetterOtherRoles.Option.GameTweaks.ImpostorsIgnoreNightVision">Les imposteurs ignorent la vision nocturne</string>
   <!-- Chat des imposteurs (Modules/Chat) -->
   <string name="BetterOtherRoles.ImpostorChat.Active">Chat des imposteurs (Tab : chat public)</string>
   <string name="BetterOtherRoles.ImpostorChat.ReadOnly">Chat des imposteurs, lecture seule (Tab : chat public)</string>
