@@ -37,6 +37,8 @@ public static class MainMenuPatches
     // Space between the left edge of the screen and the version of the game, in world units.
     private const float VersionMargin = 0.1f;
     private const float VersionDepth = -5.5f;
+    private const string MainMenuScene = "MainMenu";
+    private const float BackButtonMargin = 1.25f;
 
     // Height from the top of the screen to the bottom of the text of Reactor.
     private const float ScreenHeight = 4.2f;
@@ -94,7 +96,9 @@ public static class MainMenuPatches
         var scale = text.transform.lossyScale.x;
         if (!camera || scale <= 0f) return;
 
-        var screenLeft = camera!.transform.position.x - (camera.orthographicSize * camera.aspect) + VersionMargin;
+        // Other menus (online, local games): after the Back button at the bottom left.
+        var margin = __instance.gameObject.scene.name == MainMenuScene ? VersionMargin : BackButtonMargin;
+        var screenLeft = camera!.transform.position.x - (camera.orthographicSize * camera.aspect) + margin;
         var boxLeft = (screenLeft - text.transform.position.x) / scale;
         text.rectTransform.sizeDelta = new Vector2(Math.Abs(boxLeft) * 2f, text.rectTransform.sizeDelta.y);
     }
