@@ -47,12 +47,28 @@ public static class BorPlayerExtensions
             data.RoleWhenAlive = new Il2CppSystem.Nullable<RoleTypes>(roleBehaviour.Role);
 
         roleBehaviour.AdjustTasks(player);
+        RemoveTaskHeader(player);
         roleBehaviour.SpawnTaskHeader(player);
 
         if (player.AmOwner)
             ResetButtons(oldRole, roleBehaviour, readyButtons);
 
         NameColorPatches.Refresh();
+    }
+
+    /// <summary>
+    ///     Text of the old role at the top of the task list ("Sabotage and kill everyone"...): the game only makes the
+    ///     one of the new role, and a crewmate has none, so the old one stayed. The roles put it first (index 0).
+    /// </summary>
+    private static void RemoveTaskHeader(PlayerControl player)
+    {
+        if (player.myTasks.Count == 0) return;
+
+        var header = player.myTasks[0] ? player.myTasks[0].TryCast<ImportantTextTask>() : null;
+        if (!header) return;
+
+        player.myTasks.RemoveAt(0);
+        Object.Destroy(header!.gameObject);
     }
 
     /// <summary>
