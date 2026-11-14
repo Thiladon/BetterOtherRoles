@@ -24,4 +24,16 @@ public sealed class GameTweaksOptions : AbstractOptionGroup
     ///     (BOR RandomizePositionDuringScan, <see cref="Patches.GameTweaks.MedScanPatches"/>).
     /// </summary>
     public ModdedToggleOption RandomScanPosition { get; } = new("BetterOtherRoles.Option.GameTweaks.RandomScanPosition", false);
+
+    /// <summary>
+    ///     Gets whether the wiring panels are shuffled between their places at each game (BOR Randomize Wire Tasks
+    ///     Positions, <see cref="Patches.GameTweaks.TaskPositionsPatches"/>).
+    /// </summary>
+    public ModdedToggleOption RandomWirePositions { get; } = new("BetterOtherRoles.Option.GameTweaks.RandomWirePositions", false);
+
+    /// <summary>
+    ///     Gets whether the upload console may swap places with a download console at each game (BOR Randomize Upload
+    ///     Task Positions, <see cref="Patches.GameTweaks.TaskPositionsPatches"/>).
+    /// </summary>
+    public ModdedToggleOption RandomUploadPosition { get; } = new("BetterOtherRoles.Option.GameTweaks.RandomUploadPosition", false);
 }

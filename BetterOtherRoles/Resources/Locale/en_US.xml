@@ -186,6 +186,8 @@
   <string name="BetterOtherRoles.Options.Groups.GameTweaks">Game Tweaks</string>
   <string name="BetterOtherRoles.Option.GameTweaks.ParallelMedScans">Parallel MedBay Scans</string>
   <string name="BetterOtherRoles.Option.GameTweaks.RandomScanPosition">Random Position During MedBay Scans</string>
+  <string name="BetterOtherRoles.Option.GameTweaks.RandomWirePositions">Random Wiring Panel Positions</string>
+  <string name="BetterOtherRoles.Option.GameTweaks.RandomUploadPosition">Random Upload Position</string>
   <!-- Impostor chat (Modules/Chat) -->
   <string name="BetterOtherRoles.ImpostorChat.Active">Impostor chat (Tab: public chat)</string>
   <string name="BetterOtherRoles.ImpostorChat.ReadOnly">Impostor chat, read only (Tab: public chat)</string>
