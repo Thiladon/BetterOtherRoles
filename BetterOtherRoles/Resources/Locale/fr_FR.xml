@@ -237,6 +237,19 @@
   <string name="BetterOtherRoles.Option.Gameplay.DeadCanHauntNever">Jamais</string>
   <string name="BetterOtherRoles.Option.Gameplay.FinishTasksBeforeHaunt">Finir ses tâches avant de hanter</string>
   <string name="BetterOtherRoles.Option.Gameplay.FinishTasksBeforeZoom">Finir ses tâches avant de dézoomer</string>
+  <!-- Options Better Polus (Options/Maps) -->
+  <string name="BetterOtherRoles.Options.Groups.BetterPolus">Better Polus</string>
+  <string name="BetterOtherRoles.Option.BetterPolus.Enabled">Activer Better Polus</string>
+  <string name="BetterOtherRoles.Option.BetterPolus.VentNetwork">Nouvelles liaisons de ventilation</string>
+  <string name="BetterOtherRoles.Option.BetterPolus.BathroomVent">Ventilation des toilettes hors des cabines</string>
+  <string name="BetterOtherRoles.Option.BetterPolus.VitalsInLaboratory">Signes vitaux dans le laboratoire</string>
+  <string name="BetterOtherRoles.Option.BetterPolus.ColdTemperatureOutside">Température froide dehors</string>
+  <string name="BetterOtherRoles.Option.BetterPolus.SwapWifiAndChartCourse">Wi-Fi et trajectoire échangés</string>
+  <string name="BetterOtherRoles.Option.BetterPolus.Theme">Thème de la carte</string>
+  <string name="BetterOtherRoles.Option.BetterPolus.ThemeAuto">Auto</string>
+  <string name="BetterOtherRoles.Option.BetterPolus.ThemeNormal">Normal</string>
+  <string name="BetterOtherRoles.Option.BetterPolus.ThemeHalloween">Halloween</string>
+  <string name="BetterOtherRoles.Option.BetterPolus.ReactorSabotage">Durée du sabotage du réacteur</string>
   <!-- Chat des imposteurs (Modules/Chat) -->
   <string name="BetterOtherRoles.ImpostorChat.Active">Chat des imposteurs (Tab : chat public)</string>
   <string name="BetterOtherRoles.ImpostorChat.ReadOnly">Chat des imposteurs, lecture seule (Tab : chat public)</string>

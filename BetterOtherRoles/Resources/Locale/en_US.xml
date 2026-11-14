@@ -169,6 +169,19 @@
   <string name="BetterOtherRoles.Option.Gameplay.DeadCanHauntNever">Never</string>
   <string name="BetterOtherRoles.Option.Gameplay.FinishTasksBeforeHaunt">Finish Tasks Before Haunting</string>
   <string name="BetterOtherRoles.Option.Gameplay.FinishTasksBeforeZoom">Finish Tasks Before Zooming Out</string>
+  <!-- Better Polus options (Options/Maps) -->
+  <string name="BetterOtherRoles.Options.Groups.BetterPolus">Better Polus</string>
+  <string name="BetterOtherRoles.Option.BetterPolus.Enabled">Enable Better Polus</string>
+  <string name="BetterOtherRoles.Option.BetterPolus.VentNetwork">New Vent Links</string>
+  <string name="BetterOtherRoles.Option.BetterPolus.BathroomVent">Bathroom Vent Outside The Stalls</string>
+  <string name="BetterOtherRoles.Option.BetterPolus.VitalsInLaboratory">Vitals Moved To Laboratory</string>
+  <string name="BetterOtherRoles.Option.BetterPolus.ColdTemperatureOutside">Cold Temperature Moved Outside</string>
+  <string name="BetterOtherRoles.Option.BetterPolus.SwapWifiAndChartCourse">Reboot Wifi And Chart Course Swapped</string>
+  <string name="BetterOtherRoles.Option.BetterPolus.Theme">Map Theme</string>
+  <string name="BetterOtherRoles.Option.BetterPolus.ThemeAuto">Auto</string>
+  <string name="BetterOtherRoles.Option.BetterPolus.ThemeNormal">Normal</string>
+  <string name="BetterOtherRoles.Option.BetterPolus.ThemeHalloween">Halloween</string>
+  <string name="BetterOtherRoles.Option.BetterPolus.ReactorSabotage">Reactor Sabotage Countdown</string>
   <!-- Impostor chat (Modules/Chat) -->
   <string name="BetterOtherRoles.ImpostorChat.Active">Impostor chat (Tab: public chat)</string>
   <string name="BetterOtherRoles.ImpostorChat.ReadOnly">Impostor chat, read only (Tab: public chat)</string>
