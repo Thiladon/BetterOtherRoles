@@ -190,6 +190,7 @@
   <string name="BetterOtherRoles.Option.GameTweaks.RandomUploadPosition">Random Upload Position</string>
   <string name="BetterOtherRoles.Option.GameTweaks.NightVisionCams">Night Vision Cams When The Lights Are Off</string>
   <string name="BetterOtherRoles.Option.GameTweaks.ImpostorsIgnoreNightVision">Impostors Ignore Night Vision</string>
+  <string name="BetterOtherRoles.Setting.KillDistanceVeryShort">Very Short</string>
   <!-- Impostor chat (Modules/Chat) -->
   <string name="BetterOtherRoles.ImpostorChat.Active">Impostor chat (Tab: public chat)</string>
   <string name="BetterOtherRoles.ImpostorChat.ReadOnly">Impostor chat, read only (Tab: public chat)</string>

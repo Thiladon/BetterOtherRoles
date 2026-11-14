@@ -7,6 +7,7 @@ using BetterOtherRoles.Modules.Display;
 using BetterOtherRoles.Modules.Localization;
 using BetterOtherRoles.Modules.Presets;
 using BetterOtherRoles.Patches.Misc;
+using BetterOtherRoles.Patches.Options;
 using HarmonyLib;
 using MiraAPI;
 using Reactor;
@@ -85,6 +86,7 @@ public partial class BetterOtherRolesPlugin : BasePlugin, IMiraPlugin
         Harmony.PatchAll();
         SaveFilePatches.ReloadData();
         WindowTitlePatches.Apply();
+        KillDistancePatches.Apply();
         AddComponent<BorFpsCounter>();
 
         Info($"{Name} loaded!");
