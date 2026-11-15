@@ -39,4 +39,23 @@ public sealed class GameplayOptions : AbstractOptionGroup
     ///     (<see cref="Patches.Misc.RoleNamePatches"/>); without it, they only see them in red.
     /// </summary>
     public ModdedToggleOption ImpostorsKnowRoles { get; } = new("BetterOtherRoles.Option.Gameplay.ImpostorsKnowRoles", false);
+
+    /// <summary>
+    ///     Gets the background of the kill animation (TOU-Mira 1.7.9 KillAnimationBackgroundColor,
+    ///     <see cref="Patches.Misc.KillBackgroundPatches"/>): red as in the game, the faction of the killer, or its role.
+    /// </summary>
+    public ModdedEnumOption KillBackgroundColor { get; } =
+        new("BetterOtherRoles.Option.Gameplay.KillBackgroundColor", (int)KillBackground.Red, typeof(KillBackground),
+            ["BetterOtherRoles.Option.Gameplay.KillBackgroundColorRed", "BetterOtherRoles.Option.Gameplay.KillBackgroundColorFaction",
+                "BetterOtherRoles.Option.Gameplay.KillBackgroundColorRole"]);
+}
+
+/// <summary>
+///     Background of the kill animation.
+/// </summary>
+public enum KillBackground
+{
+    Red,
+    Faction,
+    Role,
 }
