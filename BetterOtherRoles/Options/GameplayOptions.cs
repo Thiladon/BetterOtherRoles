@@ -66,6 +66,25 @@ public sealed class GameplayOptions : AbstractOptionGroup
         new("BetterOtherRoles.Option.Gameplay.PetVisibility", (int)Options.PetVisibility.RemovedOnDeath, typeof(PetVisibility),
             ["BetterOtherRoles.Option.Gameplay.PetVisibilityEveryone", "BetterOtherRoles.Option.Gameplay.PetVisibilityOwnOnly",
                 "BetterOtherRoles.Option.Gameplay.PetVisibilityRemovedOnDeath"]);
+
+    /// <summary>
+    ///     Gets when the names of the other players are hidden out of sight (TOU-Mira 1.7.9 HideNamesOutOfSight,
+    ///     <see cref="Patches.Misc.HiddenNamesPatches"/>): never, out of sight unless in the same room, or out of sight.
+    /// </summary>
+    public ModdedEnumOption HideNamesOutOfSight { get; } =
+        new("BetterOtherRoles.Option.Gameplay.HideNamesOutOfSight", (int)NameSight.Basic, typeof(NameSight),
+            ["BetterOtherRoles.Option.Gameplay.HideNamesOutOfSightBasic", "BetterOtherRoles.Option.Gameplay.HideNamesOutOfSightRoomBased",
+                "BetterOtherRoles.Option.Gameplay.HideNamesOutOfSightHarsh"]);
+}
+
+/// <summary>
+///     When the names of the other players are hidden out of sight.
+/// </summary>
+public enum NameSight
+{
+    Basic,
+    RoomBased,
+    Harsh,
 }
 
 /// <summary>

@@ -181,6 +181,10 @@
   <string name="BetterOtherRoles.Option.Gameplay.PetVisibilityEveryone">Everyone</string>
   <string name="BetterOtherRoles.Option.Gameplay.PetVisibilityOwnOnly">Own Pet Only</string>
   <string name="BetterOtherRoles.Option.Gameplay.PetVisibilityRemovedOnDeath">Removed On Death</string>
+  <string name="BetterOtherRoles.Option.Gameplay.HideNamesOutOfSight">Hide Names Out Of Sight</string>
+  <string name="BetterOtherRoles.Option.Gameplay.HideNamesOutOfSightBasic">Basic</string>
+  <string name="BetterOtherRoles.Option.Gameplay.HideNamesOutOfSightRoomBased">Room-Based</string>
+  <string name="BetterOtherRoles.Option.Gameplay.HideNamesOutOfSightHarsh">Harsh</string>
   <string name="BetterOtherRoles.Option.Gameplay.DeadCanHaunt">Dead Players Can Haunt</string>
   <string name="BetterOtherRoles.Option.Gameplay.DeadCanHauntAlways">Always</string>
   <string name="BetterOtherRoles.Option.Gameplay.DeadCanHauntNextRound">From Next Round</string>
