@@ -176,6 +176,10 @@
   <string name="BetterOtherRoles.Option.Gameplay.CleanedBodiesMissing">Missing (MIS)</string>
   <string name="BetterOtherRoles.Option.Gameplay.CleanedBodiesDead">Dead</string>
   <string name="BetterOtherRoles.Option.Gameplay.CleanedBodiesDisconnected">Disconnected (D/C)</string>
+  <string name="BetterOtherRoles.Option.Gameplay.PetVisibility">Pet Visibility</string>
+  <string name="BetterOtherRoles.Option.Gameplay.PetVisibilityEveryone">Everyone</string>
+  <string name="BetterOtherRoles.Option.Gameplay.PetVisibilityOwnOnly">Own Pet Only</string>
+  <string name="BetterOtherRoles.Option.Gameplay.PetVisibilityRemovedOnDeath">Removed On Death</string>
   <string name="BetterOtherRoles.Option.Gameplay.DeadCanHaunt">Dead Players Can Haunt</string>
   <string name="BetterOtherRoles.Option.Gameplay.DeadCanHauntAlways">Always</string>
   <string name="BetterOtherRoles.Option.Gameplay.DeadCanHauntNextRound">From Next Round</string>

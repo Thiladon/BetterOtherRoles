@@ -57,6 +57,25 @@ public sealed class GameplayOptions : AbstractOptionGroup
         new("BetterOtherRoles.Option.Gameplay.CleanedBodies", (int)CleanedBody.Missing, typeof(CleanedBody),
             ["BetterOtherRoles.Option.Gameplay.CleanedBodiesMissing", "BetterOtherRoles.Option.Gameplay.CleanedBodiesDead",
                 "BetterOtherRoles.Option.Gameplay.CleanedBodiesDisconnected"]);
+
+    /// <summary>
+    ///     Gets who sees the pets in game (TOU-Mira 1.7.9 ShowPetsMode, <see cref="Patches.Misc.PetVisibilityPatches"/>):
+    ///     everyone, each player their own, or everyone until the player dies.
+    /// </summary>
+    public ModdedEnumOption PetVisibility { get; } =
+        new("BetterOtherRoles.Option.Gameplay.PetVisibility", (int)Options.PetVisibility.RemovedOnDeath, typeof(PetVisibility),
+            ["BetterOtherRoles.Option.Gameplay.PetVisibilityEveryone", "BetterOtherRoles.Option.Gameplay.PetVisibilityOwnOnly",
+                "BetterOtherRoles.Option.Gameplay.PetVisibilityRemovedOnDeath"]);
+}
+
+/// <summary>
+///     Who sees the pets in game.
+/// </summary>
+public enum PetVisibility
+{
+    Everyone,
+    OwnOnly,
+    RemovedOnDeath,
 }
 
 /// <summary>

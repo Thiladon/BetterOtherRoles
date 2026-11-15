@@ -244,6 +244,10 @@
   <string name="BetterOtherRoles.Option.Gameplay.CleanedBodiesMissing">Disparu (MIS)</string>
   <string name="BetterOtherRoles.Option.Gameplay.CleanedBodiesDead">Mort</string>
   <string name="BetterOtherRoles.Option.Gameplay.CleanedBodiesDisconnected">Déconnecté (D/C)</string>
+  <string name="BetterOtherRoles.Option.Gameplay.PetVisibility">Visibilité des familiers</string>
+  <string name="BetterOtherRoles.Option.Gameplay.PetVisibilityEveryone">Visibles par tous</string>
+  <string name="BetterOtherRoles.Option.Gameplay.PetVisibilityOwnOnly">Seulement le sien</string>
+  <string name="BetterOtherRoles.Option.Gameplay.PetVisibilityRemovedOnDeath">Retirés à la mort</string>
   <string name="BetterOtherRoles.Option.Gameplay.DeadCanHaunt">Les morts peuvent hanter</string>
   <string name="BetterOtherRoles.Option.Gameplay.DeadCanHauntAlways">Toujours</string>
   <string name="BetterOtherRoles.Option.Gameplay.DeadCanHauntNextRound">Dès la manche suivante</string>
