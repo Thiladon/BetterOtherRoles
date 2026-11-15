@@ -25,4 +25,5 @@ public enum BorRpc : uint
     ResetTasks,
     AddTask,
     RemoveTask,
+    CleanBody,
 }

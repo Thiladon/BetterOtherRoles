@@ -28,6 +28,7 @@
   <string name="BetterOtherRoles.Debug.Menu.AddTask">Ajouter une tâche</string>
   <string name="BetterOtherRoles.Debug.Menu.RemoveTask">Retirer une tâche</string>
   <string name="BetterOtherRoles.Debug.Menu.Kill">Tuer</string>
+  <string name="BetterOtherRoles.Debug.Menu.CleanBody">Nettoyer un corps</string>
   <string name="BetterOtherRoles.Debug.Menu.Meeting">Lancer une réunion</string>
   <string name="BetterOtherRoles.Debug.Menu.TeleportTo">Aller vers un joueur</string>
   <string name="BetterOtherRoles.Debug.Menu.Bring">Amener un joueur</string>
@@ -239,6 +240,10 @@
   <string name="BetterOtherRoles.Option.Gameplay.KillBackgroundColorRed">Rouge</string>
   <string name="BetterOtherRoles.Option.Gameplay.KillBackgroundColorFaction">Faction du tueur</string>
   <string name="BetterOtherRoles.Option.Gameplay.KillBackgroundColorRole">Rôle du tueur</string>
+  <string name="BetterOtherRoles.Option.Gameplay.CleanedBodies">Corps nettoyés sur les signes vitaux</string>
+  <string name="BetterOtherRoles.Option.Gameplay.CleanedBodiesMissing">Disparu (MIS)</string>
+  <string name="BetterOtherRoles.Option.Gameplay.CleanedBodiesDead">Mort</string>
+  <string name="BetterOtherRoles.Option.Gameplay.CleanedBodiesDisconnected">Déconnecté (D/C)</string>
   <string name="BetterOtherRoles.Option.Gameplay.DeadCanHaunt">Les morts peuvent hanter</string>
   <string name="BetterOtherRoles.Option.Gameplay.DeadCanHauntAlways">Toujours</string>
   <string name="BetterOtherRoles.Option.Gameplay.DeadCanHauntNextRound">Dès la manche suivante</string>

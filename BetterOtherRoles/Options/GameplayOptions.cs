@@ -48,6 +48,25 @@ public sealed class GameplayOptions : AbstractOptionGroup
         new("BetterOtherRoles.Option.Gameplay.KillBackgroundColor", (int)KillBackground.Red, typeof(KillBackground),
             ["BetterOtherRoles.Option.Gameplay.KillBackgroundColorRed", "BetterOtherRoles.Option.Gameplay.KillBackgroundColorFaction",
                 "BetterOtherRoles.Option.Gameplay.KillBackgroundColorRole"]);
+
+    /// <summary>
+    ///     Gets how the players whose body is cleaned show on the vitals (TOU-Mira 1.7.9 CleanedBodiesAppearance,
+    ///     <see cref="Modules.Bodies.BorCleanedBodies"/>): missing, dead or disconnected.
+    /// </summary>
+    public ModdedEnumOption CleanedBodies { get; } =
+        new("BetterOtherRoles.Option.Gameplay.CleanedBodies", (int)CleanedBody.Missing, typeof(CleanedBody),
+            ["BetterOtherRoles.Option.Gameplay.CleanedBodiesMissing", "BetterOtherRoles.Option.Gameplay.CleanedBodiesDead",
+                "BetterOtherRoles.Option.Gameplay.CleanedBodiesDisconnected"]);
+}
+
+/// <summary>
+///     How a player whose body is cleaned shows on the vitals.
+/// </summary>
+public enum CleanedBody
+{
+    Missing,
+    Dead,
+    Disconnected,
 }
 
 /// <summary>

@@ -1,4 +1,5 @@
 using AmongUs.GameOptions;
+using BetterOtherRoles.Modules.Bodies;
 using BetterOtherRoles.Options;
 using BetterOtherRoles.Patches.Misc;
 using BetterOtherRoles.Patches.Roles;
@@ -291,6 +292,29 @@ public static class BorDebugActions
     }
 
     /// <summary>
+    ///     Gets whether a player has a body left to clean (<see cref="RpcCleanBody"/>).
+    /// </summary>
+    /// <param name="player">The player.</param>
+    /// <returns>Whether the body is there, not cleaned yet.</returns>
+    public static bool HasBody(PlayerControl player) => FindBody(player) is { Reported: false };
+
+    /// <summary>
+    ///     Cleans the body of a player, sent by the host to everyone, as a Cleaner or a Vulture would
+    ///     (<see cref="BorCleanedBodies"/>).
+    /// </summary>
+    /// <param name="player">The player whose body is cleaned.</param>
+    [MethodRpc((uint)BorRpc.CleanBody)]
+    public static void RpcCleanBody(this PlayerControl player)
+    {
+        var body = FindBody(player);
+        if (body)
+            BorCleanedBodies.Clean(body!);
+    }
+
+    private static DeadBody? FindBody(PlayerControl player) =>
+        UnityEngine.Object.FindObjectsOfType<DeadBody>().FirstOrDefault(x => x && x.ParentId == player.PlayerId);
+
+    /// <summary>
     ///     Revives a player, sent by the host to everyone: the body is removed and the player stands in its place
     ///     (where they are when there is no body, ejected for instance), with their role when alive.
     /// </summary>
@@ -310,6 +334,7 @@ public static class BorDebugActions
                    (player.Data.Role.TeamType == RoleTeamTypes.Impostor ? RoleTypes.Impostor : RoleTypes.Crewmate);
 
         player.Revive();
+        BorCleanedBodies.Forget(player.PlayerId);
         RemoveGhostText(player);
         player.ChangeRole((ushort)role);
 

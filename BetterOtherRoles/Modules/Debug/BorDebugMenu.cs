@@ -64,6 +64,7 @@ public static class BorDebugMenu
             Opens(Text("AddTask", "Add a task"), ActionColor, m => m.Show(Players(HasTaskList, ShowMissingTasks, opens: true))),
             Opens(Text("RemoveTask", "Remove a task"), ActionColor, m => m.Show(Players(HasTasks, ShowTasks, opens: true))),
             Opens(Text("Kill", "Kill"), DangerColor, m => m.Show(Players(IsAlive, (_, x) => BorDebugActions.Kill(x)))),
+            Opens(Text("CleanBody", "Clean a body"), DangerColor, m => m.Show(Players(BorDebugActions.HasBody, (_, x) => x.RpcCleanBody()))),
             Does(Text("Meeting", "Call a meeting"), ActionColor, BorDebugActions.StartMeeting),
             Opens(Text("TeleportTo", "Go to a player"), ActionColor, m => m.Show(Players(IsOtherAlive, (_, x) => BorDebugActions.Teleport(PlayerControl.LocalPlayer, x)))),
             Opens(Text("Bring", "Bring a player"), ActionColor, m => m.Show(Players(IsOtherAlive, (_, x) => BorDebugActions.Teleport(x, PlayerControl.LocalPlayer)))),

@@ -21,6 +21,7 @@
   <string name="BetterOtherRoles.Debug.Menu.AddTask">Add a task</string>
   <string name="BetterOtherRoles.Debug.Menu.RemoveTask">Remove a task</string>
   <string name="BetterOtherRoles.Debug.Menu.Kill">Kill</string>
+  <string name="BetterOtherRoles.Debug.Menu.CleanBody">Clean a body</string>
   <string name="BetterOtherRoles.Debug.Menu.Meeting">Call a meeting</string>
   <string name="BetterOtherRoles.Debug.Menu.TeleportTo">Go to a player</string>
   <string name="BetterOtherRoles.Debug.Menu.Bring">Bring a player</string>
@@ -171,6 +172,10 @@
   <string name="BetterOtherRoles.Option.Gameplay.KillBackgroundColorRed">Red</string>
   <string name="BetterOtherRoles.Option.Gameplay.KillBackgroundColorFaction">Killer Faction</string>
   <string name="BetterOtherRoles.Option.Gameplay.KillBackgroundColorRole">Killer Role</string>
+  <string name="BetterOtherRoles.Option.Gameplay.CleanedBodies">Cleaned Bodies On Vitals</string>
+  <string name="BetterOtherRoles.Option.Gameplay.CleanedBodiesMissing">Missing (MIS)</string>
+  <string name="BetterOtherRoles.Option.Gameplay.CleanedBodiesDead">Dead</string>
+  <string name="BetterOtherRoles.Option.Gameplay.CleanedBodiesDisconnected">Disconnected (D/C)</string>
   <string name="BetterOtherRoles.Option.Gameplay.DeadCanHaunt">Dead Players Can Haunt</string>
   <string name="BetterOtherRoles.Option.Gameplay.DeadCanHauntAlways">Always</string>
   <string name="BetterOtherRoles.Option.Gameplay.DeadCanHauntNextRound">From Next Round</string>
