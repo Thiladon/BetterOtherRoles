@@ -1,5 +1,6 @@
 using System.Reflection;
 using HarmonyLib;
+using Reactor;
 
 namespace BetterOtherRoles.Patches.Compatibility;
 
@@ -16,8 +17,10 @@ public static class ReactorHandshakePopupPatch
 {
     public static bool Prepare() => TargetMethod() != null;
 
+    // Internal class of Reactor, looked up in its own assembly: AccessTools.TypeByName goes through every assembly of
+    // the game and HarmonyX logs a warning for each one it cannot read (once per call, three calls).
     public static MethodBase? TargetMethod() =>
-        AccessTools.Method(AccessTools.TypeByName("Reactor.Networking.HandshakePopup"), "Show");
+        AccessTools.Method(typeof(ReactorPlugin).Assembly.GetType("Reactor.Networking.HandshakePopup"), "Show");
 
     // Harmony prefix: false skips the original method. Show returns nothing (no __result): the original method is
     // asked for, a parameter Harmony fills for any method.
