@@ -8,8 +8,8 @@ using UnityEngine;
 namespace BetterOtherRoles.Modules.Roles;
 
 /// <summary>
-///     Whether a dead player may haunt, from <see cref="GameplayOptions.DeadCanHaunt"/> (TOU-Mira 1.7.9 DeadCanHaunt)
-///     and <see cref="GameplayOptions.FinishTasksBeforeHaunt"/> (BetterOtherRoles 1.7.1
+///     Whether a dead player may haunt, from <see cref="GhostOptions.DeadCanHaunt"/> (TOU-Mira 1.7.9 DeadCanHaunt)
+///     and <see cref="GhostOptions.FinishTasksBeforeHaunt"/> (BetterOtherRoles 1.7.1
 ///     finishTasksBeforeHauntingOrZoomingOut). While it may not, the haunt button is greyed out and a click shows why
 ///     (TOU-Mira 1.7.9 HauntMenuMinigamePatch), instead of opening the haunt menu. Hiding the button, as BOR did, would
 ///     fight the game, which shows it again by itself (meetings, map, tasks).
@@ -38,7 +38,7 @@ public static class BorHaunt
     /// </summary>
     public static bool CanHaunt => GetRefusal() == Refusal.None;
 
-    private static GameplayOptions Options => OptionGroupSingleton<GameplayOptions>.Instance;
+    private static GhostOptions Options => OptionGroupSingleton<GhostOptions>.Instance;
 
     private static Refusal GetRefusal()
     {

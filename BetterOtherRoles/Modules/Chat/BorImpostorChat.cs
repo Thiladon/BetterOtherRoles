@@ -17,7 +17,7 @@ using PoolList = Il2CppSystem.Collections.Generic.List<PoolableBehavior>;
 namespace BetterOtherRoles.Modules.Chat;
 
 /// <summary>
-///     Impostor chat (TOU-Mira 1.7.9 team chat, impostors only), option <see cref="GameplayOptions.ImpostorChat"/>: never,
+///     Impostor chat (TOU-Mira 1.7.9 team chat, impostors only), option <see cref="ChatOptions.ImpostorChat"/>: never,
 ///     in meetings, or during the whole game.
 ///     <list type="bullet">
 ///         <item>
@@ -36,7 +36,7 @@ namespace BetterOtherRoles.Modules.Chat;
 ///         </item>
 ///     </list>
 ///     The two lists share the bubble pool of the game: the shown list is the scroller content and the active bubbles of
-///     the pool, swapped when switching. With <see cref="GameplayOptions.ImpostorChatSeparate"/> off, there is no impostor
+///     the pool, swapped when switching. With <see cref="ChatOptions.ImpostorChatSeparate"/> off, there is no impostor
 ///     chat of its own (no red button): out of meetings, a living impostor writes in the chat of the game, sent to the
 ///     impostors only, their messages in the public list with a red bubble; in meetings, everyone has the public chat.
 /// </summary>
@@ -95,12 +95,12 @@ public static class BorImpostorChat
     /// </summary>
     public static bool IsShown { get; private set; }
 
-    private static ImpostorChatMode Mode => (ImpostorChatMode)OptionGroupSingleton<GameplayOptions>.Instance.ImpostorChat.Value;
+    private static ImpostorChatMode Mode => (ImpostorChatMode)OptionGroupSingleton<ChatOptions>.Instance.ImpostorChat.Value;
 
     // Each chat has its own list; off: the impostor messages are in the public list. The option is only shown (and only
     // counts) for the whole game mode: in meetings only, the impostor chat is always a chat of its own.
     private static bool Separate =>
-        Mode != ImpostorChatMode.WholeGame || OptionGroupSingleton<GameplayOptions>.Instance.ImpostorChatSeparate.Value;
+        Mode != ImpostorChatMode.WholeGame || OptionGroupSingleton<ChatOptions>.Instance.ImpostorChatSeparate.Value;
 
     /// <summary>
     ///     Gets whether the local player can show the impostor chat: an impostor (dead or not), in a meeting, or in game

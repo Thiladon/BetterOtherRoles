@@ -688,6 +688,96 @@ public static class RoleGuidePatches
     }
 
     /// <summary>
+    ///     First page of the settings tab of the guide, out of the lobby settings menu: MiraAPI only shows the 7 vanilla
+    ///     settings of the lobby summary (BuildVanillaSettingsEntries reads the rows of the game's guide). Every vanilla
+    ///     setting of the current mode instead, with the kill start cooldown under the kill cooldown, as in the settings.
+    ///     With the lobby settings menu open, MiraAPI already copies all its rows.
+    /// </summary>
+    [HarmonyPatch]
+    public static class VanillaSettingsPage
+    {
+        public static MethodBase TargetMethod()
+        {
+            return AccessTools.Method(typeof(MiraAPI.Patches.RoleGuidePatches), "BuildVanillaSettingsEntries");
+        }
+
+        public static void Postfix(ref List<KeyValuePair<string, string>> __result)
+        {
+            var settings = SearchText.GetVanillaSettings();
+            if (settings.Count == 0) return;
+
+            __result = settings.Select(x => new KeyValuePair<string, string>(x.Title, x.Value)).ToList();
+        }
+    }
+
+    /// <summary>
+    ///     Scroll height of the settings tab: MiraAPI measures its rows while the page is still inactive (Helpers
+    ///     .CreateAdvancedSettingsPage), when Unity gives empty bounds, and takes the text bounds (in the text's own space)
+    ///     as positions: no scrollbar on the first opening, one on pages too short to need it. Measured again here while
+    ///     the page is shown, in the frame of the scroller, with the contents put back at the top.
+    /// </summary>
+    [HarmonyPatch(typeof(MatchInfoGuide), nameof(MatchInfoGuide.Update))]
+    public static class SettingsScrollHeight
+    {
+        private static readonly FieldInfo ScrollerField = AccessTools.Field(typeof(MiraAPI.Patches.RoleGuidePatches), "_settingsScroller");
+        private static readonly FieldInfo PageField = AccessTools.Field(typeof(MiraAPI.Patches.RoleGuidePatches), "_settingsPageObject");
+
+        public static void Postfix()
+        {
+            var scroller = ScrollerField.GetValue(null) as Scroller;
+            var page = PageField.GetValue(null) as GameObject;
+            if (!scroller || !page || !page!.activeInHierarchy) return;
+
+            FitScrollbar(scroller!);
+
+            // In the frame of the scroller (it does not move), contents put back at the top: the scroll does not count.
+            var inner = scroller!.Inner;
+            var frame = inner.parent;
+            var scrolled = inner.localPosition.y - scroller.ContentYBounds.min;
+            var mask = scroller.transform.Find("MaskArea")?.GetComponent<SpriteRenderer>();
+            var maskBottom = mask ? frame.InverseTransformPoint(mask!.bounds.min).y : -0.75f;
+
+            var bottom = float.PositiveInfinity;
+            foreach (var renderer in page.GetComponentsInChildren<SpriteRenderer>())
+            {
+                if (renderer.enabled && renderer.sprite) bottom = Mathf.Min(bottom, frame.InverseTransformPoint(renderer.bounds.min).y - scrolled);
+            }
+
+            foreach (var text in page.GetComponentsInChildren<TextMeshPro>())
+            {
+                // TMP bounds are in the text's own space (MiraAPI takes them as world positions).
+                if (text.enabled && !string.IsNullOrEmpty(text.text))
+                    bottom = Mathf.Min(bottom, frame.InverseTransformPoint(text.transform.TransformPoint(text.bounds.min)).y - scrolled);
+            }
+
+            var overflow = float.IsPositiveInfinity(bottom) ? 0f : maskBottom - bottom;
+            var max = Mathf.Clamp(overflow > 0.05f ? overflow + 0.05f : 0f, 0f, 999f);
+            if (Mathf.Abs(scroller.ContentYBounds.max - max) < 0.01f) return;
+
+            scroller.SetYBoundsMax(max);
+            if (inner.localPosition.y > max) inner.localPosition = new Vector3(inner.localPosition.x, max, inner.localPosition.z);
+            scroller.UpdateScrollBars();
+        }
+
+        // Lowest place of the handle: the bottom of its track. MiraAPI copies the scroller of the roles tab, with its
+        // handle range, which stops above the bottom of the track.
+        private static void FitScrollbar(Scroller scroller)
+        {
+            var bar = scroller.ScrollbarY;
+            if (!bar || !bar.graphic || !bar.trackGraphic || !bar.graphic.enabled) return;
+
+            var space = bar.transform.parent;
+            var trackBottom = space.InverseTransformPoint(bar.trackGraphic.bounds.min).y;
+            var handleBottom = space.InverseTransformPoint(bar.graphic.bounds.min).y;
+            var min = trackBottom + (bar.transform.localPosition.y - handleBottom);
+            if (Mathf.Abs(scroller.ScrollbarYBounds.min - min) < 0.01f) return;
+
+            scroller.ScrollbarYBounds.min = min;
+            scroller.UpdateScrollBars();
+        }
+    }
+
+    /// <summary>
     ///     Settings tab of the role guide (Match Info): MiraAPI titles each page "{Group} Settings (3/5)", with "Settings"
     ///     written in English in its code. The title is only the group name in every language: "Salon (3/5)".
     /// </summary>
@@ -749,6 +839,11 @@ public static class RoleGuidePatches
                 foreach (var setting in category.AllGameSettings)
                 {
                     settings.Add((translation.GetString(setting.Title), GetValue(setting, options)));
+
+                    // Start cooldown of the kill, shown under the kill cooldown as in the settings (not a setting of the game).
+                    var floatSetting = setting.TryCast<FloatGameSetting>();
+                    if (floatSetting && floatSetting!.OptionName == FloatOptionNames.KillCooldown)
+                        settings.Add(Options.KillCooldownPatches.StartCooldownLine());
                 }
             }
 

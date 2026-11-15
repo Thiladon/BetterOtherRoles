@@ -10,7 +10,7 @@ namespace BetterOtherRoles.Modules.Cooldowns;
 ///     When the cooldowns pause, the same for every role (kill button of the impostors, buttons of the mod):
 ///     - always in a vent, whatever the role and the options;
 ///     - while the player is busy (<see cref="IsPlayerBusy"/>), as in BetterOtherRoles 1.7.1, when the option
-///       <see cref="GameplayOptions.PauseCooldownsInMinigames"/> is on for the player's faction.
+///       the option of the player's faction is on (<see cref="GameplayOptions.PauseCooldownsCrewmates"/>…).
 ///     The game no longer sets moveable to false in minigames (PlayerControl.CanMove checks Minigame.Instance instead):
 ///     the vanilla kill timer keeps running there, which this class fixes for the impostors.
 /// </summary>
@@ -40,9 +40,7 @@ public static class BorCooldowns
         if (!IsPlayerBusy) return false;
 
         var options = OptionGroupSingleton<GameplayOptions>.Instance;
-        if (!options.PauseCooldownsInMinigames.Value) return false;
-
-        if (player.Data?.Role == null) return true;
+        if (player.Data?.Role == null) return options.PauseCooldownsCrewmates.Value;
 
         return BorRoleSelector.GetFaction(player.Data.Role) switch
         {

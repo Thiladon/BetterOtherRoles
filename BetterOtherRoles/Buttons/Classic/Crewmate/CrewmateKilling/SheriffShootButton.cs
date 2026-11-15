@@ -17,7 +17,7 @@ namespace BetterOtherRoles.Buttons.Crewmate;
 ///     Sheriff shoot button (BetterOtherRoles 1.7.1 logic): kills the target if it is an impostor
 ///     (or a neutral when allowed), otherwise the sheriff dies.
 /// </summary>
-public sealed class SheriffShootButton : BorTargetButton<PlayerControl>
+public sealed class SheriffShootButton : BorTargetButton<PlayerControl>, IBorKillButton
 {
     private LoadableAsset<Sprite>? _sprite;
 

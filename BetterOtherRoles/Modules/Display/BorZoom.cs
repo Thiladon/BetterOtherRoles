@@ -12,7 +12,7 @@ namespace BetterOtherRoles.Modules.Display;
 /// <summary>
 ///     Zoom out of a dead player (BetterOtherRoles 1.7.1 zoomOutButton, TOU-Mira 1.7.9 ZoomButton): a button under the
 ///     role guide button switches between the normal view and a view 4 times wider; the mouse wheel and two keybinds
-///     zoom step by step (<see cref="MinSize"/> to <see cref="MaxSize"/>). With <see cref="GameplayOptions.FinishTasksBeforeZoom"/>,
+///     zoom step by step (<see cref="MinSize"/> to <see cref="MaxSize"/>). With <see cref="GhostOptions.FinishTasksBeforeZoom"/>,
 ///     only once the tasks are done. Back to normal in meetings, the zoom of before given back once the ejection is
 ///     over; the button is hidden from the start of the meeting to the end of the ejection. Back to
 ///     normal at the end of the game.
@@ -60,7 +60,7 @@ public static class BorZoom
 
     // With the option, a dead player zooms out once its tasks are done (none for an impostor).
     private static bool MayZoom =>
-        IsDeadInGame && (!OptionGroupSingleton<GameplayOptions>.Instance.FinishTasksBeforeZoom.Value || BorTaskInfo.AreDone(PlayerControl.LocalPlayer));
+        IsDeadInGame && (!OptionGroupSingleton<GhostOptions>.Instance.FinishTasksBeforeZoom.Value || BorTaskInfo.AreDone(PlayerControl.LocalPlayer));
 
     private static bool CanZoomOut => IsAllowedNow && MayZoom;
 

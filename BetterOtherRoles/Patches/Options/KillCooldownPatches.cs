@@ -149,30 +149,38 @@ public static class KillCooldownPatches
         {
             player.SetKillTimer(start);
         }
-
     }
 
     /// <summary>
-    ///     While the start cooldown runs, the kill timer goes down from it, not from the kill cooldown.
+    ///     While the start cooldown runs, the kill timer goes down from it, not from the kill cooldown. With an instant
+    ///     kill cooldown (0), the game leaves the button as it was (cooling down): set ready here.
     /// </summary>
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.SetKillTimer))]
     [HarmonyPrefix]
     public static bool SetKillTimerPrefix(PlayerControl __instance, float time)
     {
-        if (_startMax <= 0f || !__instance.AmOwner || !__instance.Data.Role.CanUseKillButton) return true;
+        if (!__instance.AmOwner || !__instance.Data.Role.CanUseKillButton) return true;
 
-        // Reset of the game (meeting, kill): the start cooldown is over.
-        if (time > __instance.killTimer + ResetGap)
+        if (_startMax > 0f)
         {
-            _startMax = 0f;
-            return true;
+            // Reset of the game (meeting, kill): the start cooldown is over.
+            if (time > __instance.killTimer + ResetGap)
+            {
+                _startMax = 0f;
+            }
+            else
+            {
+                __instance.killTimer = Mathf.Clamp(time, 0f, _startMax);
+                HudManager.Instance.KillButton.SetCoolDown(__instance.killTimer, _startMax);
+                if (__instance.killTimer <= 0f) _startMax = 0f;
+                return false;
+            }
         }
 
-        __instance.killTimer = Mathf.Clamp(time, 0f, _startMax);
-        HudManager.Instance.KillButton.SetCoolDown(__instance.killTimer, _startMax);
-        if (__instance.killTimer > 0f) return false;
+        if (KillCooldown > 0f) return true;
 
-        _startMax = 0f;
+        __instance.killTimer = 0f;
+        HudManager.Instance.KillButton.SetCoolDown(0f, 1f);
         return false;
     }
 
@@ -235,6 +243,16 @@ public static class KillCooldownPatches
         }
 
         return null;
+    }
+
+    /// <summary>
+    ///     Title and value of the start cooldown of the kill, for the role guide (list of the settings of the game).
+    /// </summary>
+    /// <returns>The line.</returns>
+    public static (string Title, string Value) StartCooldownLine()
+    {
+        var data = ViewData();
+        return (TranslationController.Instance.GetString(data.Title), data.GetValueString(StartCooldown));
     }
 
     // Setting of the game for the settings view: the option of MiraAPI only has one with its control.

@@ -223,10 +223,12 @@
   <string name="Deactivated">Désactivé</string>
   <!-- Options de partie -->
   <string name="BetterOtherRoles.Options.Groups.Gameplay">Options de partie</string>
-  <string name="BetterOtherRoles.Option.Gameplay.PauseCooldownsInMinigames">Délais figés dans les mini-jeux</string>
-  <string name="BetterOtherRoles.Option.Gameplay.PauseCooldownsCrewmates">Crewmates</string>
-  <string name="BetterOtherRoles.Option.Gameplay.PauseCooldownsImpostors">Imposteurs</string>
-  <string name="BetterOtherRoles.Option.Gameplay.PauseCooldownsNeutrals">Neutres</string>
+  <string name="BetterOtherRoles.Options.Groups.Shield">Options du bouclier</string>
+  <string name="BetterOtherRoles.Options.Groups.Ghost">Options des fantômes</string>
+  <string name="BetterOtherRoles.Options.Groups.Chat">Chat</string>
+  <string name="BetterOtherRoles.Option.Gameplay.PauseCooldownsCrewmates">Délais des Crewmates figés dans les mini-jeux</string>
+  <string name="BetterOtherRoles.Option.Gameplay.PauseCooldownsImpostors">Délais des imposteurs figés dans les mini-jeux</string>
+  <string name="BetterOtherRoles.Option.Gameplay.PauseCooldownsNeutrals">Délais des neutres figés dans les mini-jeux</string>
   <string name="BetterOtherRoles.Option.Gameplay.ImpostorChat">Chat des imposteurs</string>
   <string name="BetterOtherRoles.Option.Gameplay.ImpostorChatOff">Pas de chat</string>
   <string name="BetterOtherRoles.Option.Gameplay.ImpostorChatMeetings">En réunion</string>
@@ -263,6 +265,28 @@
   <string name="BetterOtherRoles.Setting.KillDistanceVeryShort">Très courte</string>
   <string name="BetterOtherRoles.Setting.Instant">Instantané</string>
   <string name="BetterOtherRoles.Setting.KillStartCooldown">Délai de départ du kill</string>
+  <string name="BetterOtherRoles.Option.Gameplay.FirstKillShield">Bouclier de la 1re victime de la partie précédente</string>
+  <string name="BetterOtherRoles.Option.Gameplay.FirstKillShieldExpiry">Fin du bouclier</string>
+  <string name="BetterOtherRoles.Option.Gameplay.FirstKillShieldExpiryDuration">Durée</string>
+  <string name="BetterOtherRoles.Option.Gameplay.FirstKillShieldExpiryFirstMeeting">1re réunion</string>
+  <string name="BetterOtherRoles.Option.Gameplay.FirstKillShieldExpiryBoth">Durée + 1re réunion</string>
+  <string name="BetterOtherRoles.Option.Gameplay.FirstKillShieldDuration">Durée du bouclier</string>
+  <string name="BetterOtherRoles.Option.Gameplay.FirstKillShieldInfo">Icône et description pour le joueur protégé</string>
+  <string name="BetterOtherRoles.Option.Gameplay.FirstKillShieldFeedback">Ce que voit l'attaquant</string>
+  <string name="BetterOtherRoles.Option.Gameplay.FirstKillShieldFeedbackNothing">Rien</string>
+  <string name="BetterOtherRoles.Option.Gameplay.FirstKillShieldFeedbackFlash">Flash</string>
+  <string name="BetterOtherRoles.Option.Gameplay.FirstKillShieldFeedbackAnimation">Animation</string>
+  <string name="BetterOtherRoles.Option.Gameplay.FirstKillShieldFeedbackBoth">Flash + animation</string>
+  <string name="BetterOtherRoles.Option.Gameplay.FirstKillShieldCooldown">Délai de kill de l'attaquant remis</string>
+  <string name="BetterOtherRoles.Option.Gameplay.FirstKillShieldCooldownValue">Délai de kill remis à</string>
+  <string name="BetterOtherRoles.Modifier.FirstKillShield">Bouclier de la 1re victime</string>
+  <string name="BetterOtherRoles.Modifier.FirstKillShieldDescription">Tu es protégé, car tu as été la première victime de la partie précédente.</string>
+  <string name="BetterOtherRoles.Command.Shield.Usage">[joueur]</string>
+  <string name="BetterOtherRoles.Command.Shield.Description">choisit le joueur protégé au début de la prochaine partie.</string>
+  <string name="BetterOtherRoles.Command.Shield.Current">Protégé au début de la prochaine partie : {0}.</string>
+  <string name="BetterOtherRoles.Command.Shield.Nobody">personne</string>
+  <string name="BetterOtherRoles.Command.Shield.Set">{0} sera protégé au début de la prochaine partie.</string>
+  <string name="BetterOtherRoles.Command.Shield.NotFound">Aucun joueur nommé {0} dans le lobby.</string>
   <!-- Chat des imposteurs (Modules/Chat) -->
   <string name="BetterOtherRoles.ImpostorChat.Active">Chat des imposteurs (Tab : chat public)</string>
   <string name="BetterOtherRoles.ImpostorChat.ReadOnly">Chat des imposteurs, lecture seule (Tab : chat public)</string>
