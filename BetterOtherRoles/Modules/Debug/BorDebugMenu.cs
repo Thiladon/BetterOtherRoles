@@ -66,6 +66,7 @@ public static class BorDebugMenu
             Opens(Text("Kill", "Kill"), DangerColor, m => m.Show(Players(IsAlive, (_, x) => BorDebugActions.Kill(x)))),
             Opens(Text("CleanBody", "Clean a body"), DangerColor, m => m.Show(Players(BorDebugActions.HasBody, (_, x) => x.RpcCleanBody()))),
             Does(Text("Meeting", "Call a meeting"), ActionColor, BorDebugActions.StartMeeting),
+            Does(Text("EndMeeting", "End the meeting"), ActionColor, BorDebugActions.EndMeeting),
             Opens(Text("TeleportTo", "Go to a player"), ActionColor, m => m.Show(Players(IsOtherAlive, (_, x) => BorDebugActions.Teleport(PlayerControl.LocalPlayer, x)))),
             Opens(Text("Bring", "Bring a player"), ActionColor, m => m.Show(Players(IsOtherAlive, (_, x) => BorDebugActions.Teleport(x, PlayerControl.LocalPlayer)))),
             Does(Text("EndCrewmates", "End: crewmates win"), Palette.CrewmateBlue, () => BorDebugActions.EndGame(GameOverReason.CrewmatesByVote)),

@@ -7,6 +7,7 @@ using BetterOtherRoles.Utilities;
 using MiraAPI.Hud;
 using MiraAPI.Networking;
 using MiraAPI.Roles;
+using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
 using UnityEngine;
 
@@ -71,7 +72,8 @@ public static class BorDebugActions
 
     /// <summary>
     ///     Calls an emergency meeting from the host, without going to the button. A dead host cannot call one in the
-    ///     game: a living player calls it instead.
+    ///     game: a living player calls it instead, or the dead host when nobody is alive (the game itself does not check
+    ///     who calls it).
     /// </summary>
     public static void StartMeeting()
     {
@@ -79,12 +81,30 @@ public static class BorDebugActions
 
         var caller = PlayerControl.LocalPlayer;
         if (caller.Data.IsDead)
-            caller = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.Data != null && !x.Data.IsDead && !x.Data.Disconnected);
-        if (!caller) return;
+            caller = PlayerControl.AllPlayerControls.ToArray().FirstOrDefault(x => x.Data != null && !x.Data.IsDead && !x.Data.Disconnected) ?? caller;
 
         MeetingRoomManager.Instance.AssignSelf(caller, null);
         HudManager.Instance.OpenMeetingRoom(caller);
         caller!.RpcStartMeeting(null);
+    }
+
+    /// <summary>
+    ///     Ends the meeting now, as when the voting time runs out: the players who have not voted skip, and the votes
+    ///     cast count (host only, as in the game). MiraAPI only ends the vote once nobody has votes left: none left for
+    ///     anyone, as MiraAPI does when the time runs out (MeetingHudPatches.ForceSkipPatch).
+    /// </summary>
+    public static void EndMeeting()
+    {
+        var meeting = MeetingHud.Instance;
+        if (!meeting || meeting.state >= MeetingHud.MeetingStates.Results) return;
+
+        foreach (var player in PlayerControl.AllPlayerControls)
+        {
+            if (player)
+                player.GetVoteData().SetRemainingVotes(0);
+        }
+
+        meeting.ForceSkipAll();
     }
 
     /// <summary>

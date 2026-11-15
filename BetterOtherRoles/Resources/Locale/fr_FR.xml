@@ -30,6 +30,7 @@
   <string name="BetterOtherRoles.Debug.Menu.Kill">Tuer</string>
   <string name="BetterOtherRoles.Debug.Menu.CleanBody">Nettoyer un corps</string>
   <string name="BetterOtherRoles.Debug.Menu.Meeting">Lancer une réunion</string>
+  <string name="BetterOtherRoles.Debug.Menu.EndMeeting">Terminer la réunion</string>
   <string name="BetterOtherRoles.Debug.Menu.TeleportTo">Aller vers un joueur</string>
   <string name="BetterOtherRoles.Debug.Menu.Bring">Amener un joueur</string>
   <string name="BetterOtherRoles.Debug.Menu.EndCrewmates">Fin : victoire des crewmates</string>

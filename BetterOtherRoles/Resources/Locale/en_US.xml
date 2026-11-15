@@ -23,6 +23,7 @@
   <string name="BetterOtherRoles.Debug.Menu.Kill">Kill</string>
   <string name="BetterOtherRoles.Debug.Menu.CleanBody">Clean a body</string>
   <string name="BetterOtherRoles.Debug.Menu.Meeting">Call a meeting</string>
+  <string name="BetterOtherRoles.Debug.Menu.EndMeeting">End the meeting</string>
   <string name="BetterOtherRoles.Debug.Menu.TeleportTo">Go to a player</string>
   <string name="BetterOtherRoles.Debug.Menu.Bring">Bring a player</string>
   <string name="BetterOtherRoles.Debug.Menu.EndCrewmates">End: crewmates win</string>
