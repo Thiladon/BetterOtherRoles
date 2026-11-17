@@ -29,12 +29,16 @@ public sealed class BetterSkeldOptions : AbstractOptionGroup
     public ModdedToggleOption Enabled { get; } = new("BetterOtherRoles.Option.BetterSkeld.Enabled", true);
 
     /// <summary>
-    ///     Gets whether the vents link the halves of the map (BOR): Weapons ↔ Cafeteria, Admin ↔ Shields, Navigation ↔
-    ///     the vent of the corridor below Weapons, Upper Engine ↔ MedBay, Upper Reactor ↔ Security and Lower Reactor,
-    ///     Electrical ↔ Lower Engine.
+    ///     Gets the network of the vents (<see cref="SkeldVentNetwork"/>): the one of the game, the one of BOR (halves
+    ///     of the map linked) or the four groups of TOU-Mira 1.7.9.
     /// </summary>
-    public ModdedToggleOption VentNetwork { get; } =
-        new("BetterOtherRoles.Option.BetterSkeld.VentNetwork", true) { Visible = IsOn };
+    public ModdedEnumOption VentNetwork { get; } =
+        new("BetterOtherRoles.Option.BetterSkeld.VentNetworkMode", (int)SkeldVentNetwork.Bor, typeof(SkeldVentNetwork),
+            ["BetterOtherRoles.Option.BetterSkeld.VentNetworkNormal", "BetterOtherRoles.Option.BetterSkeld.VentNetworkBor",
+                "BetterOtherRoles.Option.BetterSkeld.VentNetworkFourGroups"])
+        {
+            Visible = IsOn,
+        };
 
     /// <summary>
     ///     Gets whether the admin table can no longer be used (BOR: Enable Admin Table, off by default).
@@ -66,6 +70,21 @@ public sealed class BetterSkeldOptions : AbstractOptionGroup
     /// </summary>
     /// <returns>Whether the main toggle is on.</returns>
     public static bool IsOn() => OptionGroupSingleton<BetterSkeldOptions>.Instance.Enabled.Value;
+}
+
+/// <summary>
+///     Networks of the vents of The Skeld.
+/// </summary>
+public enum SkeldVentNetwork
+{
+    /// <summary>The links of the game.</summary>
+    Normal,
+
+    /// <summary>BOR: the halves of the map linked (Weapons ↔ Cafeteria, Admin ↔ Shields, Upper Engine ↔ MedBay...).</summary>
+    Bor,
+
+    /// <summary>TOU: engines and reactor in one group, Weapons, Navigation and Shields in another.</summary>
+    FourGroups,
 }
 
 /// <summary>

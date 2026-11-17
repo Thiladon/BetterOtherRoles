@@ -200,7 +200,10 @@
   <!-- Better Skeld options (Options/Maps) -->
   <string name="BetterOtherRoles.Options.Groups.BetterSkeld">Better Skeld</string>
   <string name="BetterOtherRoles.Option.BetterSkeld.Enabled">Enable Better Skeld</string>
-  <string name="BetterOtherRoles.Option.BetterSkeld.VentNetwork">New Vent Links</string>
+  <string name="BetterOtherRoles.Option.BetterSkeld.VentNetworkMode">Vent Network</string>
+  <string name="BetterOtherRoles.Option.BetterSkeld.VentNetworkNormal">Normal</string>
+  <string name="BetterOtherRoles.Option.BetterSkeld.VentNetworkBor">BOR</string>
+  <string name="BetterOtherRoles.Option.BetterSkeld.VentNetworkFourGroups">Four Groups</string>
   <string name="BetterOtherRoles.Option.BetterSkeld.DisableAdminTable">Disable Admin Table</string>
   <string name="BetterOtherRoles.Option.BetterSkeld.Vitals">Enable Vitals</string>
   <string name="BetterOtherRoles.Option.BetterSkeld.Theme">Map Theme</string>

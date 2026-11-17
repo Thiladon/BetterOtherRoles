@@ -33,7 +33,8 @@ public sealed class BetterPolusOptions : AbstractOptionGroup
     public ModdedToggleOption Enabled { get; } = new("BetterOtherRoles.Option.BetterPolus.Enabled", false);
 
     /// <summary>
-    ///     Gets whether the vents get two new links: Electrical ↔ the building outside it, Science building ↔ Storage (BOR).
+    ///     Gets whether the vents get new links: Electrical ↔ the building outside it, Science building ↔ Storage (BOR),
+    ///     the building outside Electrical ↔ the fence of Electrical.
     /// </summary>
     public ModdedToggleOption VentNetwork { get; } =
         new("BetterOtherRoles.Option.BetterPolus.VentNetwork", true) { Visible = IsOn };

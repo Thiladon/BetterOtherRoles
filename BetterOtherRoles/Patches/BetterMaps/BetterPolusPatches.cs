@@ -116,11 +116,15 @@ public static class BetterPolusPatches
     {
         if (options.VentNetwork.Value)
         {
-            // Electrical ↔ the building outside it, Science building ↔ Storage.
+            // Electrical ↔ the building outside it, Science building ↔ Storage (BOR); the building outside Electrical ↔
+            // the fence of Electrical, in the valley before the left reactor.
             var electricBuilding = FindVent(ship, "ElectricBuildingVent");
             var electrical = FindVent(ship, "ElectricalVent");
+            var electricFence = FindVent(ship, "ElecFenceVent");
             electricBuilding.Left = electrical;
             electrical.Center = electricBuilding;
+            electricBuilding.Right = electricFence;
+            electricFence.Center = electricBuilding;
 
             var scienceBuilding = FindVent(ship, "ScienceBuildingVent");
             var storage = FindVent(ship, "StorageVent");

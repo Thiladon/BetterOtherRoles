@@ -1,4 +1,5 @@
 using System.Collections;
+using BetterOtherRoles.Modules.Vents;
 using BetterOtherRoles.Options.Maps;
 using HarmonyLib;
 using MiraAPI.GameOptions;
@@ -37,7 +38,16 @@ public static class BetterSkeldPatches
         if (__instance.Type != ShipStatus.MapType.Ship || IsDleks() || !BetterSkeldOptions.IsOn()) return;
 
         var options = OptionGroupSingleton<BetterSkeldOptions>.Instance;
-        if (options.VentNetwork.Value) TryApply("vents", () => LinkVents(__instance));
+        switch ((SkeldVentNetwork)options.VentNetwork.Value)
+        {
+            case SkeldVentNetwork.Bor:
+                TryApply("vents", () => LinkVents(__instance));
+                break;
+            case SkeldVentNetwork.FourGroups:
+                TryApply("vents", () => LinkFourGroups(__instance));
+                break;
+        }
+
         if (options.DisableAdminTable.Value) TryApply("admin table", () => DisableAdmin(__instance));
         if (options.Vitals.Value) Coroutines.Start(CoAddVitals(__instance));
         TryApply("theme", () => SetTheme(__instance, (SkeldTheme)options.Theme.Value));
@@ -93,6 +103,7 @@ public static class BetterSkeldPatches
         navNorth.Center = bigY;
         navSouth.Center = bigY;
         bigY.Center = navNorth;
+        BorVentLinks.Add(bigY, navSouth);
         weapons.Left = bigY;
         admin.Center = shields;
         shields.Center = admin;
@@ -106,6 +117,46 @@ public static class BetterSkeldPatches
         lowerReactor.Center = security;
         electrical.Center = lowerEngine;
         lowerEngine.Center = electrical;
+    }
+
+    // TOU-Mira 1.7.9 (SkeldVentMode.FourGroups): engines and reactor in a ring, Weapons, Navigation and Shields in
+    // another; the other vents keep the links of the game.
+    private static void LinkFourGroups(ShipStatus ship)
+    {
+        var upperEngine = FindVent(ship, "LEngineVent");
+        var lowerEngine = FindVent(ship, "REngineVent");
+        var upperReactor = FindVent(ship, "UpperReactorVent");
+        var lowerReactor = FindVent(ship, "ReactorVent");
+        var weapons = FindVent(ship, "WeaponsVent");
+        var navNorth = FindVent(ship, "NavVentNorth");
+        var navSouth = FindVent(ship, "NavVentSouth");
+        var shields = FindVent(ship, "ShieldsVent");
+
+        upperEngine.Right = null;
+        upperEngine.Center = lowerEngine;
+        upperEngine.Left = upperReactor;
+        upperReactor.Right = upperEngine;
+        upperReactor.Center = lowerReactor;
+        upperReactor.Left = null;
+        lowerReactor.Left = null;
+        lowerReactor.Center = upperReactor;
+        lowerReactor.Right = lowerEngine;
+        lowerEngine.Left = lowerReactor;
+        lowerEngine.Center = upperEngine;
+        lowerEngine.Right = null;
+
+        weapons.Left = null;
+        weapons.Center = shields;
+        weapons.Right = navNorth;
+        navNorth.Left = weapons;
+        navNorth.Center = navSouth;
+        navNorth.Right = null;
+        navSouth.Right = null;
+        navSouth.Center = navNorth;
+        navSouth.Left = shields;
+        shields.Right = navSouth;
+        shields.Center = weapons;
+        shields.Left = null;
     }
 
     // The table can no longer be used, and the map on it stops moving.
@@ -161,7 +212,7 @@ public static class BetterSkeldPatches
     // (BOR put them on the desk of the left wall).
     private static void ReplaceTapes(ShipStatus ship, Transform vitals)
     {
-        var tapes = ship.GetComponentsInChildren<SpriteRenderer>(true).First(x => x.name.StartsWith("tapes-comms_tapes"));
+        var tapes = ship.GetComponentsInChildren<SpriteRenderer>(true).First(x => x.name.StartsWith("tapes-comms_tapes", StringComparison.Ordinal));
         var image = vitals.GetComponent<SpriteRenderer>();
         if (!image) image = vitals.GetComponentInChildren<SpriteRenderer>(true);
         var target = new Bounds(tapes.bounds.center + Vector3.Scale(tapes.bounds.size, TapesBoxOffset),
