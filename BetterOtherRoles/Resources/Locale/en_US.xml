@@ -189,6 +189,7 @@
   <string name="BetterOtherRoles.Option.Gameplay.HideVentAnimationsInSight">In Sight</string>
   <string name="BetterOtherRoles.Option.Gameplay.HideVentAnimationsSameRoom">Same Room</string>
   <string name="BetterOtherRoles.Option.Gameplay.HideVentAnimationsNever">Never</string>
+  <string name="BetterOtherRoles.Option.Gameplay.ShuffleMeetingOrder">Randomize Players Order In Meetings</string>
   <string name="BetterOtherRoles.Option.Gameplay.DeadCanHaunt">Dead Players Can Haunt</string>
   <string name="BetterOtherRoles.Option.Gameplay.DeadCanHauntAlways">Always</string>
   <string name="BetterOtherRoles.Option.Gameplay.DeadCanHauntNextRound">From Next Round</string>

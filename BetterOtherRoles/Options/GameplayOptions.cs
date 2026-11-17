@@ -84,6 +84,12 @@ public sealed class GameplayOptions : AbstractOptionGroup
         new("BetterOtherRoles.Option.Gameplay.HideVentAnimations", (int)VentSight.InSight, typeof(VentSight),
             ["BetterOtherRoles.Option.Gameplay.HideVentAnimationsInSight", "BetterOtherRoles.Option.Gameplay.HideVentAnimationsSameRoom",
                 "BetterOtherRoles.Option.Gameplay.HideVentAnimationsNever"]);
+
+    /// <summary>
+    ///     Gets whether the living players are shown in a random order in meetings, the same for everyone
+    ///     (BetterOtherRoles 1.7.1 RandomizePlayersInMeeting, <see cref="Modules.Meeting.BorMeetingShuffle"/>).
+    /// </summary>
+    public ModdedToggleOption ShuffleMeetingOrder { get; } = new("BetterOtherRoles.Option.Gameplay.ShuffleMeetingOrder", false);
 }
 
 /// <summary>

@@ -26,4 +26,5 @@ public enum BorRpc : uint
     AddTask,
     RemoveTask,
     CleanBody,
+    MeetingSeed,
 }

@@ -257,6 +257,7 @@
   <string name="BetterOtherRoles.Option.Gameplay.HideVentAnimationsInSight">En vue</string>
   <string name="BetterOtherRoles.Option.Gameplay.HideVentAnimationsSameRoom">En vue, même salle</string>
   <string name="BetterOtherRoles.Option.Gameplay.HideVentAnimationsNever">Jamais</string>
+  <string name="BetterOtherRoles.Option.Gameplay.ShuffleMeetingOrder">Ordre des joueurs mélangé en réunion</string>
   <string name="BetterOtherRoles.Option.Gameplay.DeadCanHaunt">Les morts peuvent hanter</string>
   <string name="BetterOtherRoles.Option.Gameplay.DeadCanHauntAlways">Toujours</string>
   <string name="BetterOtherRoles.Option.Gameplay.DeadCanHauntNextRound">Dès la manche suivante</string>
