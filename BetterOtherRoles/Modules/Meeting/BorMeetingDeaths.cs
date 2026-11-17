@@ -1,4 +1,6 @@
+using BetterOtherRoles.Options;
 using MiraAPI.Events;
+using MiraAPI.GameOptions;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Utilities;
 using MiraAPI.Voting;
@@ -9,7 +11,8 @@ namespace BetterOtherRoles.Modules.Meeting;
 ///     A player killed during a meeting (TOU-Mira 1.7.9 HandleMeetingMurder; MiraAPI only handles a player who leaves):
 ///     their line shows them dead and their own vote goes away (the votes of the dead are not counted), the votes cast
 ///     against them are given back to their voters, as MiraAPI does when a player leaves. The victim closes their
-///     minigame and can no longer vote (the game shows the meeting of the dead).
+///     minigame and can no longer vote (the game shows the meeting of the dead). Time is added to the meeting
+///     (<see cref="GameplayOptions.AddedMeetingDeathTime"/>).
 /// </summary>
 public static class BorMeetingDeaths
 {
@@ -26,6 +29,11 @@ public static class BorMeetingDeaths
         if (area!.DidVote)
             area.UnsetVote();
         area.SetDead(true);
+
+        // Time added on every client (each one counts the time of the meeting): the meeting timer goes back.
+        var added = OptionGroupSingleton<GameplayOptions>.Instance.AddedMeetingDeathTime.Value;
+        if (added > 0f && meeting.state is > MeetingHud.MeetingStates.Animating and < MeetingHud.MeetingStates.Results)
+            meeting.discussionTimer -= added;
 
         if (target.AmOwner)
         {

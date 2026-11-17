@@ -3,6 +3,7 @@ using BetterOtherRoles.Patches.Options;
 using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Translation;
+using MiraAPI.Utilities;
 
 namespace BetterOtherRoles.Options;
 
@@ -90,6 +91,13 @@ public sealed class GameplayOptions : AbstractOptionGroup
     ///     (BetterOtherRoles 1.7.1 RandomizePlayersInMeeting, <see cref="Modules.Meeting.BorMeetingShuffle"/>).
     /// </summary>
     public ModdedToggleOption ShuffleMeetingOrder { get; } = new("BetterOtherRoles.Option.Gameplay.ShuffleMeetingOrder", false);
+
+    /// <summary>
+    ///     Gets the time added to the meeting each time a player dies in it, once the opening animation is over
+    ///     (TOU-Mira 1.7.9 AddedMeetingDeathTimer, <see cref="Modules.Meeting.BorMeetingDeaths"/>): 0 adds nothing.
+    /// </summary>
+    public ModdedNumberOption AddedMeetingDeathTime { get; } =
+        new("BetterOtherRoles.Option.Gameplay.AddedMeetingDeathTime", 5f, 0f, 15f, 1f, MiraNumberSuffixes.Seconds);
 }
 
 /// <summary>
