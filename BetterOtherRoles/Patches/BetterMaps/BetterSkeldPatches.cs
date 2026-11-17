@@ -14,16 +14,16 @@ namespace BetterOtherRoles.Patches.BetterMaps;
 ///     Better Skeld (BetterOtherRoles 1.7.1 Modules/BetterSkeld.cs), with <see cref="BetterSkeldOptions"/>: vents, admin
 ///     table and vitals changed when the map starts, the same on every client (the options are shared). The Skeld only,
 ///     not its mirror (dlekS).
-///     The vitals are a copy of those of Polus, whose prefab stays loaded until the map is destroyed (the copy uses its
-///     minigame).
+///     The vitals are a copy of those of Polus, in place of the tape recorder of Communications; the prefab of Polus stays
+///     loaded until the map is destroyed (the copy uses its minigame).
 /// </summary>
 [HarmonyPatch]
 public static class BetterSkeldPatches
 {
-    // Place of the vitals (BOR), on the desk against the left wall of Communications, turned upright.
-    private static readonly Vector3 VitalsPosition = new(1.9162f, -16.1985f, -2.4142f);
-    private static readonly Vector3 VitalsScale = new(0.6636f, 0.7418f, 1f);
-    private const float VitalsAngle = 90f;
+    // Box of the tape recorder in its image (wider than the recorder), measured on screenshots: center and size compared
+    // to the image.
+    private static readonly Vector3 TapesBoxOffset = new(0.2664f, 0.11f, 0f);
+    private static readonly Vector3 TapesBoxSize = new(0.6407f, 1.07f, 1f);
 
     private static AsyncOperationHandle<GameObject>? _polus;
 
@@ -153,10 +153,28 @@ public static class BetterSkeldPatches
             var source = polus.GetComponentsInChildren<SystemConsole>(true).First(console => console.name == "panel_vitals");
             var vitals = Object.Instantiate(source.gameObject, ship.transform).transform;
             vitals.name = "panel_vitals";
-            vitals.position = VitalsPosition;
-            vitals.rotation = Quaternion.Euler(0f, 0f, VitalsAngle);
-            vitals.localScale = VitalsScale;
+            ReplaceTapes(ship, vitals);
         });
+    }
+
+    // In place of the tape recorder on the top wall of Communications (hidden), facing the room, at the size of its box
+    // (BOR put them on the desk of the left wall).
+    private static void ReplaceTapes(ShipStatus ship, Transform vitals)
+    {
+        var tapes = ship.GetComponentsInChildren<SpriteRenderer>(true).First(x => x.name.StartsWith("tapes-comms_tapes"));
+        var image = vitals.GetComponent<SpriteRenderer>();
+        if (!image) image = vitals.GetComponentInChildren<SpriteRenderer>(true);
+        var target = new Bounds(tapes.bounds.center + Vector3.Scale(tapes.bounds.size, TapesBoxOffset),
+            Vector3.Scale(tapes.bounds.size, TapesBoxSize));
+
+        vitals.rotation = Quaternion.identity;
+        var bounds = image.bounds;
+        var scale = vitals.localScale;
+        vitals.localScale = new Vector3(scale.x * target.size.x / bounds.size.x, scale.y * target.size.y / bounds.size.y, scale.z);
+        bounds = image.bounds;
+        var offset = target.center - bounds.center;
+        vitals.position = new Vector3(vitals.position.x + offset.x, vitals.position.y + offset.y, tapes.transform.position.z - 0.01f);
+        tapes.enabled = false;
     }
 
     // The mirrored Skeld has the same type: told apart by the map chosen.
