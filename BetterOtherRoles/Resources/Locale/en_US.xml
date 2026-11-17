@@ -185,6 +185,10 @@
   <string name="BetterOtherRoles.Option.Gameplay.HideNamesOutOfSightBasic">Basic</string>
   <string name="BetterOtherRoles.Option.Gameplay.HideNamesOutOfSightRoomBased">Room-Based</string>
   <string name="BetterOtherRoles.Option.Gameplay.HideNamesOutOfSightHarsh">Harsh</string>
+  <string name="BetterOtherRoles.Option.Gameplay.HideVentAnimations">Hide Vents Animation</string>
+  <string name="BetterOtherRoles.Option.Gameplay.HideVentAnimationsInSight">In Sight</string>
+  <string name="BetterOtherRoles.Option.Gameplay.HideVentAnimationsSameRoom">Same Room</string>
+  <string name="BetterOtherRoles.Option.Gameplay.HideVentAnimationsNever">Never</string>
   <string name="BetterOtherRoles.Option.Gameplay.DeadCanHaunt">Dead Players Can Haunt</string>
   <string name="BetterOtherRoles.Option.Gameplay.DeadCanHauntAlways">Always</string>
   <string name="BetterOtherRoles.Option.Gameplay.DeadCanHauntNextRound">From Next Round</string>

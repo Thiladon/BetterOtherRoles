@@ -253,6 +253,10 @@
   <string name="BetterOtherRoles.Option.Gameplay.HideNamesOutOfSightBasic">Aucun</string>
   <string name="BetterOtherRoles.Option.Gameplay.HideNamesOutOfSightRoomBased">Sauf même salle</string>
   <string name="BetterOtherRoles.Option.Gameplay.HideNamesOutOfSightHarsh">Strict</string>
+  <string name="BetterOtherRoles.Option.Gameplay.HideVentAnimations">Animations des ventilations cachées</string>
+  <string name="BetterOtherRoles.Option.Gameplay.HideVentAnimationsInSight">En vue</string>
+  <string name="BetterOtherRoles.Option.Gameplay.HideVentAnimationsSameRoom">En vue, même salle</string>
+  <string name="BetterOtherRoles.Option.Gameplay.HideVentAnimationsNever">Jamais</string>
   <string name="BetterOtherRoles.Option.Gameplay.DeadCanHaunt">Les morts peuvent hanter</string>
   <string name="BetterOtherRoles.Option.Gameplay.DeadCanHauntAlways">Toujours</string>
   <string name="BetterOtherRoles.Option.Gameplay.DeadCanHauntNextRound">Dès la manche suivante</string>

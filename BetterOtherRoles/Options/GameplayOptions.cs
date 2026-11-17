@@ -75,6 +75,25 @@ public sealed class GameplayOptions : AbstractOptionGroup
         new("BetterOtherRoles.Option.Gameplay.HideNamesOutOfSight", (int)NameSight.Basic, typeof(NameSight),
             ["BetterOtherRoles.Option.Gameplay.HideNamesOutOfSightBasic", "BetterOtherRoles.Option.Gameplay.HideNamesOutOfSightRoomBased",
                 "BetterOtherRoles.Option.Gameplay.HideNamesOutOfSightHarsh"]);
+
+    /// <summary>
+    ///     Gets when the lid of a vent only moves for the players who see it (TOU-Mira 1.7.9 HideVentAnimationNotInVision,
+    ///     <see cref="Patches.Misc.VentAnimationPatches"/>): in sight, in sight from the same room, or never hidden.
+    /// </summary>
+    public ModdedEnumOption HideVentAnimations { get; } =
+        new("BetterOtherRoles.Option.Gameplay.HideVentAnimations", (int)VentSight.InSight, typeof(VentSight),
+            ["BetterOtherRoles.Option.Gameplay.HideVentAnimationsInSight", "BetterOtherRoles.Option.Gameplay.HideVentAnimationsSameRoom",
+                "BetterOtherRoles.Option.Gameplay.HideVentAnimationsNever"]);
+}
+
+/// <summary>
+///     Who sees the lid of a vent move when another player goes in or out.
+/// </summary>
+public enum VentSight
+{
+    InSight,
+    SameRoom,
+    Never,
 }
 
 /// <summary>
