@@ -197,6 +197,18 @@
   <string name="BetterOtherRoles.Option.Gameplay.DeadCanHauntNever">Never</string>
   <string name="BetterOtherRoles.Option.Gameplay.FinishTasksBeforeHaunt">Finish Tasks Before Haunting</string>
   <string name="BetterOtherRoles.Option.Gameplay.FinishTasksBeforeZoom">Finish Tasks Before Zooming Out</string>
+  <!-- Better Skeld options (Options/Maps) -->
+  <string name="BetterOtherRoles.Options.Groups.BetterSkeld">Better Skeld</string>
+  <string name="BetterOtherRoles.Option.BetterSkeld.Enabled">Enable Better Skeld</string>
+  <string name="BetterOtherRoles.Option.BetterSkeld.VentNetwork">New Vent Links</string>
+  <string name="BetterOtherRoles.Option.BetterSkeld.DisableAdminTable">Disable Admin Table</string>
+  <string name="BetterOtherRoles.Option.BetterSkeld.Vitals">Enable Vitals</string>
+  <string name="BetterOtherRoles.Option.BetterSkeld.Theme">Map Theme</string>
+  <string name="BetterOtherRoles.Option.BetterSkeld.ThemeAuto">Auto</string>
+  <string name="BetterOtherRoles.Option.BetterSkeld.ThemeNormal">Normal</string>
+  <string name="BetterOtherRoles.Option.BetterSkeld.ThemeBirthday">Birthday</string>
+  <string name="BetterOtherRoles.Option.BetterSkeld.ThemeHalloween">Halloween</string>
+  <string name="BetterOtherRoles.Option.BetterSkeld.ThemeTvShow">TV Show</string>
   <!-- Better Polus options (Options/Maps) -->
   <string name="BetterOtherRoles.Options.Groups.BetterPolus">Better Polus</string>
   <string name="BetterOtherRoles.Option.BetterPolus.Enabled">Enable Better Polus</string>

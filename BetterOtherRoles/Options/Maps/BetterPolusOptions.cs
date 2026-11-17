@@ -14,7 +14,7 @@ public sealed class BetterPolusOptions : AbstractOptionGroup
 {
     public override string GroupName => MiraLocaleManager.Get("BetterOtherRoles.Options.Groups.BetterPolus", "Better Polus");
 
-    public override uint GroupPriority => 7;
+    public override uint GroupPriority => 8;
 
     public BetterPolusOptions()
     {

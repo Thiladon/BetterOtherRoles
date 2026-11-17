@@ -12,7 +12,7 @@ public sealed class GameTweaksOptions : AbstractOptionGroup
 {
     public override string GroupName => MiraLocaleManager.Get("BetterOtherRoles.Options.Groups.GameTweaks", "Game Tweaks");
 
-    public override uint GroupPriority => 8;
+    public override uint GroupPriority => 9;
 
     public GameTweaksOptions()
     {
