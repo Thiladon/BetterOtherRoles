@@ -1,5 +1,6 @@
 using AmongUs.GameOptions;
 using BetterOtherRoles.Modules.Bodies;
+using BetterOtherRoles.Modules.Meeting;
 using BetterOtherRoles.Options;
 using BetterOtherRoles.Patches.Misc;
 using BetterOtherRoles.Patches.Roles;
@@ -62,12 +63,15 @@ public static class BorDebugActions
     }
 
     /// <summary>
-    ///     Kills a player where they stand, as if they killed themselves (nobody moves, no kill cooldown reset).
+    ///     Kills a player where they stand, as if they killed themselves (nobody moves, no kill cooldown reset). In a
+    ///     meeting: no body and no kill animation, the meeting shows the death (<see cref="BorMeetingDeaths"/>).
     /// </summary>
     /// <param name="player">The player.</param>
     public static void Kill(PlayerControl player)
     {
-        player.RpcCustomMurder(player, MeetingCheck.OutsideMeeting, resetKillTimer: false, teleportMurderer: false);
+        var meeting = MeetingHud.Instance || ExileController.Instance;
+        player.RpcCustomMurder(player, MeetingCheck.Ignore, resetKillTimer: false, createDeadBody: !meeting, teleportMurderer: false,
+            showKillAnim: !meeting);
     }
 
     /// <summary>

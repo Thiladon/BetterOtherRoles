@@ -418,3 +418,33 @@ public static class BorPhoneMenuPagePatch
             menu.RefreshPageArrows();
     }
 }
+
+/// <summary>
+///     Parts of the lines of the meeting are drawn over the phone, whatever the depth and the sorting order (a
+///     SortingGroup on the phone hid the texts of its panels): the lines are hidden while the Debug menu is open during a
+///     meeting, shown again as soon as it starts closing.
+/// </summary>
+[HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
+public static class BorPhoneMenuMeetingPatch
+{
+    private static Transform? _hidden;
+
+    [HarmonyPostfix]
+    public static void UpdatePostfix()
+    {
+        var meeting = MeetingHud.Instance;
+        var parent = meeting ? meeting.ButtonParent : null;
+        var menu = BorPhoneMenu.Current?.Component;
+        var hide = parent && menu && menu!.amClosing == Minigame.CloseState.None;
+        if (hide && parent!.gameObject.activeSelf)
+        {
+            parent.gameObject.SetActive(false);
+            _hidden = parent;
+        }
+        else if (!hide && _hidden)
+        {
+            _hidden!.gameObject.SetActive(true);
+            _hidden = null;
+        }
+    }
+}
