@@ -265,6 +265,24 @@
   <string name="BetterOtherRoles.Option.Gameplay.DeadCanHauntNever">Jamais</string>
   <string name="BetterOtherRoles.Option.Gameplay.FinishTasksBeforeHaunt">Finir ses tâches avant de hanter</string>
   <string name="BetterOtherRoles.Option.Gameplay.FinishTasksBeforeZoom">Finir ses tâches avant de dézoomer</string>
+  <!-- Options de carte au hasard (Options/Maps, Modules/Presets/BorRandomMap) -->
+  <string name="BetterOtherRoles.Options.Groups.RandomMap">Carte au hasard</string>
+  <string name="BetterOtherRoles.Option.RandomMap.Enabled">Jouer sur une carte au hasard</string>
+  <string name="BetterOtherRoles.Option.RandomMap.PresetPerMap">Preset par carte</string>
+  <string name="BetterOtherRoles.Option.RandomMap.NoPreset">Aucun</string>
+  <string name="BetterOtherRoles.Option.RandomMap.SkeldChance">The Skeld</string>
+  <string name="BetterOtherRoles.Option.RandomMap.SkeldPreset">Preset de The Skeld</string>
+  <string name="BetterOtherRoles.Option.RandomMap.MiraChance">MIRA HQ</string>
+  <string name="BetterOtherRoles.Option.RandomMap.MiraPreset">Preset de MIRA HQ</string>
+  <string name="BetterOtherRoles.Option.RandomMap.PolusChance">Polus</string>
+  <string name="BetterOtherRoles.Option.RandomMap.PolusPreset">Preset de Polus</string>
+  <string name="BetterOtherRoles.Option.RandomMap.DleksChance">dlekS</string>
+  <string name="BetterOtherRoles.Option.RandomMap.DleksPreset">Preset de dlekS</string>
+  <string name="BetterOtherRoles.Option.RandomMap.AirshipChance">Airship</string>
+  <string name="BetterOtherRoles.Option.RandomMap.AirshipPreset">Preset d'Airship</string>
+  <string name="BetterOtherRoles.Option.RandomMap.FungleChance">The Fungle</string>
+  <string name="BetterOtherRoles.Option.RandomMap.FunglePreset">Preset de The Fungle</string>
+  <string name="BetterOtherRoles.RandomMap.Chat.PresetMissing">Preset « {0} » introuvable : les réglages du salon sont gardés.</string>
   <!-- Options Better Skeld (Options/Maps) -->
   <string name="BetterOtherRoles.Options.Groups.BetterSkeld">Better Skeld</string>
   <string name="BetterOtherRoles.Option.BetterSkeld.Enabled">Activer Better Skeld</string>

@@ -116,6 +116,29 @@ public static class BorPresets
         WriteCurrent(config);
         config.Save();
         SetActive(name);
+        BorRandomMap.RefreshPresets();
+    }
+
+    /// <summary>
+    ///     Writes the current settings to a config file, as a preset, without changing the active preset (the file is
+    ///     saved by the caller).
+    /// </summary>
+    public static void WriteTo(ConfigFile config) => WriteCurrent(config);
+
+    /// <summary>
+    ///     Loads a preset file (vanilla settings included) and sends it to the players, without changing the active
+    ///     preset (loaded without a name).
+    /// </summary>
+    /// <returns>False when the file does not exist.</returns>
+    public static bool LoadWithoutName(string path)
+    {
+        var plugin = Plugin;
+        if (plugin == null || !File.Exists(path)) return false;
+
+        var config = new ConfigFile(path, false) { SaveOnConfigSet = false };
+        BindAll(plugin, config);
+        new OptionPreset(string.Empty, plugin, config).LoadPreset();
+        return true;
     }
 
     /// <summary>
@@ -131,6 +154,8 @@ public static class BorPresets
 
         if (ActivePreset == name)
             SetActive(string.Empty);
+
+        BorRandomMap.RefreshPresets();
     }
 
     /// <summary>
@@ -143,6 +168,8 @@ public static class BorPresets
         File.Move(GetPath(name), GetPath(newName));
         if (ActivePreset == name)
             SetActive(newName);
+
+        BorRandomMap.RefreshPresets(name, newName);
     }
 
     /// <summary>
