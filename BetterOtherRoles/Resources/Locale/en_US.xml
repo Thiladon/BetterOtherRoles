@@ -242,7 +242,6 @@
   <string name="BetterOtherRoles.Option.BetterPolus.ThemeAuto">Auto</string>
   <string name="BetterOtherRoles.Option.BetterPolus.ThemeNormal">Normal</string>
   <string name="BetterOtherRoles.Option.BetterPolus.ThemeHalloween">Halloween</string>
-  <string name="BetterOtherRoles.Option.BetterPolus.ReactorSabotage">Reactor Sabotage Countdown</string>
   <!-- Game Tweaks options -->
   <string name="BetterOtherRoles.Options.Groups.GameTweaks">Game Tweaks</string>
   <string name="BetterOtherRoles.Option.GameTweaks.ParallelMedScans">Parallel MedBay Scans</string>
@@ -254,6 +253,15 @@
   <string name="BetterOtherRoles.Setting.KillDistanceVeryShort">Very Short</string>
   <string name="BetterOtherRoles.Setting.Instant">Instant</string>
   <string name="BetterOtherRoles.Setting.KillStartCooldown">Kill Start Cooldown</string>
+  <string name="BetterOtherRoles.Setting.Sabotages">Sabotages</string>
+  <string name="BetterOtherRoles.Setting.Sabotage.SkeldReactor">Reactor (The Skeld)</string>
+  <string name="BetterOtherRoles.Setting.Sabotage.SkeldOxygen">Oxygen (The Skeld)</string>
+  <string name="BetterOtherRoles.Setting.Sabotage.MiraReactor">Reactor (MIRA HQ)</string>
+  <string name="BetterOtherRoles.Setting.Sabotage.MiraOxygen">Oxygen (MIRA HQ)</string>
+  <string name="BetterOtherRoles.Setting.Sabotage.PolusSeismic">Seismic Stabilizers (Polus)</string>
+  <string name="BetterOtherRoles.Setting.Sabotage.AirshipCrash">Crash Course (Airship)</string>
+  <string name="BetterOtherRoles.Setting.Sabotage.FungleReactor">Reactor (The Fungle)</string>
+  <string name="BetterOtherRoles.Setting.Sabotage.FungleMixup">Mushroom Mixup (The Fungle)</string>
   <string name="BetterOtherRoles.Option.Gameplay.FirstKillShield">Shield Last Game First Kill</string>
   <string name="BetterOtherRoles.Option.Gameplay.FirstKillShieldExpiry">Expire Shield After</string>
   <string name="BetterOtherRoles.Option.Gameplay.FirstKillShieldExpiryDuration">Duration</string>

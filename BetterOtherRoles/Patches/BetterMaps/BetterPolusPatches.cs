@@ -9,7 +9,8 @@ namespace BetterOtherRoles.Patches.BetterMaps;
 /// <summary>
 ///     Better Polus (BetterOtherRoles 1.7.1 Modules/BetterPolus.cs, TOU-Mira 1.7.9 BetterPolusPatches), with
 ///     <see cref="BetterPolusOptions"/>: vents, vitals, tasks and decorations changed when the map starts, the same on
-///     every client (the options are shared); the countdown of the reactor sabotage set by the host.
+///     every client (the options are shared). The countdown of the reactor sabotage is in the vanilla settings
+///     (<see cref="Patches.Options.SabotageSettingsPatches"/>).
 ///     The map is a new object at each game: nothing to undo.
 /// </summary>
 [HarmonyPatch]
@@ -67,26 +68,6 @@ public static class BetterPolusPatches
     public static void AppendTaskTextPostfix(NormalPlayerTask __instance, SystemTypes? __state)
     {
         if (__state != null) __instance.StartAt = __state.Value;
-    }
-
-    /// <summary>
-    ///     Countdown of the reactor sabotage (laboratory): set when it starts (run by the host, then sent to everyone).
-    /// </summary>
-    [HarmonyPatch(typeof(ReactorSystemType), nameof(ReactorSystemType.UpdateSystem))]
-    [HarmonyPrefix]
-    public static void ReactorUpdatePrefix(ReactorSystemType __instance, out bool __state)
-    {
-        __state = __instance.IsActive;
-    }
-
-    [HarmonyPatch(typeof(ReactorSystemType), nameof(ReactorSystemType.UpdateSystem))]
-    [HarmonyPostfix]
-    public static void ReactorUpdatePostfix(ReactorSystemType __instance, bool __state)
-    {
-        if (__state || !__instance.IsActive) return;
-        if (!ShipStatus.Instance || ShipStatus.Instance.Type != ShipStatus.MapType.Pb || !BetterPolusOptions.IsOn()) return;
-
-        __instance.Countdown = OptionGroupSingleton<BetterPolusOptions>.Instance.ReactorSabotage.Value;
     }
 
     private static SystemTypes? ShownRoom(NormalPlayerTask task)

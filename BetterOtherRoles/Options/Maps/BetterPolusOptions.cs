@@ -2,7 +2,6 @@ using BetterOtherRoles.Patches.Options;
 using MiraAPI.GameOptions;
 using MiraAPI.GameOptions.OptionTypes;
 using MiraAPI.Translation;
-using MiraAPI.Utilities;
 
 namespace BetterOtherRoles.Options.Maps;
 
@@ -24,7 +23,6 @@ public sealed class BetterPolusOptions : AbstractOptionGroup
         ColdTemperatureOutside.SetNotificationParent(Enabled);
         SwapWifiAndChartCourse.SetNotificationParent(Enabled);
         Theme.SetNotificationParent(Enabled);
-        ReactorSabotage.SetNotificationParent(Enabled);
     }
 
     /// <summary>
@@ -74,16 +72,6 @@ public sealed class BetterPolusOptions : AbstractOptionGroup
     public ModdedEnumOption Theme { get; } =
         new("BetterOtherRoles.Option.BetterPolus.Theme", (int)PolusTheme.Auto, typeof(PolusTheme),
             ["BetterOtherRoles.Option.BetterPolus.ThemeAuto", "BetterOtherRoles.Option.BetterPolus.ThemeNormal", "BetterOtherRoles.Option.BetterPolus.ThemeHalloween"])
-        {
-            Visible = IsOn,
-        };
-
-    /// <summary>
-    ///     Gets the countdown of the reactor sabotage (seismic stabilizers of the laboratory), 60 s in the game (BOR:
-    ///     Polus Reactor Cooldown).
-    /// </summary>
-    public ModdedNumberOption ReactorSabotage { get; } =
-        new("BetterOtherRoles.Option.BetterPolus.ReactorSabotage", 40f, 10f, 90f, 2.5f, MiraNumberSuffixes.Seconds)
         {
             Visible = IsOn,
         };

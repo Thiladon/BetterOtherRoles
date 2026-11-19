@@ -834,6 +834,9 @@ public static class RoleGuidePatches
             var translation = TranslationController.Instance;
             if (categories == null || options == null || !translation) return settings;
 
+            // Durations of the sabotages of the map, before the settings of the game as in the settings view.
+            settings.AddRange(Options.SabotageSettingsPatches.GuideLines());
+
             foreach (var category in categories)
             {
                 foreach (var setting in category.AllGameSettings)
