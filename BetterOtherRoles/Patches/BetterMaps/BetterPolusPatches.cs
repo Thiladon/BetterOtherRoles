@@ -10,7 +10,7 @@ namespace BetterOtherRoles.Patches.BetterMaps;
 ///     Better Polus (BetterOtherRoles 1.7.1 Modules/BetterPolus.cs, TOU-Mira 1.7.9 BetterPolusPatches), with
 ///     <see cref="BetterPolusOptions"/>: vents, vitals, tasks and decorations changed when the map starts, the same on
 ///     every client (the options are shared). The countdown of the reactor sabotage is in the vanilla settings
-///     (<see cref="Patches.Options.SabotageSettingsPatches"/>).
+///     (<see cref="SabotageDurationPatches"/>).
 ///     The map is a new object at each game: nothing to undo.
 /// </summary>
 [HarmonyPatch]

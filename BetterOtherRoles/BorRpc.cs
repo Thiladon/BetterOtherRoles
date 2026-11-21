@@ -27,4 +27,6 @@ public enum BorRpc : uint
     RemoveTask,
     CleanBody,
     MeetingSeed,
+    RandomDoors,
+    DoorOpen,
 }

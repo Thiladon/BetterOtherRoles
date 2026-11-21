@@ -9,7 +9,7 @@ namespace BetterOtherRoles.Options.Maps;
 /// <summary>
 ///     Durations of the sabotages of each map (BetterOtherRoles 1.7.1 Polus Reactor Cooldown, TOU-Mira 1.7.9 Better
 ///     Maps sabotage countdowns), the values of the game by default. Shown in the vanilla game settings tab, only for
-///     the map that can be played (<see cref="SabotageSettingsPatches"/>), not in the tab of BetterOtherRoles.
+///     the map that can be played (<see cref="MapSettingsPatches"/>), not in the tab of BetterOtherRoles.
 /// </summary>
 public sealed class SabotageOptions : AbstractOptionGroup
 {
@@ -90,6 +90,6 @@ public sealed class SabotageOptions : AbstractOptionGroup
     private static ModdedNumberOption New(string name, float defaultValue, float min, float max, float step) =>
         new($"BetterOtherRoles.Setting.Sabotage.{name}", defaultValue, min, max, step, MiraNumberSuffixes.Seconds, "0")
         {
-            ChangedEvent = _ => SabotageSettingsPatches.RefreshValues(),
+            ChangedEvent = _ => MapSettingsPatches.RefreshValues(),
         };
 }

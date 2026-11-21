@@ -76,6 +76,16 @@ public static class BorRandomMap
             // The game starts on the map of the lobby.
             Error($"Random map: {e}");
         }
+
+        // After the map and its preset: the doors set for the map drawn.
+        try
+        {
+            Doors.BorRandomDoors.Draw();
+        }
+        catch (Exception e)
+        {
+            Error($"Random doors: {e}");
+        }
     }
 
     // Back in the lobby: the host waits for its player (the settings are sent by it).

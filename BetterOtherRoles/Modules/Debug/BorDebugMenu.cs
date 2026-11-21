@@ -420,6 +420,36 @@ public static class BorPhoneMenuPagePatch
 }
 
 /// <summary>
+///     The map button while the Debug menu is open: the game opens no map during a minigame (the player cannot move).
+///     The menu is closed, then the map opens once it is gone.
+/// </summary>
+[HarmonyPatch(typeof(HudManager), nameof(HudManager.ToggleMapVisible))]
+public static class BorPhoneMenuMapPatch
+{
+    // Frames waited at most for the menu to be gone.
+    private const int MaxFrames = 60;
+
+    [HarmonyPrefix]
+    public static bool ToggleMapVisiblePrefix(HudManager __instance, MapOptions options)
+    {
+        var menu = BorPhoneMenu.Current;
+        if (menu == null || (MapBehaviour.Instance && MapBehaviour.Instance.IsOpen)) return true;
+
+        menu.ForceClose();
+        Reactor.Utilities.Coroutines.Start(CoShowMap(__instance, options));
+        return false;
+    }
+
+    private static IEnumerator CoShowMap(HudManager hud, MapOptions options)
+    {
+        for (var i = 0; i < MaxFrames && Minigame.Instance; i++)
+            yield return null;
+
+        if (hud && !Minigame.Instance) hud.ToggleMapVisible(options);
+    }
+}
+
+/// <summary>
 ///     Parts of the lines of the meeting are drawn over the phone, whatever the depth and the sorting order (a
 ///     SortingGroup on the phone hid the texts of its panels): the lines are hidden while the Debug menu is open during a
 ///     meeting, shown again as soon as it starts closing.

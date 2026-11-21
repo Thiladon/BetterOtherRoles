@@ -215,6 +215,25 @@
   <string name="BetterOtherRoles.Option.RandomMap.FungleChance">The Fungle</string>
   <string name="BetterOtherRoles.Option.RandomMap.FunglePreset">The Fungle Preset</string>
   <string name="BetterOtherRoles.RandomMap.Chat.PresetMissing">Preset "{0}" not found: the settings of the lobby are kept.</string>
+  <!-- Random doors options (Options/Maps, Modules/Doors/BorRandomDoors) -->
+  <string name="BetterOtherRoles.Options.Groups.RandomDoors">Random Doors</string>
+  <string name="BetterOtherRoles.Option.RandomDoors.NoneChance">No Doors</string>
+  <string name="BetterOtherRoles.Option.RandomDoors.SkeldChance">The Skeld Doors</string>
+  <string name="BetterOtherRoles.Option.RandomDoors.PolusChance">Polus Doors</string>
+  <string name="BetterOtherRoles.Option.RandomDoors.AirshipChance">Airship Doors</string>
+  <string name="BetterOtherRoles.Option.RandomDoors.FungleChance">The Fungle Doors</string>
+
+  <!-- Doors and sabotages (Options/Maps/DoorRulesOptions, Modules/Doors/BorDoorRules) -->
+  <string name="BetterOtherRoles.Options.Groups.Doors">Doors and Sabotages</string>
+  <string name="BetterOtherRoles.Option.Doors.InitialCooldown">Sabotage and Doors Start Cooldown</string>
+  <string name="BetterOtherRoles.Option.Doors.ClosedDuration">Self-Opening Doors Closed For</string>
+  <string name="BetterOtherRoles.Option.Doors.Cooldown">Doors Cooldown</string>
+  <string name="BetterOtherRoles.Option.Doors.Mushrooms">Mushrooms To Hit (The Fungle Doors)</string>
+  <string name="BetterOtherRoles.Option.Doors.SabotageWithClosedDoors">Sabotage With Closed Doors</string>
+  <string name="BetterOtherRoles.Option.Doors.CloseDoorsDuringSabotage">Close Doors During A Sabotage</string>
+  <string name="BetterOtherRoles.Option.Doors.RuleByDoorType">By Door Type</string>
+  <string name="BetterOtherRoles.Option.Doors.RuleYes">Yes</string>
+  <string name="BetterOtherRoles.Option.Doors.RuleNo">No</string>
   <!-- Better Skeld options (Options/Maps) -->
   <string name="BetterOtherRoles.Options.Groups.BetterSkeld">Better Skeld</string>
   <string name="BetterOtherRoles.Option.BetterSkeld.Enabled">Enable Better Skeld</string>
@@ -262,6 +281,17 @@
   <string name="BetterOtherRoles.Setting.Sabotage.AirshipCrash">Crash Course (Airship)</string>
   <string name="BetterOtherRoles.Setting.Sabotage.FungleReactor">Reactor (The Fungle)</string>
   <string name="BetterOtherRoles.Setting.Sabotage.FungleMixup">Mushroom Mixup (The Fungle)</string>
+  <string name="BetterOtherRoles.Setting.Doors">Doors</string>
+  <string name="BetterOtherRoles.Setting.Doors.Skeld">Doors (The Skeld)</string>
+  <string name="BetterOtherRoles.Setting.Doors.Polus">Doors (Polus)</string>
+  <string name="BetterOtherRoles.Setting.Doors.Airship">Doors (Airship)</string>
+  <string name="BetterOtherRoles.Setting.Doors.Fungle">Doors (The Fungle)</string>
+  <string name="BetterOtherRoles.Setting.Doors.TypeSkeld">The Skeld</string>
+  <string name="BetterOtherRoles.Setting.Doors.TypePolus">Polus</string>
+  <string name="BetterOtherRoles.Setting.Doors.TypeAirship">Airship</string>
+  <string name="BetterOtherRoles.Setting.Doors.TypeFungle">The Fungle</string>
+  <string name="BetterOtherRoles.Setting.Doors.TypeNone">No Doors</string>
+  <string name="BetterOtherRoles.Setting.Doors.TypeRandom">Random</string>
   <string name="BetterOtherRoles.Option.Gameplay.FirstKillShield">Shield Last Game First Kill</string>
   <string name="BetterOtherRoles.Option.Gameplay.FirstKillShieldExpiry">Expire Shield After</string>
   <string name="BetterOtherRoles.Option.Gameplay.FirstKillShieldExpiryDuration">Duration</string>

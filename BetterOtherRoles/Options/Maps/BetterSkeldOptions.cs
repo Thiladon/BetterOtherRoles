@@ -13,7 +13,7 @@ public sealed class BetterSkeldOptions : AbstractOptionGroup
 {
     public override string GroupName => MiraLocaleManager.Get("BetterOtherRoles.Options.Groups.BetterSkeld", "Better Skeld");
 
-    public override uint GroupPriority => 8;
+    public override uint GroupPriority => 10;
 
     public BetterSkeldOptions()
     {

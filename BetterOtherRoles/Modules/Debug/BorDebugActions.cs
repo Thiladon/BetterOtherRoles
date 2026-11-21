@@ -403,8 +403,17 @@ public static class BorDebugActions
     {
         if (!ShipStatus.Instance) return;
 
+        // The game leaves the cooldown of the start of the game when its timer runs out (Deteriorate): ended the same
+        // way, or the next sabotage cooldown would be shown over 10 s instead of 30 s (black icons on the map).
         if (ShipStatus.Instance.Systems.TryGetValue(SystemTypes.Sabotage, out var sabotage))
-            sabotage.Cast<SabotageSystemType>().Timer = 0f;
+        {
+            var system = sabotage.Cast<SabotageSystemType>();
+            system.Timer = 0f;
+            system.initialCooldown = false;
+        }
+
+        // Doors of another map (BorDoors): their own system.
+        if (Doors.BorDoors.ResetCooldowns()) return;
 
         if (!ShipStatus.Instance.Systems.TryGetValue(SystemTypes.Doors, out var doors)) return;
 
