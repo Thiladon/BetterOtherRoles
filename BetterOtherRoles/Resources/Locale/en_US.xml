@@ -224,7 +224,7 @@
   <string name="BetterOtherRoles.Option.RandomDoors.FungleChance">The Fungle Doors</string>
 
   <!-- Doors and sabotages (Options/Maps/DoorRulesOptions, Modules/Doors/BorDoorRules) -->
-  <string name="BetterOtherRoles.Options.Groups.Doors">Doors and Sabotages</string>
+  <string name="BetterOtherRoles.Options.Groups.Doors">Doors</string>
   <string name="BetterOtherRoles.Option.Doors.InitialCooldown">Sabotage and Doors Start Cooldown</string>
   <string name="BetterOtherRoles.Option.Doors.ClosedDuration">Self-Opening Doors Closed For</string>
   <string name="BetterOtherRoles.Option.Doors.Cooldown">Doors Cooldown</string>
@@ -269,6 +269,26 @@
   <string name="BetterOtherRoles.Option.GameTweaks.RandomUploadPosition">Random Upload Position</string>
   <string name="BetterOtherRoles.Option.GameTweaks.NightVisionCams">Night Vision Cams When The Lights Are Off</string>
   <string name="BetterOtherRoles.Option.GameTweaks.ImpostorsIgnoreNightVision">Impostors Ignore Night Vision</string>
+  <string name="BetterOtherRoles.Options.Groups.Sabotages">Sabotages</string>
+  <string name="BetterOtherRoles.Option.Devices.LockAdmin">Lock Admin For Crewmates</string>
+  <string name="BetterOtherRoles.Option.Devices.TasksForAdmin">Tasks To Use Admin</string>
+  <string name="BetterOtherRoles.Option.Devices.RoundsForAdmin">Rounds Without Admin</string>
+  <string name="BetterOtherRoles.Option.Devices.LockCams">Lock Cams For Crewmates</string>
+  <string name="BetterOtherRoles.Option.Devices.TasksForCams">Tasks To Use Cams</string>
+  <string name="BetterOtherRoles.Option.Devices.RoundsForCams">Rounds Without Cams</string>
+  <string name="BetterOtherRoles.Option.Devices.LockDoorLog">Lock Door Log For Crewmates</string>
+  <string name="BetterOtherRoles.Option.Devices.TasksForDoorLog">Tasks To Use Door Log</string>
+  <string name="BetterOtherRoles.Option.Devices.RoundsForDoorLog">Rounds Without Door Log</string>
+  <string name="BetterOtherRoles.Option.Devices.LockVitals">Lock Vitals For Crewmates</string>
+  <string name="BetterOtherRoles.Option.Devices.TasksForVitals">Tasks To Use Vitals</string>
+  <string name="BetterOtherRoles.Option.Devices.RoundsForVitals">Rounds Without Vitals</string>
+  <string name="BetterOtherRoles.DeviceLock.Rounds">Available from round {0}.</string>
+  <string name="BetterOtherRoles.DeviceLock.Tasks">{0} more tasks to use {1}.</string>
+  <string name="BetterOtherRoles.DeviceLock.TaskSingle">{0} more task to use {1}.</string>
+  <string name="BetterOtherRoles.DeviceLock.Admin">the admin table</string>
+  <string name="BetterOtherRoles.DeviceLock.Cams">the cams</string>
+  <string name="BetterOtherRoles.DeviceLock.DoorLog">the door log</string>
+  <string name="BetterOtherRoles.DeviceLock.Vitals">the vitals</string>
   <string name="BetterOtherRoles.Setting.KillDistanceVeryShort">Very Short</string>
   <string name="BetterOtherRoles.Setting.Instant">Instant</string>
   <string name="BetterOtherRoles.Setting.KillStartCooldown">Kill Start Cooldown</string>

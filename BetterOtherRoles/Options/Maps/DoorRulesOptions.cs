@@ -11,7 +11,7 @@ namespace BetterOtherRoles.Options.Maps;
 /// </summary>
 public sealed class DoorRulesOptions : AbstractOptionGroup
 {
-    public override string GroupName => MiraLocaleManager.Get("BetterOtherRoles.Options.Groups.Doors", "Doors and Sabotages");
+    public override string GroupName => MiraLocaleManager.Get("BetterOtherRoles.Options.Groups.Doors", "Doors");
 
     public override uint GroupPriority => 8;
 

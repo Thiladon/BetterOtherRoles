@@ -292,7 +292,7 @@
   <string name="BetterOtherRoles.Option.RandomDoors.FungleChance">Portes de The Fungle</string>
 
   <!-- Portes et sabotages (Options/Maps/DoorRulesOptions, Modules/Doors/BorDoorRules) -->
-  <string name="BetterOtherRoles.Options.Groups.Doors">Portes et sabotages</string>
+  <string name="BetterOtherRoles.Options.Groups.Doors">Portes</string>
   <string name="BetterOtherRoles.Option.Doors.InitialCooldown">Délai de départ des sabotages et portes</string>
   <string name="BetterOtherRoles.Option.Doors.ClosedDuration">Fermeture des portes automatiques</string>
   <string name="BetterOtherRoles.Option.Doors.Cooldown">Délai avant de refermer les portes</string>
@@ -337,6 +337,26 @@
   <string name="BetterOtherRoles.Option.GameTweaks.RandomUploadPosition">Upload au hasard</string>
   <string name="BetterOtherRoles.Option.GameTweaks.NightVisionCams">Caméras en vision nocturne quand les lumières sont coupées</string>
   <string name="BetterOtherRoles.Option.GameTweaks.ImpostorsIgnoreNightVision">Les imposteurs ignorent la vision nocturne</string>
+  <string name="BetterOtherRoles.Options.Groups.Sabotages">Sabotages</string>
+  <string name="BetterOtherRoles.Option.Devices.LockAdmin">Admin bloquée pour l'équipage</string>
+  <string name="BetterOtherRoles.Option.Devices.TasksForAdmin">Tâches pour l'admin</string>
+  <string name="BetterOtherRoles.Option.Devices.RoundsForAdmin">Manches sans l'admin</string>
+  <string name="BetterOtherRoles.Option.Devices.LockCams">Caméras bloquées pour l'équipage</string>
+  <string name="BetterOtherRoles.Option.Devices.TasksForCams">Tâches pour les caméras</string>
+  <string name="BetterOtherRoles.Option.Devices.RoundsForCams">Manches sans les caméras</string>
+  <string name="BetterOtherRoles.Option.Devices.LockDoorLog">Journal des portes bloqué pour l'équipage</string>
+  <string name="BetterOtherRoles.Option.Devices.TasksForDoorLog">Tâches pour le journal des portes</string>
+  <string name="BetterOtherRoles.Option.Devices.RoundsForDoorLog">Manches sans le journal des portes</string>
+  <string name="BetterOtherRoles.Option.Devices.LockVitals">Signes vitaux bloqués pour l'équipage</string>
+  <string name="BetterOtherRoles.Option.Devices.TasksForVitals">Tâches pour les signes vitaux</string>
+  <string name="BetterOtherRoles.Option.Devices.RoundsForVitals">Manches sans les signes vitaux</string>
+  <string name="BetterOtherRoles.DeviceLock.Rounds">Disponible dès la manche {0}.</string>
+  <string name="BetterOtherRoles.DeviceLock.Tasks">Encore {0} tâches pour utiliser {1}.</string>
+  <string name="BetterOtherRoles.DeviceLock.TaskSingle">Encore {0} tâche pour utiliser {1}.</string>
+  <string name="BetterOtherRoles.DeviceLock.Admin">la table d'admin</string>
+  <string name="BetterOtherRoles.DeviceLock.Cams">les caméras</string>
+  <string name="BetterOtherRoles.DeviceLock.DoorLog">le journal des portes</string>
+  <string name="BetterOtherRoles.DeviceLock.Vitals">les signes vitaux</string>
   <string name="BetterOtherRoles.Setting.KillDistanceVeryShort">Très courte</string>
   <string name="BetterOtherRoles.Setting.Instant">Instantané</string>
   <string name="BetterOtherRoles.Setting.KillStartCooldown">Délai de départ du kill</string>
