@@ -28,6 +28,7 @@ public static class SettingsScrollMemoryPatches
     private static readonly MethodInfo? OpenRole = AccessTools.Method(typeof(RoleSettingMenuPatches), "ChangeTab", [typeof(RoleBehaviour), typeof(RolesSettingsMenu)]);
     private static readonly PropertyInfo? GroupHidden = AccessTools.Property(typeof(AbstractOptionGroup), "AllOptionsHidden");
     private static readonly PropertyInfo? GroupHeader = AccessTools.Property(typeof(AbstractOptionGroup), "Header");
+    private static readonly PropertyInfo? GroupReady = AccessTools.Property(typeof(AbstractOptionGroup), "Ready");
 
     // Frames without any text change before a page is taken as built, and the most frames waited.
     private const int StableFrames = 3;
@@ -91,9 +92,33 @@ public static class SettingsScrollMemoryPatches
             if (!menu) yield break;
 
             var current = SettingsMenuHider.GetLayout(menu.transform);
-            stable = current == layout ? stable + 1 : 0;
+            stable = current == layout && IsPageBuilt(menu) ? stable + 1 : 0;
             layout = current;
         }
+    }
+
+    /// <summary>
+    ///     Gets whether MiraAPI has built every group of the game page of a mod: they are built one after the other
+    ///     over several frames, a closed group shows nothing new, so the texts alone may stop changing too soon (the
+    ///     scroll bounds of the page not set yet). A group is built when its header of this menu exists and it is ready
+    ///     (not ready again from the start of its building).
+    /// </summary>
+    /// <param name="menu">The menu.</param>
+    /// <returns>True when built, or for another page.</returns>
+    internal static bool IsPageBuilt(GameSettingMenu menu)
+    {
+        var state = menu.GetComponent<MenuState>();
+        if (!state || state!.CurrentModIdx == 0 || state.CurrentMenu != MenuCategory.Game || GroupHeader == null || GroupReady == null) return true;
+
+        foreach (var group in state.CurrentMod.OptionGroups)
+        {
+            if (group.OptionableType != null || group.ParentMenu != MenuCategory.Game) continue;
+
+            var header = GroupHeader.GetValue(group) as CategoryHeaderMasked;
+            if (!header || GroupReady.GetValue(group) is not true) return false;
+        }
+
+        return true;
     }
 
     // Role of a mod whose page is opened (MiraAPI), or none: list of the roles, or roles of the game.

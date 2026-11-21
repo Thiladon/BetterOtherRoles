@@ -69,6 +69,22 @@ public static class SettingsLastPagePatches
     }
 
     /// <summary>
+    ///     Escape closes the menu at the first press: the key switches the game to the controller mode, which then skips
+    ///     the inputs for a few frames (ControllerManager.frameDelaySinceInputChanged), this one included.
+    /// </summary>
+    [HarmonyPatch(typeof(GameSettingMenu), "Update")]
+    [HarmonyPostfix]
+    public static void UpdatePostfix(GameSettingMenu __instance)
+    {
+        if (!Input.GetKeyDown(KeyCode.Escape) || !ControllerManager.Instance) return;
+
+        if (ControllerManager.Instance.frameDelaySinceInputChanged <= 0) return;
+
+        var back = __instance.BackButton ? __instance.BackButton.GetComponent<PassiveButton>() : null;
+        if (back) back!.ReceiveClickDown();
+    }
+
+    /// <summary>
     ///     Applies the last page and records it as the current one.
     /// </summary>
     internal static void Restore(GameSettingMenu menu, int modIndex, MenuCategory page)
@@ -127,6 +143,8 @@ public sealed class SettingsMenuHider(nint cppPtr) : MonoBehaviour(cppPtr)
 
     private static readonly HashSet<string> WarnedNames = [];
 
+    private Transform? _background;
+    private Vector3 _backgroundPosition;
     private int _frame;
     private int _modIndex;
     private MenuCategory _page;
@@ -155,8 +173,11 @@ public sealed class SettingsMenuHider(nint cppPtr) : MonoBehaviour(cppPtr)
         _layout = 0;
         _stable = 0;
         _position = transform.localPosition;
-        transform.localPosition = _position + HiddenOffset;
+        _background = transform.Find(BackgroundName);
+        if (_background) _backgroundPosition = _background!.localPosition;
+
         _hiding = true;
+        Hide();
         SettingsLastPagePatches.IsOpening = restore;
         enabled = true;
     }
@@ -192,13 +213,13 @@ public sealed class SettingsMenuHider(nint cppPtr) : MonoBehaviour(cppPtr)
             }
         }
 
-        // Built once the texts (count and places) stop changing.
+        // Built once the groups of MiraAPI are all built and the texts (count and places) stop changing.
         var layout = GetLayout();
-        _stable = layout == _layout ? _stable + 1 : 0;
+        _stable = layout == _layout && SettingsScrollMemoryPatches.IsPageBuilt(GetComponent<GameSettingMenu>()) ? _stable + 1 : 0;
         _layout = layout;
         if (_frame <= RestoreFrame || (_stable < StableFrames && _frame < MaxFrame))
         {
-            transform.localPosition = _position + HiddenOffset;
+            Hide();
             return;
         }
 
@@ -210,7 +231,7 @@ public sealed class SettingsMenuHider(nint cppPtr) : MonoBehaviour(cppPtr)
             {
                 _stable = 0;
                 _frame = Math.Min(_frame, MaxFrame / 2);
-                transform.localPosition = _position + HiddenOffset;
+                Hide();
                 return;
             }
         }
@@ -225,6 +246,7 @@ public sealed class SettingsMenuHider(nint cppPtr) : MonoBehaviour(cppPtr)
         _hiding = false;
         SettingsLastPagePatches.IsOpening = false;
         transform.localPosition = _position;
+        if (_background) _background!.localPosition = _backgroundPosition;
 
         // The window parts listed slide, the starry background stays.
         _sliding.Clear();
@@ -261,6 +283,16 @@ public sealed class SettingsMenuHider(nint cppPtr) : MonoBehaviour(cppPtr)
             Show();
     }
 
+    // Menu out of the screen, its starry background kept in place (shown from the start of the opening).
+    private void Hide()
+    {
+        transform.localPosition = _position + HiddenOffset;
+        if (!_background) return;
+
+        var offset = transform.parent ? transform.parent.TransformVector(HiddenOffset) : HiddenOffset;
+        _background!.localPosition = _backgroundPosition - transform.InverseTransformVector(offset);
+    }
+
     private int GetLayout() => GetLayout(transform);
 
     /// <summary>
@@ -295,6 +327,8 @@ public sealed class SettingsMenuHider(nint cppPtr) : MonoBehaviour(cppPtr)
         _slideTime = -1f;
         SettingsLastPagePatches.IsOpening = false;
         transform.localPosition = _position;
+        if (_background) _background!.localPosition = _backgroundPosition;
+
         foreach (var (part, position) in _sliding)
         {
             if (part)
