@@ -135,12 +135,19 @@ public sealed class SettingsMenuHider(nint cppPtr) : MonoBehaviour(cppPtr)
     private int _layout;
     private int _stable;
     private bool _restore;
+    private bool _rolePageDone;
     private float _slideTime = -1f;
     private readonly List<(Transform Part, Vector3 Position)> _sliding = [];
+
+    /// <summary>
+    ///     Gets a value indicating whether the menu is hidden while it opens (its page not built yet).
+    /// </summary>
+    public bool IsHiding => _hiding;
 
     public void Begin(bool restore, int modIndex, MenuCategory page)
     {
         _restore = restore;
+        _rolePageDone = false;
         _slideTime = -1f;
         _modIndex = modIndex;
         _page = page;
@@ -195,11 +202,26 @@ public sealed class SettingsMenuHider(nint cppPtr) : MonoBehaviour(cppPtr)
             return;
         }
 
+        // Page built: the page of the role opened before (SettingsScrollMemoryPatches), then hidden while it builds.
+        if (!_rolePageDone)
+        {
+            _rolePageDone = true;
+            if (SettingsScrollMemoryPatches.OpenRolePage(GetComponent<GameSettingMenu>()))
+            {
+                _stable = 0;
+                _frame = Math.Min(_frame, MaxFrame / 2);
+                transform.localPosition = _position + HiddenOffset;
+                return;
+            }
+        }
+
         StartSlide();
     }
 
     private void StartSlide()
     {
+        // Page built: its last scroll position (SettingsScrollMemoryPatches).
+        SettingsScrollMemoryPatches.RestoreEdit(GetComponent<GameSettingMenu>());
         _hiding = false;
         SettingsLastPagePatches.IsOpening = false;
         transform.localPosition = _position;
@@ -239,13 +261,20 @@ public sealed class SettingsMenuHider(nint cppPtr) : MonoBehaviour(cppPtr)
             Show();
     }
 
-    // Places relative to the menu, the same once it is moved back.
-    private int GetLayout()
+    private int GetLayout() => GetLayout(transform);
+
+    /// <summary>
+    ///     Gets a value changing with the texts shown in the menu (count, places relative to the menu, lengths): the
+    ///     menu is built once it stops changing.
+    /// </summary>
+    /// <param name="menu">The menu.</param>
+    /// <returns>The value.</returns>
+    internal static int GetLayout(Transform menu)
     {
         var hash = 17;
-        foreach (var text in GetComponentsInChildren<TMPro.TextMeshPro>())
+        foreach (var text in menu.GetComponentsInChildren<TMPro.TextMeshPro>())
         {
-            var position = transform.InverseTransformPoint(text.transform.position);
+            var position = menu.InverseTransformPoint(text.transform.position);
             hash = (hash * 31) + Mathf.RoundToInt(position.x * 100f);
             hash = (hash * 31) + Mathf.RoundToInt(position.y * 100f);
             hash = (hash * 31) + (text.text?.Length ?? 0);
