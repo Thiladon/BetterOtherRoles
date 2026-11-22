@@ -44,6 +44,13 @@ public static class BorVentLinks
     }
 
     /// <summary>
+    ///     Gets the exits added to a vent, after its Left, Right and Center.
+    /// </summary>
+    /// <param name="vent">The vent.</param>
+    /// <returns>The vents it leads to, empty for none.</returns>
+    public static IReadOnlyList<Vent> AddedExits(Vent vent) => Added.TryGetValue(vent.Id, out var exits) ? exits : [];
+
+    /// <summary>
     ///     The map destroyed: the links are forgotten.
     /// </summary>
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.OnDestroy))]

@@ -448,6 +448,8 @@ Install the same version as the host.</string>
   <string name="BetterOtherRoles.LocalSettings.CooldownDisplay.Whole">Whole Seconds</string>
   <string name="BetterOtherRoles.LocalSettings.CooldownDisplay.DecimalsUnder10">Decimals Under 10 s</string>
   <string name="BetterOtherRoles.LocalSettings.CooldownDisplay.Decimals">Decimals Everywhere</string>
+  <string name="BetterOtherRoles.LocalSettings.ShowVentsOnMap">Vents On The Map</string>
+  <string name="BetterOtherRoles.LocalSettings.ShowVentsOnMapDescription">Shows the vents on the map, in the color of their network: the vents of the same color lead to each other.</string>
   <string name="BetterOtherRoles.LocalSettings.AutoCams">Automatic Cams</string>
   <string name="BetterOtherRoles.LocalSettings.AutoCamsDescription">The cams go to the next camera (Polus, Airship) or the next page (The Skeld with more than four cams) by themselves. The left and right move keys (Remap Controls) change it by hand.</string>
   <string name="BetterOtherRoles.LocalSettings.AutoCamsDelay">Automatic Cams Delay</string>

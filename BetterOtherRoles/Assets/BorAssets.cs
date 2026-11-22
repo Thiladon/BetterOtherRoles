@@ -16,6 +16,9 @@ public static class BorAssets
     private const float ButtonPixelsPerUnit = 115f;
     private const float MenuPixelsPerUnit = 100f;
 
+    // Vent on the map, white to be tinted with the color of its network (BetterOtherRoles 1.7.1, 150 pixels per unit).
+    public static LoadableAsset<Sprite> MapVent { get; } = new LoadableResourceAsset("BetterOtherRoles.Resources.Map.Vent.png", 150f);
+
     public static LoadableAsset<Sprite> DeputyHandcuffButton { get; } =
         new LoadableResourceAsset(ButtonsPath + "DeputyHandcuffButton.png", ButtonPixelsPerUnit);
 

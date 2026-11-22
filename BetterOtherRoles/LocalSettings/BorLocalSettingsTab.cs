@@ -226,6 +226,17 @@ public class BorLocalSettingsTab(ConfigFile config) : LocalSettingsTab(config)
         "How the button cooldowns are shown: whole seconds, tenths under 10 s, or tenths everywhere.");
 
     /// <summary>
+    ///     Gets whether the vents are shown on the map, in the color of their network (BetterOtherRoles 1.7.1
+    ///     ShowVentsOnMap, <see cref="Patches.Misc.MapVentsPatches"/>).
+    /// </summary>
+    [LocalToggleSetting("BetterOtherRoles.LocalSettings.ShowVentsOnMap", "BetterOtherRoles.LocalSettings.ShowVentsOnMapDescription")]
+    public ConfigEntry<bool> ShowVentsOnMap { get; private set; } = config.Bind(
+        "BetterOtherRoles.LocalSettings.Interface",
+        "ShowVentsOnMap",
+        true,
+        "Shows the vents on the map, in the color of their network.");
+
+    /// <summary>
     ///     Gets whether the cams go to the next camera (Polus, Airship) or the next page of four (The Skeld with more than
     ///     four cams) by themselves (BetterOtherRoles 1.7.1, <see cref="Patches.Misc.CamPagingPatches"/>).
     /// </summary>

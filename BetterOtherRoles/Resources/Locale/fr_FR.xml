@@ -516,6 +516,8 @@ Installe la même version que l'hôte.</string>
   <string name="BetterOtherRoles.LocalSettings.CooldownDisplay.Whole">Entiers</string>
   <string name="BetterOtherRoles.LocalSettings.CooldownDisplay.DecimalsUnder10">Décimales sous 10 s</string>
   <string name="BetterOtherRoles.LocalSettings.CooldownDisplay.Decimals">Décimales partout</string>
+  <string name="BetterOtherRoles.LocalSettings.ShowVentsOnMap">Ventilations sur la carte</string>
+  <string name="BetterOtherRoles.LocalSettings.ShowVentsOnMapDescription">Affiche les ventilations sur la carte, dans la couleur de leur réseau : les ventilations d'une même couleur mènent les unes aux autres.</string>
   <string name="BetterOtherRoles.LocalSettings.AutoCams">Caméras automatiques</string>
   <string name="BetterOtherRoles.LocalSettings.AutoCamsDescription">Les caméras passent seules à la caméra suivante (Polus, Airship) ou à la page suivante (The Skeld avec plus de quatre caméras). Les touches de déplacement gauche et droite (Remap Controls) la changent à la main.</string>
   <string name="BetterOtherRoles.LocalSettings.AutoCamsDelay">Délai des caméras automatiques</string>
