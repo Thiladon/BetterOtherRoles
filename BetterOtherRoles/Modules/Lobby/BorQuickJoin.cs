@@ -2,6 +2,7 @@ using AmongUs.Data;
 using HarmonyLib;
 using InnerNet;
 using MiraAPI.Translation;
+using Rewired;
 using TMPro;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -9,14 +10,15 @@ using Object = UnityEngine.Object;
 namespace BetterOtherRoles.Modules.Lobby;
 
 /// <summary>
-///     Previous lobby joined again with Tab (TOU-Mira 1.7.9 QuickJoinPatch, without its region display): the last lobby
-///     joined (host included) is kept for the session, and the "Enter Code" screen shows it on the right, Tab trying to
-///     join it once per opening of the screen. Hidden code in streamer mode.
+///     Previous lobby joined again with Tab, or Start on a gamepad (TOU-Mira 1.7.9 QuickJoinPatch, without its region
+///     display): the last lobby joined (host included) is kept for the session, and the "Enter Code" screen shows it on
+///     the right, Tab or Start trying to join it once per opening of the screen. Hidden code in streamer mode.
 /// </summary>
 [HarmonyPatch]
 public static class BorQuickJoin
 {
     private const string PanelName = "BorPreviousLobby";
+    private const string PauseAction = "Pause";
 
     // Last lobby joined in this session, 0 for none.
     private static int _gameId;
@@ -58,7 +60,7 @@ public static class BorQuickJoin
     {
         if (_gameId == 0 || !_panel || !_panel!.activeInHierarchy || !_text) return;
 
-        if (Input.GetKeyDown(KeyCode.Tab) && !_joinAttempted)
+        if (JoinPressed() && !_joinAttempted)
         {
             _joinAttempted = true;
             AmongUsClient.Instance.StartCoroutine(AmongUsClient.Instance.CoFindGameInfoFromCodeAndJoin(_gameId));
@@ -67,9 +69,26 @@ public static class BorQuickJoin
         var code = DataManager.Settings.Gameplay.StreamerMode ? "******" : GameCode.IntToGameName(_gameId);
         var text = $"<size=110%>{MiraLocaleManager.Get("BetterOtherRoles.QuickJoin.Previous", "Previous lobby:")}</size>\n" +
                    $"<size=4.6>{code}</size>\n" +
-                   $"<size=2.6>{MiraLocaleManager.Get(_joinAttempted ? "BetterOtherRoles.QuickJoin.Joining" : "BetterOtherRoles.QuickJoin.PressTab", "Press Tab to join it")}</size>";
+                   $"<size=2.6>{MiraLocaleManager.Get(HintKey(), "Press Tab to join it")}</size>";
         if (_text!.text != text)
             _text.text = text;
+    }
+
+    // Tab on the keyboard, Start on a gamepad (Pause in Rewired, category 0: always on, also in the menus).
+    private static bool JoinPressed()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab)) return true;
+
+        return ReInput.isReady && ReInput.players.GetPlayer(0).GetButtonDown(PauseAction);
+    }
+
+    // The key of the input used last: Start once the gamepad is used, Tab with the keyboard or the mouse.
+    private static string HintKey()
+    {
+        if (_joinAttempted) return "BetterOtherRoles.QuickJoin.Joining";
+        if (ActiveInputManager.currentControlType == ActiveInputManager.InputType.Joystick) return "BetterOtherRoles.QuickJoin.PressStart";
+
+        return "BetterOtherRoles.QuickJoin.PressTab";
     }
 
     // Copy of the screen header, on the right of the code field (place and sizes of TOU-Mira 1.7.9).

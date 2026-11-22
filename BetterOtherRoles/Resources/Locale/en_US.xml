@@ -448,8 +448,12 @@ Install the same version as the host.</string>
   <string name="BetterOtherRoles.LocalSettings.CooldownDisplay.Whole">Whole Seconds</string>
   <string name="BetterOtherRoles.LocalSettings.CooldownDisplay.DecimalsUnder10">Decimals Under 10 s</string>
   <string name="BetterOtherRoles.LocalSettings.CooldownDisplay.Decimals">Decimals Everywhere</string>
+  <string name="BetterOtherRoles.LocalSettings.AutoCams">Automatic Cams</string>
+  <string name="BetterOtherRoles.LocalSettings.AutoCamsDescription">The cams go to the next camera (Polus, Airship) or the next page (The Skeld with more than four cams) by themselves. The left and right move keys (Remap Controls) change it by hand.</string>
+  <string name="BetterOtherRoles.LocalSettings.AutoCamsDelay">Automatic Cams Delay</string>
   <string name="BetterOtherRoles.Lobby.CodeCopied">Lobby code copied: {0}</string>
   <string name="BetterOtherRoles.QuickJoin.Previous">Previous lobby:</string>
   <string name="BetterOtherRoles.QuickJoin.PressTab">Press Tab to join it</string>
+  <string name="BetterOtherRoles.QuickJoin.PressStart">Press Start to join it</string>
   <string name="BetterOtherRoles.QuickJoin.Joining">Joining…</string>
 </resources>

@@ -224,6 +224,34 @@ public class BorLocalSettingsTab(ConfigFile config) : LocalSettingsTab(config)
         "CooldownDisplay",
         LocalSettings.CooldownDisplay.DecimalsUnder10,
         "How the button cooldowns are shown: whole seconds, tenths under 10 s, or tenths everywhere.");
+
+    /// <summary>
+    ///     Gets whether the cams go to the next camera (Polus, Airship) or the next page of four (The Skeld with more than
+    ///     four cams) by themselves (BetterOtherRoles 1.7.1, <see cref="Patches.Misc.CamPagingPatches"/>).
+    /// </summary>
+    [LocalToggleSetting("BetterOtherRoles.LocalSettings.AutoCams", "BetterOtherRoles.LocalSettings.AutoCamsDescription")]
+    public ConfigEntry<bool> AutoCams { get; private set; } = config.Bind(
+        "BetterOtherRoles.LocalSettings.Interface",
+        "AutoCams",
+        false,
+        "The cams go to the next camera or page by themselves.");
+
+    /// <summary>
+    ///     Gets the delay before the cams go to the next camera or page, in seconds.
+    /// </summary>
+    [LocalSliderSetting(
+        "BetterOtherRoles.LocalSettings.AutoCamsDelay",
+        2f,
+        10f,
+        displayValue: true,
+        formatString: "0",
+        roundValue: true,
+        suffixType: MiraNumberSuffixes.Seconds)]
+    public ConfigEntry<float> AutoCamsDelay { get; private set; } = config.Bind(
+        "BetterOtherRoles.LocalSettings.Interface",
+        "AutoCamsDelay",
+        3f,
+        "Delay before the cams go to the next camera or page, in seconds (2 to 10).");
 }
 
 /// <summary>

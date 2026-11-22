@@ -516,8 +516,12 @@ Installe la même version que l'hôte.</string>
   <string name="BetterOtherRoles.LocalSettings.CooldownDisplay.Whole">Entiers</string>
   <string name="BetterOtherRoles.LocalSettings.CooldownDisplay.DecimalsUnder10">Décimales sous 10 s</string>
   <string name="BetterOtherRoles.LocalSettings.CooldownDisplay.Decimals">Décimales partout</string>
+  <string name="BetterOtherRoles.LocalSettings.AutoCams">Caméras automatiques</string>
+  <string name="BetterOtherRoles.LocalSettings.AutoCamsDescription">Les caméras passent seules à la caméra suivante (Polus, Airship) ou à la page suivante (The Skeld avec plus de quatre caméras). Les touches de déplacement gauche et droite (Remap Controls) la changent à la main.</string>
+  <string name="BetterOtherRoles.LocalSettings.AutoCamsDelay">Délai des caméras automatiques</string>
   <string name="BetterOtherRoles.Lobby.CodeCopied">Code du salon copié : {0}</string>
   <string name="BetterOtherRoles.QuickJoin.Previous">Salon précédent :</string>
   <string name="BetterOtherRoles.QuickJoin.PressTab">Appuie sur Tab pour le rejoindre</string>
+  <string name="BetterOtherRoles.QuickJoin.PressStart">Appuie sur Start pour le rejoindre</string>
   <string name="BetterOtherRoles.QuickJoin.Joining">Connexion…</string>
 </resources>
