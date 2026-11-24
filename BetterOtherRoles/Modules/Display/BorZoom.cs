@@ -1,4 +1,5 @@
 using BetterOtherRoles.Assets;
+using BetterOtherRoles.Modules.Debug;
 using BetterOtherRoles.Modules.Roles;
 using BetterOtherRoles.Options;
 using BetterOtherRoles.Patches.Misc;
@@ -44,13 +45,13 @@ public static class BorZoom
     // zoom of the player and is left alone.
     private static Camera? _zoomedCamera;
 
-    // Dead in a game, meetings included.
+    // Dead in a game (or alive with the zoom of the Debug menu), meetings included.
     private static bool IsDeadInGame
     {
         get
         {
             var player = PlayerControl.LocalPlayer;
-            return player && player.Data && player.Data.IsDead && ShipStatus.Instance &&
+            return player && player.Data && (player.Data.IsDead || BorDebugView.AliveZoom) && ShipStatus.Instance &&
                    AmongUsClient.Instance && AmongUsClient.Instance.GameState == InnerNetClient.GameStates.Started;
         }
     }
@@ -60,7 +61,7 @@ public static class BorZoom
 
     // With the option, a dead player zooms out once its tasks are done (none for an impostor).
     private static bool MayZoom =>
-        IsDeadInGame && (!OptionGroupSingleton<GhostOptions>.Instance.FinishTasksBeforeZoom.Value || BorTaskInfo.AreDone(PlayerControl.LocalPlayer));
+        IsDeadInGame && (BorDebugView.AliveZoom || !OptionGroupSingleton<GhostOptions>.Instance.FinishTasksBeforeZoom.Value || BorTaskInfo.AreDone(PlayerControl.LocalPlayer));
 
     private static bool CanZoomOut => IsAllowedNow && MayZoom;
 

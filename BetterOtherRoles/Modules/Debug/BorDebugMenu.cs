@@ -50,7 +50,7 @@ public static class BorDebugMenu
         // The haunt menu of a dead player gives way to the debug menu, any other minigame keeps it closed.
         if (HauntMenuButtonsPatches.IsHauntMenuOpen)
             Minigame.Instance.Close();
-        else if (Minigame.Instance)
+        else if (Minigame.Instance || IsOtherMenuOpen())
             return;
 
         PlayerControl.LocalPlayer.NetTransform.Halt();
@@ -69,9 +69,22 @@ public static class BorDebugMenu
             Does(Text("EndMeeting", "End the meeting"), ActionColor, BorDebugActions.EndMeeting),
             Opens(Text("TeleportTo", "Go to a player"), ActionColor, m => m.Show(Players(IsOtherAlive, (_, x) => BorDebugActions.Teleport(PlayerControl.LocalPlayer, x)))),
             Opens(Text("Bring", "Bring a player"), ActionColor, m => m.Show(Players(IsOtherAlive, (_, x) => BorDebugActions.Teleport(x, PlayerControl.LocalPlayer)))),
+            Does(BorDebugView.Invisible ? Text("Visible", "Become visible") : Text("Invisible", "Become invisible"), ActionColor, BorDebugView.ToggleInvisible),
+            Does(BorDebugView.HideHud ? Text("ShowHud", "Show the interface") : Text("HideHud", "Hide the interface"), ActionColor, BorDebugView.ToggleHud),
+            Does(BorDebugView.FullVision ? Text("NormalVision", "Normal vision") : Text("FullVision", "Full vision"), ActionColor, BorDebugView.ToggleFullVision),
+            Does(BorDebugView.NoClip ? Text("Collisions", "Walls back") : Text("NoClip", "Through the walls"), ActionColor, BorDebugView.ToggleNoClip),
+            Does(BorDebugView.AliveZoom ? Text("NoAliveZoom", "No zoom while alive") : Text("AliveZoom", "Zoom while alive"), ActionColor, BorDebugView.ToggleAliveZoom),
             Does(Text("EndCrewmates", "End: crewmates win"), Palette.CrewmateBlue, () => BorDebugActions.EndGame(GameOverReason.CrewmatesByVote)),
             Does(Text("EndImpostors", "End: impostors win"), Palette.ImpostorRed, () => BorDebugActions.EndGame(GameOverReason.ImpostorsByKill)),
         ]);
+    }
+
+    // Settings menu, chat, map or role guide open: the keybind does not open the Debug menu over them.
+    private static bool IsOtherMenuOpen()
+    {
+        var hud = HudManager.Instance;
+        return (hud && hud.GameMenu && hud.GameMenu.IsOpen) || (hud && hud.Chat && hud.Chat.IsOpenOrOpening) ||
+               (MapBehaviour.Instance && MapBehaviour.Instance.IsOpen) || (MatchInfoGuide.Instance && MatchInfoGuide.Instance.IsActive);
     }
 
     private static BorPhoneMenu.Entry Opens(string text, Color color, Action<BorPhoneMenu> show) => new(text, color, show, Opens: true);

@@ -26,6 +26,16 @@
   <string name="BetterOtherRoles.Debug.Menu.EndMeeting">End the meeting</string>
   <string name="BetterOtherRoles.Debug.Menu.TeleportTo">Go to a player</string>
   <string name="BetterOtherRoles.Debug.Menu.Bring">Bring a player</string>
+  <string name="BetterOtherRoles.Debug.Menu.Invisible">Become invisible</string>
+  <string name="BetterOtherRoles.Debug.Menu.Visible">Become visible</string>
+  <string name="BetterOtherRoles.Debug.Menu.HideHud">Hide the interface</string>
+  <string name="BetterOtherRoles.Debug.Menu.ShowHud">Show the interface</string>
+  <string name="BetterOtherRoles.Debug.Menu.FullVision">Full vision</string>
+  <string name="BetterOtherRoles.Debug.Menu.NormalVision">Normal vision</string>
+  <string name="BetterOtherRoles.Debug.Menu.NoClip">Through the walls</string>
+  <string name="BetterOtherRoles.Debug.Menu.Collisions">Walls back</string>
+  <string name="BetterOtherRoles.Debug.Menu.AliveZoom">Zoom while alive</string>
+  <string name="BetterOtherRoles.Debug.Menu.NoAliveZoom">No zoom while alive</string>
   <string name="BetterOtherRoles.Debug.Menu.EndCrewmates">End: crewmates win</string>
   <string name="BetterOtherRoles.Debug.Menu.EndImpostors">End: impostors win</string>
   <string name="BetterOtherRoles.Admin.Chat.Welcome">Admin ({0}) detected in the lobby, welcome {0}</string>
