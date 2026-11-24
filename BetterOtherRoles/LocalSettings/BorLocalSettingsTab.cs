@@ -198,6 +198,17 @@ public class BorLocalSettingsTab(ConfigFile config) : LocalSettingsTab(config)
         "Once dead, you keep the tab of your role under the task list.");
 
     /// <summary>
+    ///     Gets whether the dead see all the players on the map, the dead ones faded, except the dead impostors
+    ///     (BetterOtherRoles 1.7.1, <see cref="Patches.Misc.MapGhostPatches"/>).
+    /// </summary>
+    [LocalToggleSetting("BetterOtherRoles.LocalSettings.GhostsSeePlayersOnMap", "BetterOtherRoles.LocalSettings.GhostsSeePlayersOnMapDescription")]
+    public ConfigEntry<bool> GhostsSeePlayersOnMap { get; private set; } = config.Bind(
+        "BetterOtherRoles.LocalSettings.Ghosts",
+        "GhostsSeePlayersOnMap",
+        true,
+        "Once dead, you see all the players on the map (not for the dead impostors).");
+
+    /// <summary>
     ///     Gets whether the FPS counter is shown (TOU-Mira 1.7.9 ShowFpsCounter, <see cref="Modules.Display.BorFpsCounter"/>).
     /// </summary>
     [LocalToggleSetting("BetterOtherRoles.LocalSettings.ShowFps", "BetterOtherRoles.LocalSettings.ShowFpsDescription")]
