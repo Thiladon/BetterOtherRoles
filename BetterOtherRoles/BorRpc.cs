@@ -29,4 +29,7 @@ public enum BorRpc : uint
     MeetingSeed,
     RandomDoors,
     DoorOpen,
+    SpawnRooms,
+    SpawnChosen,
+    SpawnPlaceAll,
 }

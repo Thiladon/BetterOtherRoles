@@ -73,7 +73,7 @@ public static class BorDebugMenu
             Does(BorDebugView.HideHud ? Text("ShowHud", "Show the interface") : Text("HideHud", "Hide the interface"), ActionColor, BorDebugView.ToggleHud),
             Does(BorDebugView.FullVision ? Text("NormalVision", "Normal vision") : Text("FullVision", "Full vision"), ActionColor, BorDebugView.ToggleFullVision),
             Does(BorDebugView.NoClip ? Text("Collisions", "Walls back") : Text("NoClip", "Through the walls"), ActionColor, BorDebugView.ToggleNoClip),
-            Does(BorDebugView.AliveZoom ? Text("NoAliveZoom", "No zoom while alive") : Text("AliveZoom", "Zoom while alive"), ActionColor, BorDebugView.ToggleAliveZoom),
+            Does(Text("NotePosition", "Note my position"), ActionColor, BorDebugPosition.Note),            Does(BorDebugView.AliveZoom ? Text("NoAliveZoom", "No zoom while alive") : Text("AliveZoom", "Zoom while alive"), ActionColor, BorDebugView.ToggleAliveZoom),
             Does(Text("EndCrewmates", "End: crewmates win"), Palette.CrewmateBlue, () => BorDebugActions.EndGame(GameOverReason.CrewmatesByVote)),
             Does(Text("EndImpostors", "End: impostors win"), Palette.ImpostorRed, () => BorDebugActions.EndGame(GameOverReason.ImpostorsByKill)),
         ]);
