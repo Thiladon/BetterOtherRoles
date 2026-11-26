@@ -52,4 +52,7 @@ public static class BorAssets
     public static LoadableAsset<Sprite> PresetTrash { get; } = new LoadableResourceAsset(MenusPath + "PresetTrash.png", MenuPixelsPerUnit);
 
     public static LoadableAsset<Sprite> PresetPencil { get; } = new LoadableResourceAsset(MenusPath + "PresetPencil.png", MenuPixelsPerUnit);
+
+    // Button of the end game summary, right of the exit button (TOU-Mira 1.7.9 GameSummaryButton, Ressources/TOU-Ressources).
+    public static LoadableAsset<Sprite> GameSummaryButton { get; } = new LoadableResourceAsset(MenusPath + "GameSummaryButton.png", MenuPixelsPerUnit);
 }

@@ -101,13 +101,20 @@ public static class TestModePatches
     // ---------------------------------------------------------------------------------------------------------------
 
     /// <summary>
-    ///     Shows the chat to the host once the intro is over.
+    ///     Shows the chat to the host once the intro is over, except over the window of the spawn room choice
+    ///     (Airship or <see cref="Modules.Spawn.BorSpawnChoice"/>), as for the other players.
     /// </summary>
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
     [HarmonyPostfix]
     public static void HudManagerUpdatePostfix(HudManager __instance)
     {
-        if (IntroStatePatches.IntroEnded && BorDebugActions.CanUse && !__instance.Chat.chatButton.gameObject.activeSelf)
+        if (!IntroStatePatches.IntroEnded || !BorDebugActions.CanUse) return;
+
+        var chatShown = __instance.Chat.chatButton.gameObject.activeInHierarchy;
+        var spawnWindow = Minigame.Instance && Minigame.Instance.TryCast<SpawnInMinigame>();
+        if (spawnWindow && chatShown)
+            __instance.Chat.SetVisible(false);
+        else if (!spawnWindow && !chatShown)
             __instance.Chat.SetVisible(true);
     }
 

@@ -274,6 +274,34 @@ public class BorLocalSettingsTab(ConfigFile config) : LocalSettingsTab(config)
         "AutoCamsDelay",
         3f,
         "Delay before the cams go to the next camera or page, in seconds (2 to 10).");
+
+    /// <summary>
+    ///     Gets how the summary is shown on the end game screen: full list on the left, two short columns or hidden
+    ///     (TOU-Mira 1.7.9 EndSummaryVisibility, <see cref="Patches.Misc.EndGameSummaryPatches"/>).
+    /// </summary>
+    [LocalEnumSetting(
+        "BetterOtherRoles.LocalSettings.EndSummary",
+        "BetterOtherRoles.LocalSettings.EndSummaryDescription",
+        [
+            "BetterOtherRoles.LocalSettings.EndSummary.Hidden",
+            "BetterOtherRoles.LocalSettings.EndSummary.Split",
+            "BetterOtherRoles.LocalSettings.EndSummary.LeftSide",
+        ])]
+    public ConfigEntry<EndSummaryDisplay> EndSummary { get; private set; } = config.Bind(
+        "BetterOtherRoles.LocalSettings.Interface",
+        "EndSummary",
+        EndSummaryDisplay.LeftSide,
+        "How the summary is shown on the end game screen: hidden, two columns or full list on the left.");
+}
+
+/// <summary>
+///     How the summary is shown on the end game screen.
+/// </summary>
+public enum EndSummaryDisplay
+{
+    Hidden,
+    Split,
+    LeftSide,
 }
 
 /// <summary>

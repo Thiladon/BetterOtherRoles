@@ -1,4 +1,5 @@
 using AmongUs.GameOptions;
+using BetterOtherRoles.Modules.Summary;
 using BetterOtherRoles.Patches.Misc;
 using MiraAPI.Hud;
 using Reactor.Networking.Attributes;
@@ -10,7 +11,8 @@ public static class BorPlayerExtensions
 {
     /// <summary>
     ///     Changes the role of a player during the game, for everyone.
-    ///     Taken from TOU-Mira 1.7.9 (Extensions.RpcChangeRole), without their role history and event.
+    ///     Taken from TOU-Mira 1.7.9 (Extensions.RpcChangeRole), without their event; the new role goes in the history of
+    ///     the game (<see cref="BorGameHistory"/>).
     /// </summary>
     /// <param name="player">The player whose role changes.</param>
     /// <param name="newRoleType">The new role.</param>
@@ -47,6 +49,7 @@ public static class BorPlayerExtensions
             data.RoleWhenAlive = new Il2CppSystem.Nullable<RoleTypes>(roleBehaviour.Role);
 
         roleBehaviour.AdjustTasks(player);
+        BorGameHistory.RecordRole(player, roleBehaviour);
         RemoveTaskHeader(player);
         roleBehaviour.SpawnTaskHeader(player);
 
