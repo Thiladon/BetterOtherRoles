@@ -84,9 +84,15 @@ public sealed class AutoRejoinBehaviour(nint cppPtr) : MonoBehaviour(cppPtr)
         if (_gameCode.Length > 0)
             text += $" ({_gameCode})";
 
-        var width = Screen.width * 0.7f;
-        var rect = new Rect((Screen.width - width) / 2f, Screen.height - 80f, width, 44f);
+        var rect = GetRect();
         GUI.Label(new Rect(rect.x + 1f, rect.y + 1f, rect.width, rect.height), text, _shadow);
         GUI.Label(rect, text, _style);
+    }
+
+    // At the bottom of the screen, under the names and roles of the winners (a bit higher, it went over them).
+    private static Rect GetRect()
+    {
+        var width = Screen.width * 0.7f;
+        return new Rect((Screen.width - width) / 2f, Screen.height - 50f, width, 36f);
     }
 }
