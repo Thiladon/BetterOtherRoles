@@ -65,26 +65,54 @@ public static class BorGameHistory
     {
         foreach (var record in Records.Values)
         {
+            // A player who left was kept when leaving (HandleDisconnectPrefix).
+            if (record.Disconnected) continue;
+
             var info = GameData.Instance ? GameData.Instance.GetPlayerById(record.PlayerId) : null;
-            if (!info) continue;
+            if (info)
+                Keep(record, info!);
+        }
+    }
 
-            record.IsDead = info!.IsDead || info.Disconnected;
-            if (info.Object && !info.Disconnected)
-            {
-                var modifiers = info.Object.GetModifiers<BaseModifier>().ToList();
-                record.Modifiers = [.. modifiers.Select(x => x.ModifierName)];
-                record.EnglishModifiers = [.. modifiers.Select(EnglishModifierName)];
-            }
+    // A player who leaves during the game (TOU-Mira 1.7.9 SummaryDisconnectFixPatch), before the game drops it: its
+    // modifiers and tasks kept now, "Disconnected" as cause when alive. Not in the lobby nor on the end game screen,
+    // which would change the last game.
+    [HarmonyPatch(typeof(GameData), nameof(GameData.HandleDisconnect), typeof(PlayerControl), typeof(DisconnectReasons))]
+    [HarmonyPrefix]
+    public static void HandleDisconnectPrefix(PlayerControl player)
+    {
+        if (!AmongUsClient.Instance || AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started) return;
+        if (!player || !Records.TryGetValue(player.PlayerId, out var record) || record.Disconnected) return;
 
-            if (record.Team != RoleTeamTypes.Crewmate || info.Tasks == null || info.Tasks.Count == 0) continue;
+        if (player.Data)
+            Keep(record, player.Data);
+        record.Disconnected = true;
+        record.IsDead = true;
+        if (record.Death != DeathCause.Alive) return;
 
-            record.TasksTotal = info.Tasks.Count;
-            record.TasksDone = 0;
-            foreach (var task in info.Tasks)
-            {
-                if (task.Complete)
-                    record.TasksDone++;
-            }
+        record.Death = DeathCause.Disconnected;
+        record.DeathRound = CurrentRound;
+    }
+
+    // State, modifiers and tasks of a player, before the game takes them back (end of the game, or the player leaves).
+    private static void Keep(PlayerRecord record, NetworkedPlayerInfo info)
+    {
+        record.IsDead = info.IsDead || info.Disconnected;
+        if (info.Object)
+        {
+            var modifiers = info.Object.GetModifiers<BaseModifier>().ToList();
+            record.Modifiers = [.. modifiers.Select(x => x.ModifierName)];
+            record.EnglishModifiers = [.. modifiers.Select(EnglishModifierName)];
+        }
+
+        if (record.Team != RoleTeamTypes.Crewmate || info.Tasks == null || info.Tasks.Count == 0) return;
+
+        record.TasksTotal = info.Tasks.Count;
+        record.TasksDone = 0;
+        foreach (var task in info.Tasks)
+        {
+            if (task.Complete)
+                record.TasksDone++;
         }
     }
 
@@ -213,19 +241,6 @@ public static class BorGameHistory
         record.Death = DeathCause.Ejected;
         record.DeathRound = CurrentRound;
         record.EjectedInMeeting = MeetingRecords.Count;
-    }
-
-    [RegisterEvent]
-    public static void PlayerLeaveHandler(PlayerLeaveEvent @event)
-    {
-        var player = @event.ClientData?.Character;
-        if (!player || !Records.TryGetValue(player!.PlayerId, out var record)) return;
-
-        record.Disconnected = true;
-        if (record.Death != DeathCause.Alive) return;
-
-        record.Death = DeathCause.Disconnected;
-        record.DeathRound = CurrentRound;
     }
 
     // A modifier in English: key BetterOtherRoles.Modifier.{class name without "Modifier"} (FirstKillShieldModifier:
