@@ -1,12 +1,15 @@
+using AmongUs.GameOptions;
 using BetterOtherRoles.Patches.Misc;
 using BetterOtherRoles.Patches.Roles;
 using HarmonyLib;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
 using MiraAPI.Events.Vanilla.Meeting;
 using MiraAPI.Events.Vanilla.Player;
 using MiraAPI.Modifiers;
 using MiraAPI.Roles;
+using MiraAPI.Translation;
 using UnityEngine;
 
 namespace BetterOtherRoles.Modules.Summary;
@@ -22,6 +25,13 @@ public static class BorGameHistory
 {
     private static readonly Dictionary<byte, PlayerRecord> Records = [];
 
+    private static readonly List<MeetingRecord> MeetingRecords = [];
+
+    // PlayerVoteArea.SkippedVote and MissedVote (not constants in the interop assembly): a skip, or no vote at the end
+    // of the time, both counted as skips.
+    private const byte SkippedVote = 253;
+    private const byte MissedVote = 254;
+
     /// <summary>
     ///     Gets the current round: 1 at the start of the game, one more at the start of each round after a meeting
     ///     (TOU-Mira 1.7.9 CurrentRound). An ejection belongs to the round of its meeting.
@@ -33,12 +43,18 @@ public static class BorGameHistory
     /// </summary>
     public static IReadOnlyCollection<PlayerRecord> Players => Records.Values;
 
+    /// <summary>
+    ///     Gets the meetings of the last game, in their order.
+    /// </summary>
+    public static IReadOnlyList<MeetingRecord> Meetings => MeetingRecords;
+
     // Start of a game, on every client, before the roles are given.
     [HarmonyPatch(typeof(AmongUsClient), "CoStartGame")]
     [HarmonyPrefix]
     public static void CoStartGamePrefix()
     {
         Records.Clear();
+        MeetingRecords.Clear();
         CurrentRound = 1;
     }
 
@@ -54,7 +70,11 @@ public static class BorGameHistory
 
             record.IsDead = info!.IsDead || info.Disconnected;
             if (info.Object && !info.Disconnected)
-                record.Modifiers = [.. info.Object.GetModifiers<BaseModifier>().Select(x => x.ModifierName)];
+            {
+                var modifiers = info.Object.GetModifiers<BaseModifier>().ToList();
+                record.Modifiers = [.. modifiers.Select(x => x.ModifierName)];
+                record.EnglishModifiers = [.. modifiers.Select(EnglishModifierName)];
+            }
 
             if (record.Team != RoleTeamTypes.Crewmate || info.Tasks == null || info.Tasks.Count == 0) continue;
 
@@ -88,11 +108,57 @@ public static class BorGameHistory
         if (!player || !player.Data || !role || role!.IsDead) return;
 
         var record = GetOrAdd(player);
-        var name = role is ICustomRole custom ? custom.RoleName : role.NiceName;
         if (record.Roles.Count > 0 && record.Roles[^1].Type == role.Role) return;
 
-        record.Roles.Add(new RoleRecord(role.Role, name, NameColorPatches.GetRoleColor(role)));        record.Team = role.TeamType;
+        var custom = role as ICustomRole;
+        var name = custom != null ? custom.RoleName : role.NiceName;
+        var english = custom != null ? MiraLocaleManager.Get(MiraLanguage.English, custom.RoleNameLocale, custom.RoleName) : VanillaEnglishName(role.Role);
+        record.Roles.Add(new RoleRecord(role.Role, name, english, NameColorPatches.GetRoleColor(role)));
+        record.Team = role.TeamType;
         record.IsImpostor = role.IsImpostor;
+    }
+
+    // Roles of the game in English, whatever the language (export of the game, BorAmongStatExport).
+    private static string VanillaEnglishName(RoleTypes role) => role switch
+    {
+        RoleTypes.GuardianAngel => "Guardian Angel",
+        _ => role.ToString(),
+    };
+
+    // A meeting starts, on every client: the reporter, and the body (none with the emergency button).
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.StartMeeting))]
+    [HarmonyPrefix]
+    public static void StartMeetingPrefix(PlayerControl __instance, NetworkedPlayerInfo? target)
+    {
+        if (!__instance || !__instance.Data) return;
+
+        MeetingRecords.Add(new MeetingRecord(MeetingRecords.Count + 1, __instance.Data.PlayerName, target != null));
+    }
+
+    // End of the vote, on every client, with every vote even when they are anonymous.
+    [HarmonyPatch(typeof(MeetingHud), "VotingComplete")]
+    [HarmonyPrefix]
+    public static void VotingCompletePrefix(Il2CppStructArray<MeetingHud.VoterState> states, NetworkedPlayerInfo? exiled, bool tie)
+    {
+        if (MeetingRecords.Count == 0) return;
+
+        var meeting = MeetingRecords[^1];
+        meeting.Tie = tie;
+        meeting.EjectedName = exiled ? exiled!.PlayerName : null;
+        foreach (var state in states)
+        {
+            if (state.VotedForId is SkippedVote or MissedVote)
+            {
+                meeting.SkipCount++;
+                continue;
+            }
+
+            var suspect = GameData.Instance ? GameData.Instance.GetPlayerById(state.VotedForId) : null;
+            if (!suspect) continue;
+
+            var name = suspect!.PlayerName;
+            meeting.Votes[name] = meeting.Votes.GetValueOrDefault(name) + 1;
+        }
     }
 
     [RegisterEvent]
@@ -134,7 +200,8 @@ public static class BorGameHistory
 
         record.Death = DeathCause.Killed;
         record.KillerName = source.Data.PlayerName;
-        GetOrAdd(source).Victims.Add(new VictimRecord(target.Data.PlayerName, CurrentRound));    }
+        GetOrAdd(source).Victims.Add(new VictimRecord(target.Data.PlayerName, CurrentRound));
+    }
 
     [RegisterEvent]
     public static void EjectionHandler(EjectionEvent @event)
@@ -145,6 +212,7 @@ public static class BorGameHistory
         var record = GetOrAdd(exiled!);
         record.Death = DeathCause.Ejected;
         record.DeathRound = CurrentRound;
+        record.EjectedInMeeting = MeetingRecords.Count;
     }
 
     [RegisterEvent]
@@ -158,6 +226,14 @@ public static class BorGameHistory
 
         record.Death = DeathCause.Disconnected;
         record.DeathRound = CurrentRound;
+    }
+
+    // A modifier in English: key BetterOtherRoles.Modifier.{class name without "Modifier"} (FirstKillShieldModifier:
+    // BetterOtherRoles.Modifier.FirstKillShield), or its name when there is none.
+    private static string EnglishModifierName(BaseModifier modifier)
+    {
+        var key = "BetterOtherRoles.Modifier." + modifier.GetType().Name.Replace("Modifier", string.Empty);
+        return MiraLocaleManager.Get(MiraLanguage.English, key, modifier.ModifierName);
     }
 
     private static PlayerRecord GetOrAdd(PlayerControl player)
@@ -194,8 +270,35 @@ public enum DeathCause
 /// </summary>
 /// <param name="Type">The role.</param>
 /// <param name="Name">Its translated name.</param>
+/// <param name="EnglishName">Its name in English (export of the game).</param>
 /// <param name="Color">Its color.</param>
-public sealed record RoleRecord(AmongUs.GameOptions.RoleTypes Type, string Name, Color Color);
+public sealed record RoleRecord(RoleTypes Type, string Name, string EnglishName, Color Color);
+
+/// <summary>
+///     A meeting: who called it, the votes against each player, the skips and the ejected player.
+/// </summary>
+/// <param name="number">Its number in the game, from 1.</param>
+/// <param name="triggeredBy">The name of the player who called it.</param>
+/// <param name="bodyReport">Called by reporting a body (else the emergency button).</param>
+public sealed class MeetingRecord(int number, string triggeredBy, bool bodyReport)
+{
+    public int Number { get; } = number;
+
+    public string TriggeredBy { get; } = triggeredBy;
+
+    public bool BodyReport { get; } = bodyReport;
+
+    public string? EjectedName { get; set; }
+
+    public int SkipCount { get; set; }
+
+    public bool Tie { get; set; }
+
+    /// <summary>
+    ///     Gets the votes against each player, by name, in the order of the first vote.
+    /// </summary>
+    public Dictionary<string, int> Votes { get; } = [];
+}
 
 /// <summary>
 ///     A player killed by another one.
@@ -223,6 +326,8 @@ public sealed class PlayerRecord(byte playerId, string playerName)
 
     public List<string> Modifiers { get; set; } = [];
 
+    public List<string> EnglishModifiers { get; set; } = [];
+
     public int TasksDone { get; set; }
 
     public int TasksTotal { get; set; }
@@ -234,6 +339,11 @@ public sealed class PlayerRecord(byte playerId, string playerName)
     public DeathCause Death { get; set; } = DeathCause.Alive;
 
     public int DeathRound { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the number of the meeting where the player was ejected, or null.
+    /// </summary>
+    public int? EjectedInMeeting { get; set; }
 
     public string? KillerName { get; set; }
 
