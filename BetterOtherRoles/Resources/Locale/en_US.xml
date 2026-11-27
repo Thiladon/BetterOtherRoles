@@ -45,6 +45,7 @@
   <string name="BetterOtherRoles.Option.Lobby.AnyPlayerCanStopStart">Any Player Can Stop Start</string>
   <string name="BetterOtherRoles.Option.Lobby.ShowRulesOnJoin">Show Rules On Join</string>
   <string name="BetterOtherRoles.Option.Lobby.MaxPlayers">Max Players</string>
+  <string name="BetterOtherRoles.Option.Lobby.SendStatsOnline">Send Stats Online</string>
   <string name="BetterOtherRoles.Maps.Dleks">dlekS</string>
   <string name="BetterOtherRoles.Maps.DleksTooltip">ehT dlekS: the medium-sized ship you know and (maybe) love, but flipped!</string>
   <string name="BetterOtherRoles.Lobby.StopStart">Stop</string>

@@ -11,3 +11,6 @@ packages/
 bor-miraapi-todo.md
 bor-mirapi-logentry.md
 user-note.md
+
+# AmongStat server address and host code (AmongStat.targets)
+.env

@@ -6,6 +6,7 @@ using BetterOtherRoles.Modules.Admin;
 using BetterOtherRoles.Modules.Display;
 using BetterOtherRoles.Modules.Localization;
 using BetterOtherRoles.Modules.Presets;
+using BetterOtherRoles.Modules.Summary;
 using BetterOtherRoles.Patches.Misc;
 using BetterOtherRoles.Patches.Options;
 using HarmonyLib;
@@ -82,6 +83,7 @@ public partial class BetterOtherRolesPlugin : BasePlugin, IMiraPlugin
         BorLocale.Initialize();
         BorAdmin.Initialize(Config);
         BorPresets.Initialize(Config);
+        BorAmongStatUpload.Initialize(Config);
 
         Harmony.PatchAll();
         SaveFilePatches.ReloadData();

@@ -16,4 +16,5 @@
     </ItemGroup>
 
     <Import Project="../AmongUs.props" />
+    <Import Project="../AmongStat.targets" />
 </Project>

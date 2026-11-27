@@ -43,4 +43,10 @@ public sealed class LobbyOptions : AbstractOptionGroup
     ///     Left out of the presets: it belongs to the host.
     /// </summary>
     public ModdedToggleOption ShowRulesOnJoin { get; } = new("BetterOtherRoles.Option.Lobby.ShowRulesOnJoin", true, false);
+
+    /// <summary>
+    ///     Gets whether the host sends the statistics of the games to the AmongStat server (<see cref="Modules.Summary.BorAmongStatUpload"/>),
+    ///     off by default; every player sees it. Left out of the presets: it belongs to the host.
+    /// </summary>
+    public ModdedToggleOption SendStatsOnline { get; } = new("BetterOtherRoles.Option.Lobby.SendStatsOnline", false, false);
 }

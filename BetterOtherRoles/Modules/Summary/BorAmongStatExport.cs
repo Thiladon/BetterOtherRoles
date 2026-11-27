@@ -16,7 +16,8 @@ namespace BetterOtherRoles.Modules.Summary;
 ///     <see cref="BorGameHistory"/>: one file per lobby, AmongStat/AmongStat_{lobby}_{date}.json in the game folder, each
 ///     game added to its Games at the end of the game. The file follows the lobby (same lobby code, even after
 ///     midnight); a new lobby makes a new file. Its name and date are set when it is made; LobbyPlayerNames is made
-///     again with each game. Read once at the end of the evening; to be sent to a server later.
+///     again with each game. Read once at the end of the evening; also sent to the AmongStat server with
+///     <see cref="BorAmongStatUpload"/>.
 /// </summary>
 [HarmonyPatch]
 public static class BorAmongStatExport
@@ -91,6 +92,8 @@ public static class BorAmongStatExport
         Directory.CreateDirectory(Path.GetDirectoryName(path)!);
         File.WriteAllText(path, JsonSerializer.Serialize(file, JsonOptions), new UTF8Encoding(false));
         Info($"[AmongStat] game {game.GameNumber} written to {path}");
+
+        BorAmongStatUpload.Send(Path.GetFileName(path), file, JsonOptions);
     }
 
     // Same lobby code: same file. Another lobby: a new file, with a number when the name of the day is taken.

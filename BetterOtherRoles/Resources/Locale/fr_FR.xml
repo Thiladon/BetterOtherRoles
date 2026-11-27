@@ -52,6 +52,7 @@
   <string name="BetterOtherRoles.Option.Lobby.AnyPlayerCanStopStart">Tout le monde peut arrêter le lancement</string>
   <string name="BetterOtherRoles.Option.Lobby.ShowRulesOnJoin">Montrer les règles à l'arrivée</string>
   <string name="BetterOtherRoles.Option.Lobby.MaxPlayers">Nombre de joueurs max</string>
+  <string name="BetterOtherRoles.Option.Lobby.SendStatsOnline">Envoyer les stats en ligne</string>
   <string name="BetterOtherRoles.Maps.Dleks">dlekS</string>
   <string name="BetterOtherRoles.Maps.DleksTooltip">ehT dlekS : le vaisseau de taille moyenne que vous connaissez et (potentiellement) appréciez, mais à l'envers !</string>
   <string name="BetterOtherRoles.Lobby.StopStart">Arrêter</string>
