@@ -12,5 +12,8 @@ bor-miraapi-todo.md
 bor-mirapi-logentry.md
 user-note.md
 
+# Files of the GitHub releases (tools/Prepare-Release.ps1)
+release/
+
 # AmongStat server address and host code (AmongStat.targets)
 .env
