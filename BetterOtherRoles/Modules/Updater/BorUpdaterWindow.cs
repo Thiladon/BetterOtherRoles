@@ -24,8 +24,8 @@ public static class BorUpdaterWindow
     // Places in the frame (7 × 3.5, center 0, 0).
     private const float TextWidth = 6.2f;
     private const float BottomY = -1.15f;
-    private const float BottomX = 1.45f;
-    private const float BottomWidth = 2.6f;
+    private const float BottomX = 1.25f;
+    private const float BottomWidth = 1.8f;
 
     private static BorPopup? _popup;
     private static TextMeshPro? _info;
@@ -124,7 +124,7 @@ public static class BorUpdaterWindow
             BorUpdater.SkippedVersion = release.Version;
     }
 
-    private static string SkipLabel(bool skip) => Get(skip ? "SkipOn" : "SkipOff", skip ? "Don't offer it again: yes" : "Don't offer it again: no");
+    private static string SkipLabel(bool skip) => Get(skip ? "SkipOn" : "SkipOff", skip ? "Don't ask me again: yes" : "Don't ask me again: no");
 
     private static IEnumerator CoOpenLater(BorRelease release)
     {

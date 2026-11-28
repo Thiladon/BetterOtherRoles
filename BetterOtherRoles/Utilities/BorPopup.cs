@@ -133,7 +133,10 @@ public sealed class BorPopup
         var translator = text.GetComponent<TextTranslatorTMP>();
         if (translator)
             Object.DestroyImmediate(translator);
+        // Centered in the button (the "Okay" text sits on the right of its place).
         text.rectTransform.sizeDelta = new Vector2(Math.Max(0.2f, width - 0.3f), text.rectTransform.sizeDelta.y);
+        text.transform.localPosition = new Vector3(0f, text.transform.localPosition.y, text.transform.localPosition.z);
+        text.alignment = TextAlignmentOptions.Center;
         text.enableAutoSizing = true;
         text.fontSizeMin = 1f;
         text.text = label;

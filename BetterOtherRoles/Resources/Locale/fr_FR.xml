@@ -537,8 +537,8 @@ Installe la même version que l'hôte.</string>
   <string name="BetterOtherRoles.LocalSettings.UpdaterBetas">Bêtas dans les mises à jour</string>
   <string name="BetterOtherRoles.LocalSettings.UpdaterBetasDescription">Propose aussi les bêtas du mod (toujours avec une bêta installée).</string>
   <string name="BetterOtherRoles.Updater.Offer">Une nouvelle mise à jour est disponible (v{0}). Veux-tu la télécharger ?</string>
-  <string name="BetterOtherRoles.Updater.SkipOff">Ne plus me la proposer : non</string>
-  <string name="BetterOtherRoles.Updater.SkipOn">Ne plus me la proposer : oui</string>
+  <string name="BetterOtherRoles.Updater.SkipOff">Ne plus me demander : non</string>
+  <string name="BetterOtherRoles.Updater.SkipOn">Ne plus me demander : oui</string>
   <string name="BetterOtherRoles.Updater.Yes">Oui</string>
   <string name="BetterOtherRoles.Updater.No">Non</string>
   <string name="BetterOtherRoles.Updater.Button">mises à jour</string>

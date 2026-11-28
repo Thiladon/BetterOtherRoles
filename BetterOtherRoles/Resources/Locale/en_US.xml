@@ -469,8 +469,8 @@ Install the same version as the host.</string>
   <string name="BetterOtherRoles.LocalSettings.UpdaterBetas">Betas In Updates</string>
   <string name="BetterOtherRoles.LocalSettings.UpdaterBetasDescription">Also offers the betas of the mod (always with a beta installed).</string>
   <string name="BetterOtherRoles.Updater.Offer">A new update is available (v{0}). Do you want to download it?</string>
-  <string name="BetterOtherRoles.Updater.SkipOff">Don't offer it again: no</string>
-  <string name="BetterOtherRoles.Updater.SkipOn">Don't offer it again: yes</string>
+  <string name="BetterOtherRoles.Updater.SkipOff">Don't ask me again: no</string>
+  <string name="BetterOtherRoles.Updater.SkipOn">Don't ask me again: yes</string>
   <string name="BetterOtherRoles.Updater.Yes">Yes</string>
   <string name="BetterOtherRoles.Updater.No">No</string>
   <string name="BetterOtherRoles.Updater.Button">updates</string>
