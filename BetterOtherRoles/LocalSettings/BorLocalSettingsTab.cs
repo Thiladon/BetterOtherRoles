@@ -77,6 +77,46 @@ public class BorLocalSettingsTab(ConfigFile config) : LocalSettingsTab(config)
         "Shows the notification of a new chat message in game too.");
 
     /// <summary>
+    ///     Gets whether the welcome message is shown in the chat of the first lobby after launching the game
+    ///     (TOU-Mira 1.7.9 ShowWelcomeMessage, <see cref="Patches.Misc.LobbyChatPatches"/>).
+    /// </summary>
+    [LocalToggleSetting("BetterOtherRoles.LocalSettings.ShowWelcomeMessage", "BetterOtherRoles.LocalSettings.ShowWelcomeMessageDescription")]
+    public ConfigEntry<bool> ShowWelcomeMessage { get; private set; } = config.Bind(
+        "BetterOtherRoles.LocalSettings.Chat",
+        "ShowWelcomeMessage",
+        true,
+        "Shows the welcome message in the chat of the first lobby after launching the game.");
+
+    /// <summary>
+    ///     Gets whether the summary of the game is shown in the chat when going back to the lobby
+    ///     (TOU-Mira 1.7.9 ShowSummaryMessage, <see cref="Patches.Misc.LobbyChatPatches"/>).
+    /// </summary>
+    [LocalToggleSetting("BetterOtherRoles.LocalSettings.ShowLobbySummary", "BetterOtherRoles.LocalSettings.ShowLobbySummaryDescription")]
+    public ConfigEntry<bool> ShowLobbySummary { get; private set; } = config.Bind(
+        "BetterOtherRoles.LocalSettings.Chat",
+        "ShowLobbySummary",
+        true,
+        "Shows the summary of the game in the chat when going back to the lobby.");
+
+    /// <summary>
+    ///     Gets how the summary is written in the lobby chat (TOU-Mira 1.7.9 SummaryMsgBreakdown): a short line, the line of
+    ///     the end game screen, or a title and a list per player.
+    /// </summary>
+    [LocalEnumSetting(
+        "BetterOtherRoles.LocalSettings.LobbySummaryFormat",
+        "BetterOtherRoles.LocalSettings.LobbySummaryFormatDescription",
+        [
+            "BetterOtherRoles.LocalSettings.LobbySummaryFormat.Simplified",
+            "BetterOtherRoles.LocalSettings.LobbySummaryFormat.Normal",
+            "BetterOtherRoles.LocalSettings.LobbySummaryFormat.Advanced",
+        ])]
+    public ConfigEntry<SummaryFormat> LobbySummaryFormat { get; private set; } = config.Bind(
+        "BetterOtherRoles.LocalSettings.Chat",
+        "LobbySummaryFormat",
+        SummaryFormat.Advanced,
+        "How the summary is written in the lobby chat: simplified, normal or advanced.");
+
+    /// <summary>
     ///     Gets on which players the name is in the color of the role (<see cref="Patches.Misc.NameColorPatches"/>):
     ///     never (game colors), on me only, or on everyone whose role is known.
     /// </summary>
@@ -302,6 +342,17 @@ public enum EndSummaryDisplay
     Hidden,
     Split,
     LeftSide,
+}
+
+/// <summary>
+///     How the summary is written in the chat: a short line per player (without the killer), the line of the end game
+///     screen, or a title and a list per player.
+/// </summary>
+public enum SummaryFormat
+{
+    Simplified,
+    Normal,
+    Advanced,
 }
 
 /// <summary>

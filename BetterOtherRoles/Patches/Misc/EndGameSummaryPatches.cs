@@ -5,7 +5,6 @@ using BetterOtherRoles.Modules.Summary;
 using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using MiraAPI.LocalSettings;
-using MiraAPI.Translation;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,8 +14,7 @@ namespace BetterOtherRoles.Patches.Misc;
 
 /// <summary>
 ///     Summary of the game on the end game screen (TOU-Mira 1.7.9 EndGamePatches, from <see cref="BorGameHistory"/>):
-///     one line per player with the roles held (A &gt; B), the modifiers, the tasks, the victims with their round and how
-///     the player died (cause, killer, round); the winners' names in gold. Shown as a full list on the left (two thirds
+///     one line per player (<see cref="BorSummaryText.GetLine"/>). Shown as a full list on the left (two thirds
 ///     of the screen), two short columns (without the killer) or hidden, from the local settings
 ///     (<see cref="BorLocalSettingsTab.EndSummary"/>), changed with a button right of the exit button; the three
 ///     buttons at 75 % of the game size.
@@ -25,8 +23,6 @@ namespace BetterOtherRoles.Patches.Misc;
 [HarmonyPatch]
 public static class EndGameSummaryPatches
 {
-    private const string WinnerColor = "#EFBF04";
-    private const string TaskColor = "#FAD934FF";
     private const float FontSize = 1.1f;
 
     // Space kept at the right edge of the screen and between the two columns, in world units.
@@ -51,67 +47,11 @@ public static class EndGameSummaryPatches
     {
         if (TutorialManager.InstanceExists || BorGameHistory.Players.Count == 0) return;
 
-        var winners = EndGameResult.CachedWinners.ToArray().Select(x => x.PlayerName).ToHashSet();
         ShowWinnerRoles(__instance);
-        BuildSummary(__instance, winners);
+        BuildSummary(__instance, BorSummaryText.GetWinners());
     }
 
-    /// <summary>
-    ///     Gets the line of a player in the summary.
-    /// </summary>
-    /// <param name="record">The player.</param>
-    /// <param name="winner">Whether the player won.</param>
-    /// <param name="full">With the killer's name.</param>
-    /// <returns>The line, with its colors.</returns>
-    public static string GetLine(PlayerRecord record, bool winner, bool full)
-    {
-        var line = new StringBuilder();
-        line.Append(winner ? $"<color={WinnerColor}>{record.PlayerName}</color>" : record.PlayerName);
-
-        var roles = string.Join(" > ", record.Roles.Select(x => $"<color=#{ColorUtility.ToHtmlStringRGBA(x.Color)}>{x.Name}</color>"));
-        if (roles.Length > 0)
-            line.Append(" - ").Append(roles);
-
-        if (record.Modifiers.Count > 0)
-            line.Append(" (").Append(string.Join(", ", record.Modifiers)).Append(')');
-
-        if (record.TasksTotal > 0)
-            line.Append(BetterOtherRolesPlugin.Culture, $" <color={TaskColor}>({record.TasksDone}/{record.TasksTotal})</color>");
-
-        if (record.Victims.Count > 0)
-        {
-            var victims = string.Join(", ", record.Victims.Select(x => $"{x.Name} ({Round(x.Round)})"));
-            line.Append(" | <color=#FF0000FF>")
-                .Append(string.Format(BetterOtherRolesPlugin.Culture, Get("Victims", "Victims: {0}"), victims))
-                .Append("</color>");
-        }
-
-        line.Append(" | <color=#FFEB04FF>").Append(GetDeath(record));
-        if (full && record.KillerName != null)
-            line.Append(' ').Append(string.Format(BetterOtherRolesPlugin.Culture, Get("KilledBy", "by {0}"), record.KillerName));
-
-        if (record.Death != DeathCause.Alive)
-            line.Append(" (").Append(Round(record.DeathRound)).Append(')');
-
-        return line.Append("</color>").ToString();
-    }
-
-    private static string GetDeath(PlayerRecord record)
-    {
-        var part = record.KillerRolePart;
-        return record.Death switch
-        {
-            DeathCause.Killed => part == null ? Get("Killed", "Killed") : Get("DiedTo" + part, Get("Killed", "Killed")),
-            DeathCause.Suicide => part == null ? Get("Suicide", "Suicide") : Get("Suicide" + part, Get("Suicide", "Suicide")),
-            DeathCause.Ejected => Get("Ejected", "Ejected"),
-            DeathCause.Disconnected => Get("Disconnected", "Disconnected"),
-            _ => Get("Alive", "Alive"),
-        };
-    }
-
-    private static string Round(int round) => string.Format(BetterOtherRolesPlugin.Culture, Get("Round", "R{0}"), round);
-
-    private static string Get(string key, string fallback) => MiraLocaleManager.Get("BetterOtherRoles.Summary." + key, fallback);
+    private static string Get(string key, string fallback) => BorSummaryText.Get(key, fallback);
 
     // The name, then the last role in its color, under each winner (the game hides the names when the crew wins).
     // The players are made in the order of the winners, the local player first.
@@ -156,8 +96,8 @@ public static class EndGameSummaryPatches
         foreach (var record in BorGameHistory.Players.OrderBy(x => x.PlayerId))
         {
             var winner = winners.Contains(record.PlayerName);
-            full.AppendLine(GetLine(record, winner, true));
-            (index % 2 == 0 ? left : right).AppendLine(GetLine(record, winner, false));
+            full.AppendLine(BorSummaryText.GetLine(record, winner, true));
+            (index % 2 == 0 ? left : right).AppendLine(BorSummaryText.GetLine(record, winner, false));
             index++;
         }
 
