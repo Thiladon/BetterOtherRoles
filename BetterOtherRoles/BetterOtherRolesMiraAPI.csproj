@@ -10,6 +10,13 @@
         <EmbeddedResource Include="Resources\**\*.*" />
     </ItemGroup>
 
+    <!-- Installer embedded in the mod: the updater starts it when BepInEx changes (Modules/Updater/BorUpdater). The
+         project reference only builds it first (.NET Framework 4.8, nothing referenced). -->
+    <ItemGroup>
+        <ProjectReference Include="..\Installer\BorInstaller.csproj" ReferenceOutputAssembly="false" SkipGetTargetFrameworkProperties="true" GlobalPropertiesToRemove="TargetFramework" Private="false" />
+        <EmbeddedResource Include="..\Installer\bin\$(Configuration)\net48\BOR-MiraAPI-Installer.exe" LogicalName="BetterOtherRoles.Resources.Installer.BOR-MiraAPI-Installer.exe" Visible="false" />
+    </ItemGroup>
+
     <ItemGroup>
         <None Include="../LICENSE.txt" Pack="true" PackagePath="\"/>
         <None Include="../README.md" Pack="true" PackagePath="\"/>

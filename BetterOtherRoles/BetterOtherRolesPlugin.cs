@@ -8,6 +8,7 @@ using BetterOtherRoles.Modules.Display;
 using BetterOtherRoles.Modules.Localization;
 using BetterOtherRoles.Modules.Presets;
 using BetterOtherRoles.Modules.Summary;
+using BetterOtherRoles.Modules.Updater;
 using BetterOtherRoles.Patches.Misc;
 using BetterOtherRoles.Patches.Options;
 using CorsacCosmetics;
@@ -88,6 +89,7 @@ public partial class BetterOtherRolesPlugin : BasePlugin, IMiraPlugin
         BorPresets.Initialize(Config);
         BorAmongStatUpload.Initialize(Config);
         BorCosmetics.Initialize();
+        BorUpdater.Initialize(Config);
 
         Harmony.PatchAll();
         SaveFilePatches.ReloadData();

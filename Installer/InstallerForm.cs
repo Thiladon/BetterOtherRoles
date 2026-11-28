@@ -401,13 +401,22 @@ internal sealed class InstallerForm : Form
         if (!_options.Update) return;
 
         if (_options.Restart)
-        {
-            using var game = Process.Start(new ProcessStartInfo(Path.Combine(target, "Among Us.exe")) { WorkingDirectory = target, UseShellExecute = true });
-        }
+            StartGame(target);
 
         // The window closes anyway: the delay is not cancelled.
         await Task.Delay(1500, CancellationToken.None).ConfigureAwait(true);
         Close();
+    }
+
+    // Without the variables of Doorstop (the loader of BepInEx), which the installer has when the game started it:
+    // Doorstop does not start in a process that has them, the game would start without the mods.
+    private static void StartGame(string folder)
+    {
+        var start = new ProcessStartInfo(Path.Combine(folder, "Among Us.exe")) { WorkingDirectory = folder, UseShellExecute = false };
+        foreach (var key in start.EnvironmentVariables.Keys.Cast<string>().Where(x => x.StartsWith("DOORSTOP", StringComparison.OrdinalIgnoreCase)).ToList())
+            start.EnvironmentVariables.Remove(key);
+
+        using var game = Process.Start(start);
     }
 
     private void ShowCancelled(string? text = null)

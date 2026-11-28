@@ -55,6 +55,26 @@ public class BorLocalSettingsTab(ConfigFile config) : LocalSettingsTab(config)
         "Copies the lobby code to the clipboard when you create an online lobby.");
 
     /// <summary>
+    ///     Gets whether the updates of the mod are looked for on the main menu (<see cref="Modules.Updater.BorUpdater"/>).
+    /// </summary>
+    [LocalToggleSetting("BetterOtherRoles.LocalSettings.CheckUpdates", "BetterOtherRoles.LocalSettings.CheckUpdatesDescription")]
+    public ConfigEntry<bool> CheckUpdates { get; private set; } = config.Bind(
+        "BetterOtherRoles.LocalSettings.General",
+        "CheckUpdates",
+        true,
+        "Looks for updates of the mod on the main menu.");
+
+    /// <summary>
+    ///     Gets whether the updater offers the betas (always with a beta of the mod installed).
+    /// </summary>
+    [LocalToggleSetting("BetterOtherRoles.LocalSettings.UpdaterBetas", "BetterOtherRoles.LocalSettings.UpdaterBetasDescription")]
+    public ConfigEntry<bool> UpdaterBetas { get; private set; } = config.Bind(
+        "BetterOtherRoles.LocalSettings.General",
+        "UpdaterBetas",
+        false,
+        "Offers the betas of the mod in the updater.");
+
+    /// <summary>
     ///     Gets whether the hats of BetterOtherRoles are downloaded when the game starts, when missing
     ///     (TOU-Mira 1.7.9 AutoDownloadCosmetics, <see cref="Modules.Cosmetics.BorCosmetics"/>).
     /// </summary>
