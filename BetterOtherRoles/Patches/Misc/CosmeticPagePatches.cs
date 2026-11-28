@@ -1,5 +1,7 @@
 using System.Reflection;
+using BetterOtherRoles.Modules.Editions;
 using CorsacCosmetics.Components;
+using CorsacCosmetics.Cosmetics;
 using HarmonyLib;
 
 namespace BetterOtherRoles.Patches.Misc;
@@ -37,7 +39,13 @@ public static class CosmeticPagePatches
         public static void Prefix(InventoryTab __instance)
         {
             var key = GetKey(__instance);
+            if (key == nameof(HatsTab))
+                BorEditions.HideEterzxPage();
             if (key == null || !Pages.TryGetValue(key, out var page) || __instance.GetComponent<InventoryTabPaginationBehaviour>()) return;
+
+            // A page no longer there (the Eterzx one left out): the first page.
+            if (key == nameof(HatsTab) && CosmeticsCatalog.Instance != null && page > CosmeticsCatalog.Instance.HatGroups.Count)
+                page = 0;
 
             var pagination = __instance.gameObject.AddComponent<InventoryTabPaginationBehaviour>();
             CurrentTab.SetValue(pagination, page);

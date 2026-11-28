@@ -4,6 +4,7 @@ using BepInEx.Configuration;
 using BepInEx.Unity.IL2CPP;
 using BetterOtherRoles.Modules.Admin;
 using BetterOtherRoles.Modules.Cosmetics;
+using BetterOtherRoles.Modules.Editions;
 using BetterOtherRoles.Modules.Display;
 using BetterOtherRoles.Modules.Localization;
 using BetterOtherRoles.Modules.Presets;
@@ -90,6 +91,7 @@ public partial class BetterOtherRolesPlugin : BasePlugin, IMiraPlugin
         BorAmongStatUpload.Initialize(Config);
         BorCosmetics.Initialize();
         BorUpdater.Initialize(Config);
+        BorEditions.Initialize(Config);
 
         Harmony.PatchAll();
         SaveFilePatches.ReloadData();

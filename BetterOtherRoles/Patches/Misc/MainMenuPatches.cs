@@ -1,5 +1,6 @@
 using BepInEx;
 using BepInEx.Unity.IL2CPP;
+using BetterOtherRoles.Modules.Editions;
 using BetterOtherRoles.Utilities;
 using HarmonyLib;
 using MiraAPI.Utilities.Assets;
@@ -163,7 +164,8 @@ public static class MainMenuPatches
         _bannerInfo.name = "BorBannerInfo";
         _bannerInfo.rectTransform.sizeDelta = Vector2.zero;
         _bannerInfo.alignment = TextAlignmentOptions.Top;
-        _bannerInfo.text = $"v{BetterOtherRolesPlugin.Version}\nBased on {BasedOn}\nPorted to MiraAPI by {PortAuthor}";
+        var edition = BorEditions.IsDingus ? $"\n{BorEditions.DingusText}" : string.Empty;
+        _bannerInfo.text = $"v{BetterOtherRolesPlugin.Version}{edition}\nBased on {BasedOn}\nPorted to MiraAPI by {PortAuthor}";
         return _bannerInfo;
     }
 

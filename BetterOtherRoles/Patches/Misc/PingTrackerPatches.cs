@@ -1,5 +1,6 @@
 using BetterOtherRoles.LocalSettings;
 using BetterOtherRoles.Modules.Display;
+using BetterOtherRoles.Modules.Editions;
 using HarmonyLib;
 using MiraAPI.LocalSettings;
 using Reactor.Utilities;
@@ -26,7 +27,10 @@ public static class PingTrackerPatches
     // to the other. In the lobby, the size of the game is given back.
     private const float GameFontSize = 2.1f;
 
-    private static readonly string VersionLine = $"<size=130%>{ColoredLogo}</size> v{BetterOtherRolesPlugin.Version}";
+    // With the Dingus edition, its text under the version (BetterOtherRoles 1.7.1, at 70 %).
+    private static string VersionLine => BorEditions.IsDingus
+        ? $"<size=130%>{ColoredLogo}</size> v{BetterOtherRolesPlugin.Version}\n<size=70%>{BorEditions.DingusText}</size>"
+        : $"<size=130%>{ColoredLogo}</size> v{BetterOtherRolesPlugin.Version}";
 
     private static bool? _lobbyAutoSizing;
     private static float _lobbyFontSize;
