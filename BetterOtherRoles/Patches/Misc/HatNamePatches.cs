@@ -103,6 +103,18 @@ public static class HatNamePatches
     }
 
     // Name -> author of the hats of BetterOtherRoles, from the manifests of their bundles (read once they are there).
+    /// <summary>
+    ///     Gets the authors of the hats of BetterOtherRoles with their number of hats, most hats first (credits).
+    /// </summary>
+    /// <returns>The authors.</returns>
+    internal static List<(string Author, int Hats)> GetAuthors() =>
+        Authors.Values.Where(x => x.Length > 0)
+            .GroupBy(x => x, StringComparer.OrdinalIgnoreCase)
+            .Select(x => (x.First(), x.Count()))
+            .OrderByDescending(x => x.Item2)
+            .ThenBy(x => x.Item1, StringComparer.OrdinalIgnoreCase)
+            .ToList();
+
     private static Dictionary<string, string> Authors
     {
         get
