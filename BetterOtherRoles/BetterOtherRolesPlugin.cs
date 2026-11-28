@@ -3,12 +3,14 @@ using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Unity.IL2CPP;
 using BetterOtherRoles.Modules.Admin;
+using BetterOtherRoles.Modules.Cosmetics;
 using BetterOtherRoles.Modules.Display;
 using BetterOtherRoles.Modules.Localization;
 using BetterOtherRoles.Modules.Presets;
 using BetterOtherRoles.Modules.Summary;
 using BetterOtherRoles.Patches.Misc;
 using BetterOtherRoles.Patches.Options;
+using CorsacCosmetics;
 using HarmonyLib;
 using MiraAPI;
 using Reactor;
@@ -25,6 +27,7 @@ namespace BetterOtherRoles;
 [BepInProcess("Among Us.exe")]
 [BepInDependency(ReactorPlugin.Id)]
 [BepInDependency(MiraApiPlugin.Id)]
+[BepInDependency(CorsacCosmeticsPlugin.Id)]
 [ReactorModFlags(ModFlags.RequireOnAllClients)]
 public partial class BetterOtherRolesPlugin : BasePlugin, IMiraPlugin
 {
@@ -84,6 +87,7 @@ public partial class BetterOtherRolesPlugin : BasePlugin, IMiraPlugin
         BorAdmin.Initialize(Config);
         BorPresets.Initialize(Config);
         BorAmongStatUpload.Initialize(Config);
+        BorCosmetics.Initialize();
 
         Harmony.PatchAll();
         SaveFilePatches.ReloadData();

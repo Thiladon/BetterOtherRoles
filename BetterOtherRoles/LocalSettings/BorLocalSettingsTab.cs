@@ -55,6 +55,28 @@ public class BorLocalSettingsTab(ConfigFile config) : LocalSettingsTab(config)
         "Copies the lobby code to the clipboard when you create an online lobby.");
 
     /// <summary>
+    ///     Gets whether the hats of BetterOtherRoles are downloaded when the game starts, when missing
+    ///     (TOU-Mira 1.7.9 AutoDownloadCosmetics, <see cref="Modules.Cosmetics.BorCosmetics"/>).
+    /// </summary>
+    [LocalToggleSetting("BetterOtherRoles.LocalSettings.AutoDownloadCosmetics", "BetterOtherRoles.LocalSettings.AutoDownloadCosmeticsDescription")]
+    public ConfigEntry<bool> AutoDownloadCosmetics { get; private set; } = config.Bind(
+        "BetterOtherRoles.LocalSettings.General",
+        "AutoDownloadCosmetics",
+        true,
+        "Downloads the hats of BetterOtherRoles when the game starts, when they are missing.");
+
+    /// <summary>
+    ///     Gets whether the name is shown under each hat of BetterOtherRoles in the hats tab
+    ///     (BetterOtherRoles 1.7.1, <see cref="Patches.Misc.HatNamePatches"/>).
+    /// </summary>
+    [LocalToggleSetting("BetterOtherRoles.LocalSettings.ShowHatNames", "BetterOtherRoles.LocalSettings.ShowHatNamesDescription")]
+    public ConfigEntry<bool> ShowHatNames { get; private set; } = config.Bind(
+        "BetterOtherRoles.LocalSettings.General",
+        "ShowHatNames",
+        true,
+        "Shows the name under each hat of BetterOtherRoles in the hats tab.");
+
+    /// <summary>
     ///     Gets whether the names in the chat are in the color of the role, when it is known
     ///     (<see cref="Patches.Misc.ChatRoleColorPatches"/>).
     /// </summary>

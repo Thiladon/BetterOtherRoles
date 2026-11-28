@@ -532,6 +532,10 @@ Installe la même version que l'hôte.</string>
   <string name="BetterOtherRoles.Lobby.Name.KickReason">BetterOtherRoles : ton nom contient des balises (&lt; &gt;), interdites.</string>
   <string name="BetterOtherRoles.LocalSettings.CopyLobbyCode">Copier le code du salon</string>
   <string name="BetterOtherRoles.LocalSettings.CopyLobbyCodeDescription">Copie le code du salon dans le presse-papiers quand tu crées un salon en ligne (hôte seulement), pour le coller tout de suite.</string>
+  <string name="BetterOtherRoles.LocalSettings.AutoDownloadCosmetics">Télécharger les chapeaux</string>
+  <string name="BetterOtherRoles.LocalSettings.AutoDownloadCosmeticsDescription">Télécharge les chapeaux de Better Other Roles au lancement du jeu s'ils manquent (CorsacCosmetics). Pris en compte au prochain lancement.</string>
+  <string name="BetterOtherRoles.LocalSettings.ShowHatNames">Noms des chapeaux</string>
+  <string name="BetterOtherRoles.LocalSettings.ShowHatNamesDescription">Affiche le nom sous chaque chapeau de Better Other Roles dans l'onglet des chapeaux.</string>
   <string name="BetterOtherRoles.LocalSettings.Chat">Chat</string>
   <string name="BetterOtherRoles.LocalSettings.ChatRoleColors">Couleur des rôles dans le chat</string>
   <string name="BetterOtherRoles.LocalSettings.ChatRoleColorsDescription">Affiche le nom d'un joueur dans la couleur de son rôle dans le chat, seulement si tu connais ce rôle : toi-même, un coéquipier.</string>

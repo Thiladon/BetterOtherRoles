@@ -464,6 +464,10 @@ Install the same version as the host.</string>
   <string name="BetterOtherRoles.Lobby.Name.KickReason">BetterOtherRoles: your name holds tags (&lt; &gt;), which are not allowed.</string>
   <string name="BetterOtherRoles.LocalSettings.CopyLobbyCode">Copy Lobby Code</string>
   <string name="BetterOtherRoles.LocalSettings.CopyLobbyCodeDescription">Copies the lobby code to the clipboard when you create an online lobby (host only), so that you can paste it right away.</string>
+  <string name="BetterOtherRoles.LocalSettings.AutoDownloadCosmetics">Download Hats</string>
+  <string name="BetterOtherRoles.LocalSettings.AutoDownloadCosmeticsDescription">Downloads the hats of Better Other Roles when the game starts, when they are missing (CorsacCosmetics). Applied at the next launch.</string>
+  <string name="BetterOtherRoles.LocalSettings.ShowHatNames">Hat Names</string>
+  <string name="BetterOtherRoles.LocalSettings.ShowHatNamesDescription">Shows the name under each hat of Better Other Roles in the hats tab.</string>
   <string name="BetterOtherRoles.LocalSettings.Chat">Chat</string>
   <string name="BetterOtherRoles.LocalSettings.ChatRoleColors">Role Colors In Chat</string>
   <string name="BetterOtherRoles.LocalSettings.ChatRoleColorsDescription">Shows the name of a player in the color of their role in the chat, only when you know that role: yourself, a teammate.</string>
