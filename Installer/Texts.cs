@@ -38,6 +38,16 @@ internal static class Texts
 
     public static string Close => French ? "Fermer" : "Close";
 
+    public static string Cancel => French ? "Annuler" : "Cancel";
+
+    public static string Cancelled => French ? "Annulé." : "Cancelled.";
+
+    public static string CancelledCopyRemoved => French ? "Annulé : la copie du jeu a été supprimée." : "Cancelled: the copy of the game was removed.";
+
+    public static string CancelledCopyKept => French
+        ? "Annulé : les fichiers ajoutés ont été retirés, mais la copie du jeu n'est pas terminée. Relance l'installation pour la finir."
+        : "Cancelled: the added files were removed, but the copy of the game is not finished. Install again to finish it.";
+
     public static string LoadingReleases => French ? "Recherche des versions…" : "Looking for the versions…";
 
     public static string NoRelease => French ? "Aucune version trouvée." : "No version found.";

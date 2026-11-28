@@ -2,6 +2,8 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BorInstaller;
@@ -28,8 +30,10 @@ internal sealed class ModInstaller(string gamePath, IProgress<InstallStep> progr
     /// </summary>
     /// <param name="release">The release.</param>
     /// <param name="info">The information of the release (release.json).</param>
+    /// <param name="cancellation">Stops the install: during a download, or before extracting a zip (never in the
+    /// middle of one, which would leave half of BepInEx).</param>
     /// <returns>The task.</returns>
-    public async Task InstallAsync(GithubRelease release, ReleaseInfo info)
+    public async Task InstallAsync(GithubRelease release, ReleaseInfo info, CancellationToken cancellation)
     {
         // BepInEx of the same bits as the game (the Steam game can be 32 bits): installed again when its version or its
         // bits are not the right ones.
@@ -43,13 +47,15 @@ internal sealed class ModInstaller(string gamePath, IProgress<InstallStep> progr
             if (string.IsNullOrEmpty(url))
                 throw new InvalidOperationException($"{ReleaseSource.InfoAsset} of {release.Tag} has no BepInEx for a {(game64 ? 64 : 32)} bits game.");
 
-            var bepinex = await DownloadAsync(url, Texts.DownloadingBepInEx, 0, 60).ConfigureAwait(false);
+            var bepinex = await DownloadAsync(url, Texts.DownloadingBepInEx, 0, 60, cancellation).ConfigureAwait(false);
+            cancellation.ThrowIfCancellationRequested();
             progress.Report(new InstallStep(Texts.InstallingBepInEx, 60));
             Extract(bepinex, gamePath);
             File.Delete(bepinex);
         }
 
-        var plugins = await DownloadAsync(release.GetAsset(ReleaseSource.PluginsAsset).DownloadUrl, Texts.DownloadingPlugins, 60, 95).ConfigureAwait(false);
+        var plugins = await DownloadAsync(release.GetAsset(ReleaseSource.PluginsAsset).DownloadUrl, Texts.DownloadingPlugins, 60, 95, cancellation).ConfigureAwait(false);
+        cancellation.ThrowIfCancellationRequested();
         progress.Report(new InstallStep(Texts.InstallingPlugins, 95));
         var pluginsFolder = Path.Combine(gamePath, "BepInEx", "plugins");
         Directory.CreateDirectory(pluginsFolder);
@@ -81,14 +87,26 @@ internal sealed class ModInstaller(string gamePath, IProgress<InstallStep> progr
         }
     }
 
-    // Downloads to a temporary file, the progress going from one percent to the other.
-    private async Task<string> DownloadAsync(string url, string text, int from, int to)
+    // Downloads to a temporary file, the progress going from one percent to the other. Cancelled: the download stops
+    // and the file is removed.
+    private async Task<string> DownloadAsync(string url, string text, int from, int to, CancellationToken cancellation)
     {
+        cancellation.ThrowIfCancellationRequested();
         var file = Path.Combine(Path.GetTempPath(), "BOR-MiraAPI-" + Path.GetRandomFileName());
         using var client = ReleaseSource.CreateClient();
         client.DownloadProgressChanged += (_, e) => progress.Report(new InstallStep(text, from + ((to - from) * e.ProgressPercentage / 100)));
         progress.Report(new InstallStep(text, from));
-        await client.DownloadFileTaskAsync(new Uri(url), file).ConfigureAwait(false);
+        using var registration = cancellation.Register(client.CancelAsync);
+        try
+        {
+            await client.DownloadFileTaskAsync(new Uri(url), file).ConfigureAwait(false);
+        }
+        catch (WebException) when (cancellation.IsCancellationRequested)
+        {
+            File.Delete(file);
+            throw new OperationCanceledException(cancellation);
+        }
+
         return file;
     }
 }

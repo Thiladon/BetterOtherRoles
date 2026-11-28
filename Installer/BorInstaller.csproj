@@ -11,6 +11,8 @@
         <PackageReadmeFile></PackageReadmeFile>
         <PackageLicenseFile></PackageLicenseFile>
         <Version>1.0.0</Version>
+        <!-- Icon of Among Us (taken from Among Us.exe with icoextract, 16 to 256 px). -->
+        <ApplicationIcon>Installer.ico</ApplicationIcon>
     </PropertyGroup>
 
     <ItemGroup>

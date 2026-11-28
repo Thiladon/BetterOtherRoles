@@ -33,12 +33,16 @@ internal sealed class InstallerForm : Form
     private readonly ComboBox _version = new() { Width = 260, DropDownStyle = ComboBoxStyle.DropDownList };
     private readonly CheckBox _betas = new() { Text = Texts.Betas, AutoSize = true };
     private readonly Button _install = new() { Text = Texts.Install, Width = 120, Height = 32, Enabled = false };
-    private readonly Button _steamDownload = new() { Text = Texts.SteamDownload, AutoSize = true, Height = 32, Visible = false };
+    private readonly Button _cancel = new() { Text = Texts.Cancel, Width = 100, Height = 32, Visible = false };
+    private readonly Button _steamDownload =new() { Text = Texts.SteamDownload, AutoSize = true, Height = 32, Visible = false };
     private readonly Button _steamUpdate = new() { Text = Texts.SteamUpdate, AutoSize = true, Height = 32, Visible = false };
     private readonly ProgressBar _progress = new() { Width = 480, Height = 18 };
     private readonly Label _status = new() { Width = 480, Height = 52, Text = Texts.LoadingReleases };
     private readonly CancellationTokenSource _closing = new();
     private List<ReleaseItem> _releases = [];
+
+    // The running operation (Steam download, copy, install), stopped by the cancel button or the closing of the window.
+    private CancellationTokenSource? _operation;
 
     // The install folder follows the original one until it is changed by hand.
     private bool _targetAuto = true;
@@ -58,6 +62,7 @@ internal sealed class InstallerForm : Form
         StartPosition = FormStartPosition.CenterScreen;
         ClientSize = new Size(510, 340);
         Font = new Font("Segoe UI", 9f);
+        Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
 
         var layout = new FlowLayoutPanel { Dock = DockStyle.Fill, Padding = new Padding(14), FlowDirection = FlowDirection.TopDown, WrapContents = false };
         layout.Controls.Add(new Label { Text = Texts.GameFolder, AutoSize = true });
@@ -66,13 +71,13 @@ internal sealed class InstallerForm : Form
         layout.Controls.Add(new Label { Text = Texts.TargetFolder, AutoSize = true });
         layout.Controls.Add(Row(_target, _browseTarget));
         layout.Controls.Add(Row(new Label { Text = Texts.Version, AutoSize = true, Margin = new Padding(0, 6, 6, 0) }, _version, _betas));
-        layout.Controls.Add(Row(_install, _steamDownload, _steamUpdate));
+        layout.Controls.Add(Row(_install, _cancel, _steamDownload, _steamUpdate));
         layout.Controls.Add(_progress);
         layout.Controls.Add(_status);
         Controls.Add(layout);
 
         _browseSource.Click += (_, _) => Browse(_source, Texts.BrowseDescription);
-        _browseTarget.Click += (_, _) => Browse(_target, Texts.TargetDescription);
+        _browseTarget.Click += (_, _) => BrowseTarget();
         _source.TextChanged += (_, _) => OnSourceChanged();
         _target.TextChanged += (_, _) => _targetAuto &= _settingTarget;
         _betas.CheckedChanged += (_, _) => FillVersions();
@@ -80,6 +85,7 @@ internal sealed class InstallerForm : Form
         _install.Click += async (_, _) => await OnInstallClickAsync().ConfigureAwait(true);
         _steamDownload.Click += async (_, _) => await DownloadWithSteamAsync().ConfigureAwait(true);
         _steamUpdate.Click += (_, _) => SteamDownload.Validate();
+        _cancel.Click += (_, _) => _operation?.Cancel();
         Shown += async (_, _) => await LoadAsync().ConfigureAwait(true);
         FormClosed += (_, _) => _closing.Cancel();
 
@@ -103,7 +109,11 @@ internal sealed class InstallerForm : Form
     protected override void Dispose(bool disposing)
     {
         if (disposing)
+        {
+            _operation?.Dispose();
             _closing.Dispose();
+        }
+
         base.Dispose(disposing);
     }
 
@@ -199,6 +209,17 @@ internal sealed class InstallerForm : Form
             box.Text = dialog.SelectedPath;
     }
 
+    // The install goes in a new folder inside the one chosen ("Among Us - BOR-MiraAPI", renamed in the text box if
+    // wanted), unless the one chosen holds a game already (an install to update).
+    private void BrowseTarget()
+    {
+        using var dialog = new FolderBrowserDialog { Description = Texts.TargetDescription, SelectedPath = _target.Text };
+        if (dialog.ShowDialog(this) != DialogResult.OK) return;
+
+        var folder = dialog.SelectedPath;
+        _target.Text = GameLocator.IsGameFolder(folder) ? folder : Path.Combine(folder, GameCopier.DefaultFolderName);
+    }
+
     // Once installed, the button closes the window.
     private async Task OnInstallClickAsync()
     {
@@ -236,7 +257,14 @@ internal sealed class InstallerForm : Form
             return;
         }
 
-        await RunAsync(item, source, target).ConfigureAwait(true);
+        await RunAsync(item, source, target, StartOperation()).ConfigureAwait(true);
+    }
+
+    private CancellationToken StartOperation()
+    {
+        _operation?.Dispose();
+        _operation = CancellationTokenSource.CreateLinkedTokenSource(_closing.Token);
+        return _operation.Token;
     }
 
     // The game is not the version of the mod: the reason, and the Steam buttons when they can help (not for an
@@ -282,6 +310,7 @@ internal sealed class InstallerForm : Form
         }
 
         HideSteamButtons();
+        var cancellation = StartOperation();
         SetBusy(true);
         Clipboard.SetText(SteamDownload.Command(depot));
         SteamDownload.OpenConsole();
@@ -291,19 +320,21 @@ internal sealed class InstallerForm : Form
         var folder = SteamDownload.ContentFolder(steam, depot);
         try
         {
-            await SteamDownload.WaitAsync(folder, item.Info.GameVersion, _closing.Token).ConfigureAwait(true);
+            await SteamDownload.WaitAsync(folder, item.Info.GameVersion, cancellation).ConfigureAwait(true);
         }
-        catch (TaskCanceledException)
+        catch (OperationCanceledException)
         {
+            ShowCancelled();
             return;
         }
 
         SetBusy(false);
-        await RunAsync(item, folder, _target.Text.Trim()).ConfigureAwait(true);
+        await RunAsync(item, folder, _target.Text.Trim(), cancellation).ConfigureAwait(true);
     }
 
-    // Copy of the game (when another folder), then BepInEx and the mod.
-    private async Task RunAsync(ReleaseItem item, string source, string target)
+    // Copy of the game (when another folder), then BepInEx and the mod. Cancelled: what is done stays (the next copy
+    // goes on from there).
+    private async Task RunAsync(ReleaseItem item, string source, string target, CancellationToken cancellation)
     {
         SetBusy(true);
         if (_options.WaitPid != null)
@@ -324,12 +355,39 @@ internal sealed class InstallerForm : Form
             _progress.Value = Math.Max(0, Math.Min(100, step.Percent));
         });
 
+        // An install folder made by this install is removed when cancelled, at any step (copy, BepInEx, mod).
+        var copy = !GameCopier.SameFolder(source, target);
+        var newFolder = copy && GameCopier.IsNewFolder(target);
         try
         {
-            if (!GameCopier.SameFolder(source, target))
-                await Task.Run(() => GameCopier.Copy(source, target, progress)).ConfigureAwait(true);
+            if (copy)
+            {
+                try
+                {
+                    await Task.Run(() => GameCopier.Copy(source, target, progress, cancellation), cancellation).ConfigureAwait(true);
+                }
+                catch (OperationCanceledException)
+                {
+                    ShowCancelled(Directory.Exists(target) ? Texts.CancelledCopyKept : Texts.CancelledCopyRemoved);
+                    return;
+                }
+            }
 
-            await new ModInstaller(target, progress).InstallAsync(item.Release, item.Info!).ConfigureAwait(true);
+            await new ModInstaller(target, progress).InstallAsync(item.Release, item.Info!, cancellation).ConfigureAwait(true);
+        }
+        catch (OperationCanceledException)
+        {
+            if (newFolder)
+            {
+                await Task.Run(() => GameCopier.DeleteFolder(target), CancellationToken.None).ConfigureAwait(true);
+                ShowCancelled(Texts.CancelledCopyRemoved);
+            }
+            else
+            {
+                ShowCancelled();
+            }
+
+            return;
         }
         catch (Exception e) when (e is System.Net.WebException or IOException or InvalidOperationException or InvalidDataException or UnauthorizedAccessException or System.Runtime.Serialization.SerializationException)
         {
@@ -347,13 +405,23 @@ internal sealed class InstallerForm : Form
             using var game = Process.Start(new ProcessStartInfo(Path.Combine(target, "Among Us.exe")) { WorkingDirectory = target, UseShellExecute = true });
         }
 
-        await Task.Delay(1500).ConfigureAwait(true);
+        // The window closes anyway: the delay is not cancelled.
+        await Task.Delay(1500, CancellationToken.None).ConfigureAwait(true);
         Close();
+    }
+
+    private void ShowCancelled(string? text = null)
+    {
+        SetBusy(false);
+        _progress.Value = 0;
+        _status.ForeColor = SystemColors.ControlText;
+        _status.Text = text ?? Texts.Cancelled;
     }
 
     private void SetBusy(bool busy)
     {
         _busy = busy;
+        _cancel.Visible = busy;
         _install.Enabled = !busy && _version.Items.Count > 0;
         _source.Enabled = _browseSource.Enabled = _target.Enabled = _browseTarget.Enabled = _version.Enabled = _betas.Enabled = !busy && !_options.Update;
     }

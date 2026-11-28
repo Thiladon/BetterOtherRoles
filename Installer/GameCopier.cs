@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 
 namespace BorInstaller;
 
@@ -28,7 +29,8 @@ internal static class GameCopier
     /// <param name="source">The original game folder.</param>
     /// <param name="target">The folder of the install.</param>
     /// <param name="progress">The progress.</param>
-    public static void Copy(string source, string target, IProgress<InstallStep> progress)
+    /// <param name="cancellation">Stops the copy (between two files).</param>
+    public static void Copy(string source, string target, IProgress<InstallStep> progress, CancellationToken cancellation)
     {
         var root = Path.GetFullPath(source).TrimEnd(Path.DirectorySeparatorChar);
         var files = Directory.EnumerateFileSystemEntries(root)
@@ -36,19 +38,34 @@ internal static class GameCopier
             .SelectMany(x => Directory.Exists(x) ? Directory.EnumerateFiles(x, "*", SearchOption.AllDirectories) : [x])
             .ToList();
 
-        for (var i = 0; i < files.Count; i++)
+        // Cancelled: a folder made by this copy is removed; in a folder already there (settings and mods of the player),
+        // only the files added by this copy are.
+        var newFolder = IsNewFolder(target);
+        var added = new List<string>();
+        try
         {
-            var file = files[i];
-            var destination = Path.Combine(target, file.Substring(root.Length + 1));
-            if (!IsSame(file, destination))
+            for (var i = 0; i < files.Count; i++)
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
-                File.Copy(file, destination, true);
-                File.SetLastWriteTimeUtc(destination, File.GetLastWriteTimeUtc(file));
-            }
+                cancellation.ThrowIfCancellationRequested();
+                var file = files[i];
+                var destination = Path.Combine(target, file.Substring(root.Length + 1));
+                if (!IsSame(file, destination))
+                {
+                    if (!File.Exists(destination))
+                        added.Add(destination);
+                    Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
+                    File.Copy(file, destination, true);
+                    File.SetLastWriteTimeUtc(destination, File.GetLastWriteTimeUtc(file));
+                }
 
-            if (i % 20 == 0)
-                progress.Report(new InstallStep(Texts.CopyingGame, i * 100 / files.Count));
+                if (i % 20 == 0)
+                    progress.Report(new InstallStep(Texts.CopyingGame, i * 100 / files.Count));
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            Undo(target, newFolder, added);
+            throw;
         }
 
         var appId = Path.Combine(target, "steam_appid.txt");
@@ -69,7 +86,48 @@ internal static class GameCopier
     public static string DefaultTarget(string source)
     {
         var full = Path.GetFullPath(source).TrimEnd(Path.DirectorySeparatorChar);
-        return Path.Combine(Path.GetDirectoryName(full) ?? full, Path.GetFileName(full) + " - BOR-MiraAPI");
+        return Path.Combine(Path.GetDirectoryName(full) ?? full, DefaultFolderName);
+    }
+
+    /// <summary>
+    ///     Name of the folder of an install, made next to the original game or in the folder chosen.
+    /// </summary>
+    public const string DefaultFolderName = "Among Us - BOR-MiraAPI";
+
+    /// <summary>
+    ///     Gets a value indicating whether a folder is missing or empty (an install made from nothing).
+    /// </summary>
+    /// <param name="folder">The folder.</param>
+    /// <returns>Whether it is missing or empty.</returns>
+    public static bool IsNewFolder(string folder) => !Directory.Exists(folder) || !Directory.EnumerateFileSystemEntries(folder).Any();
+
+    /// <summary>
+    ///     Removes a folder and everything in it, read-only files too (File.Copy keeps that attribute of the game files,
+    ///     and Directory.Delete refuses them).
+    /// </summary>
+    /// <param name="folder">The folder.</param>
+    public static void DeleteFolder(string folder)
+    {
+        if (!Directory.Exists(folder)) return;
+
+        foreach (var file in Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories))
+            File.SetAttributes(file, FileAttributes.Normal);
+        Directory.Delete(folder, true);
+    }
+
+    private static void Undo(string target, bool newFolder, List<string> added)
+    {
+        if (newFolder)
+        {
+            DeleteFolder(target);
+            return;
+        }
+
+        foreach (var file in added.Where(File.Exists))
+        {
+            File.SetAttributes(file, FileAttributes.Normal);
+            File.Delete(file);
+        }
     }
 
     private static bool IsSame(string file, string destination)
