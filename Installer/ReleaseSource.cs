@@ -158,8 +158,14 @@ internal sealed class ReleaseInfo
     public string BepInExVersion { get; set; } = string.Empty;
 
     /// <summary>
-    ///     Gets or sets the download address of the BepInEx zip.
+    ///     Gets or sets the download address of the BepInEx zip for the 64 bits game.
     /// </summary>
     [DataMember(Name = "bepinexUrl")]
     public string BepInExUrl { get; set; } = string.Empty;
+
+    /// <summary>
+    ///     Gets or sets the download address of the BepInEx zip for the 32 bits game.
+    /// </summary>
+    [DataMember(Name = "bepinexUrlX86")]
+    public string BepInExUrlX86 { get; set; } = string.Empty;
 }

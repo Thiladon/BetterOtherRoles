@@ -33,9 +33,19 @@ internal sealed class ModInstaller(string gamePath, IProgress<InstallStep> progr
         progress.Report(new InstallStep(Texts.ReadingRelease, 0));
         var info = await ReleaseSource.GetInfoAsync(release).ConfigureAwait(false);
 
-        if (GetBepInExVersion(gamePath) != info.BepInExVersion)
+        // BepInEx of the same bits as the game (the Steam game can be 32 bits): installed again when its version or its
+        // bits are not the right ones.
+        // Never guessed: a 64 bits BepInEx does not start in a 32 bits game.
+        var game64 = PeArchitecture.Is64Bit(Path.Combine(gamePath, "Among Us.exe"))
+                     ?? throw new InvalidOperationException(Texts.UnknownBits);
+        var loader64 = PeArchitecture.Is64Bit(Path.Combine(gamePath, "winhttp.dll"));
+        if (GetBepInExVersion(gamePath) != info.BepInExVersion || loader64 != game64)
         {
-            var bepinex = await DownloadAsync(info.BepInExUrl, Texts.DownloadingBepInEx, 0, 60).ConfigureAwait(false);
+            var url = game64 ? info.BepInExUrl : info.BepInExUrlX86;
+            if (string.IsNullOrEmpty(url))
+                throw new InvalidOperationException($"{ReleaseSource.InfoAsset} of {release.Tag} has no BepInEx for a {(game64 ? 64 : 32)} bits game.");
+
+            var bepinex = await DownloadAsync(url, Texts.DownloadingBepInEx, 0, 60).ConfigureAwait(false);
             progress.Report(new InstallStep(Texts.InstallingBepInEx, 60));
             Extract(bepinex, gamePath);
             File.Delete(bepinex);

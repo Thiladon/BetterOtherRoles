@@ -9,9 +9,10 @@
 
 $ErrorActionPreference = 'Stop'
 
-# BepInEx of the game (change both together).
+# BepInEx of the game (change them together): 64 and 32 bits (the Steam game can be either).
 $BepInExVersion = '6.0.0-be.735+5fef3570f212b2fb5fbe9c1d20487c13c2fa90cb'
 $BepInExUrl = 'https://builds.bepinex.dev/projects/bepinex_be/735/BepInEx-Unity.IL2CPP-win-x64-6.0.0-be.735%2B5fef357.zip'
+$BepInExUrlX86 = 'https://builds.bepinex.dev/projects/bepinex_be/735/BepInEx-Unity.IL2CPP-win-x86-6.0.0-be.735%2B5fef357.zip'
 
 $root = Split-Path -Parent $PSScriptRoot
 $props = [xml](Get-Content -LiteralPath (Join-Path $root 'Directory.Build.props') -Raw)
@@ -52,7 +53,7 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem
 [System.IO.Compression.ZipFile]::CreateFromDirectory($staging, (Join-Path $out 'BOR-MiraAPI-plugins.zip'))
 Remove-Item -LiteralPath $staging -Recurse -Force
 
-$info = [ordered]@{ bepinexVersion = $BepInExVersion; bepinexUrl = $BepInExUrl }
+$info = [ordered]@{ bepinexVersion = $BepInExVersion; bepinexUrl = $BepInExUrl; bepinexUrlX86 = $BepInExUrlX86 }
 # UTF-8 without BOM (Set-Content -Encoding UTF8 writes one in PowerShell 5).
 [System.IO.File]::WriteAllText((Join-Path $out 'release.json'), ($info | ConvertTo-Json), (New-Object System.Text.UTF8Encoding $false))
 

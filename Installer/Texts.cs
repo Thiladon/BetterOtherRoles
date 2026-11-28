@@ -16,7 +16,15 @@ internal static class Texts
 
     public static string Title => "Better Other Roles - MiraAPI";
 
-    public static string GameFolder => French ? "Dossier d'Among Us :" : "Among Us folder:";
+    public static string GameFolder => French ? "Among Us d'origine (Steam, Epic…) :" : "Original Among Us (Steam, Epic…):";
+
+    public static string TargetFolder => French ? "Dossier d'installation (copie du jeu avec le mod) :" : "Install folder (copy of the game with the mod):";
+
+    public static string TargetDescription => French ? "Choisis le dossier où installer le jeu avec le mod." : "Choose the folder where the game with the mod goes.";
+
+    public static string NoTarget => French ? "Choisis un dossier d'installation." : "Choose an install folder.";
+
+    public static string CopyingGame => French ? "Copie du jeu…" : "Copying the game…";
 
     public static string Browse => French ? "Parcourir…" : "Browse…";
 
@@ -54,5 +62,7 @@ internal static class Texts
 
     public static string Done => French ? "{0} installé." : "{0} installed.";
 
-    public static string Error => French ? "Erreur : {0}" : "Error: {0}";
+    public static string UnknownBits => French ? "Impossible de savoir si le jeu est en 32 ou 64 bits (Among Us.exe illisible)." : "Cannot tell whether the game is 32 or 64 bits (Among Us.exe cannot be read).";
+
+    public static string Error =>French ? "Erreur : {0}" : "Error: {0}";
 }
