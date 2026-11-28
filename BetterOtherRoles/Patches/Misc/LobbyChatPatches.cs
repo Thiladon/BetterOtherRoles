@@ -73,8 +73,7 @@ public static class LobbyChatPatches
 
     private static void ShowSummary()
     {
-        var summary = BorSummaryText.GetChatSummary(Settings.LobbySummaryFormat.Value);
-        BorChat.AddSystemMessage($"{BorSummaryText.Get("ChatTitle", "Summary of the last game:")}\n<color={TextColor}><size=62%>{summary}</size></color>");
+        BorChat.AddSystemMessage(BorSummaryText.GetChatMessage(Settings.LobbySummaryFormat.Value));
     }
 
     private static void ShowWelcome()

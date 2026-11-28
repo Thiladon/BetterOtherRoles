@@ -507,6 +507,9 @@
   <string name="BetterOtherRoles.Command.Info.Round">Manche {0} :</string>
   <string name="BetterOtherRoles.Command.Info.None">Aucune information de rôle à rejouer.</string>
   <string name="BetterOtherRoles.Command.Info.NoneInRound">Aucune information de rôle pour la manche {0}.</string>
+  <string name="BetterOtherRoles.Command.Summary.Usage">[court|normal|complet]</string>
+  <string name="BetterOtherRoles.Command.Summary.Description">affiche le résumé de la dernière partie (format du réglage local par défaut).</string>
+  <string name="BetterOtherRoles.Command.Summary.None">Aucune partie à résumer pour l'instant.</string>
   <string name="BetterOtherRoles.Command.SetName.Usage">{nom}</string>
   <string name="BetterOtherRoles.Command.SetName.Description">change ton nom jusqu'à la fin de la prochaine partie.</string>
   <string name="BetterOtherRoles.Command.SetName.TooLong">Le nom ne peut pas dépasser {0} caractères.</string>
@@ -539,10 +542,10 @@ Installe la même version que l'hôte.</string>
   <string name="BetterOtherRoles.LocalSettings.ShowLobbySummary">Résumé dans le chat du salon</string>
   <string name="BetterOtherRoles.LocalSettings.ShowLobbySummaryDescription">Affiche le résumé de la partie dans le chat au retour dans le salon.</string>
   <string name="BetterOtherRoles.LocalSettings.LobbySummaryFormat">Format du résumé dans le chat</string>
-  <string name="BetterOtherRoles.LocalSettings.LobbySummaryFormatDescription">Simplifié : une ligne courte par joueur (sans le nom du tueur). Normal : la ligne de l'écran de fin. Avancé : un titre par joueur avec son dernier rôle, puis ses rôles, ses tâches, ses victimes et sa mort.</string>
-  <string name="BetterOtherRoles.LocalSettings.LobbySummaryFormat.Simplified">Simplifié</string>
+  <string name="BetterOtherRoles.LocalSettings.LobbySummaryFormatDescription">Court : une ligne courte par joueur (sans le nom du tueur). Normal : la ligne de l'écran de fin. Complet : un titre par joueur avec son dernier rôle, puis ses rôles, ses tâches, ses victimes et sa mort. Vaut aussi pour /summary.</string>
+  <string name="BetterOtherRoles.LocalSettings.LobbySummaryFormat.Short">Court</string>
   <string name="BetterOtherRoles.LocalSettings.LobbySummaryFormat.Normal">Normal</string>
-  <string name="BetterOtherRoles.LocalSettings.LobbySummaryFormat.Advanced">Avancé</string>
+  <string name="BetterOtherRoles.LocalSettings.LobbySummaryFormat.Complete">Complet</string>
   <string name="BetterOtherRoles.LobbyChat.WelcomeTitle">Bienvenue sur Better Other Roles v{0} !</string>
   <string name="BetterOtherRoles.LobbyChat.WelcomeHelp">Le guide des rôles vous en dit plus sur les rôles et les modificateurs, et /help dans le chat donne la liste des commandes.</string>
   <string name="BetterOtherRoles.LobbyChat.WelcomeTurnOff">Vous pouvez couper ce message dans vos réglages (onglet Better Other Roles, Chat).</string>

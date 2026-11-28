@@ -9,7 +9,7 @@ namespace BetterOtherRoles.Modules.Summary;
 ///     Text of the summary of the last game (<see cref="BorGameHistory"/>), for the end game screen and the chat
 ///     (TOU-Mira 1.7.9 EndGamePatches.BuildEndGameSummary): one line per player with the roles held (A &gt; B), the
 ///     modifiers, the tasks, the victims with their round and how the player died (cause, killer, round), the winners'
-///     names in gold; or, in the advanced format, a title and a list per player.
+///     names in gold; or, in the complete format, a title and a list per player.
 /// </summary>
 public static class BorSummaryText
 {
@@ -64,14 +64,23 @@ public static class BorSummaryText
         foreach (var record in BorGameHistory.Players.OrderBy(x => x.PlayerId))
         {
             var winner = winners.Contains(record.PlayerName);
-            if (format == SummaryFormat.Advanced)
-                AppendAdvanced(text, record, winner, ChatColors);
+            if (format == SummaryFormat.Complete)
+                AppendComplete(text, record, winner, ChatColors);
             else
                 text.AppendLine(BuildLine(record, winner, format == SummaryFormat.Normal, ChatColors));
         }
 
         return text.ToString().TrimEnd('\n');
     }
+
+    /// <summary>
+    ///     Gets the message of the summary for the chat: its title, then the summary in black (as the players' messages,
+    ///     the chat bubbles are light) and small.
+    /// </summary>
+    /// <param name="format">The format.</param>
+    /// <returns>The message, for <see cref="Utilities.BorChat.AddSystemMessage"/>.</returns>
+    public static string GetChatMessage(SummaryFormat format) =>
+        $"{Get("ChatTitle", "Summary of the last game:")}\n<color=#000000><size=62%>{GetChatSummary(format)}</size></color>";
 
     /// <summary>
     ///     Gets a text of the summary, translated.
@@ -82,7 +91,7 @@ public static class BorSummaryText
     public static string Get(string key, string fallback) => MiraLocaleManager.Get("BetterOtherRoles.Summary." + key, fallback);
 
     // A title "name - last role (modifiers)", then a list: roles held when more than one, tasks, victims, death.
-    private static void AppendAdvanced(StringBuilder text, PlayerRecord record, bool winner, Palette colors)
+    private static void AppendComplete(StringBuilder text, PlayerRecord record, bool winner, Palette colors)
     {
         var title = new StringBuilder(GetName(record, winner, colors));
         var last = record.Roles.LastOrDefault();

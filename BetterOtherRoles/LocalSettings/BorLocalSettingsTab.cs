@@ -106,15 +106,15 @@ public class BorLocalSettingsTab(ConfigFile config) : LocalSettingsTab(config)
         "BetterOtherRoles.LocalSettings.LobbySummaryFormat",
         "BetterOtherRoles.LocalSettings.LobbySummaryFormatDescription",
         [
-            "BetterOtherRoles.LocalSettings.LobbySummaryFormat.Simplified",
+            "BetterOtherRoles.LocalSettings.LobbySummaryFormat.Short",
             "BetterOtherRoles.LocalSettings.LobbySummaryFormat.Normal",
-            "BetterOtherRoles.LocalSettings.LobbySummaryFormat.Advanced",
+            "BetterOtherRoles.LocalSettings.LobbySummaryFormat.Complete",
         ])]
     public ConfigEntry<SummaryFormat> LobbySummaryFormat { get; private set; } = config.Bind(
         "BetterOtherRoles.LocalSettings.Chat",
         "LobbySummaryFormat",
-        SummaryFormat.Advanced,
-        "How the summary is written in the lobby chat: simplified, normal or advanced.");
+        SummaryFormat.Complete,
+        "How the summary is written in the lobby chat: short, normal or complete.");
 
     /// <summary>
     ///     Gets on which players the name is in the color of the role (<see cref="Patches.Misc.NameColorPatches"/>):
@@ -350,9 +350,11 @@ public enum EndSummaryDisplay
 /// </summary>
 public enum SummaryFormat
 {
-    Simplified,
+    // The name is the value in the config file and the English argument of /summary.
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "Name of the format typed in /summary.")]
+    Short,
     Normal,
-    Advanced,
+    Complete,
 }
 
 /// <summary>
