@@ -1,21 +1,21 @@
+using MiraAPI.Colors;
 using MiraAPI.Translation;
 
 namespace BetterOtherRoles.Utilities;
 
 /// <summary>
 ///     Whether the color of a player is lighter or darker, from its real color (default outfit, not a camouflage or a
-///     morph). The lighter colors are those of BetterOtherRoles 1.7.1 (CustomColors.lighterColors), which no longer used
-///     them (lighter for an even PlayerId); here the color counts, as in TOU-Mira 1.7.9.
+///     morph), as MiraAPI knows it: the colors of the game (the lighter ones are those of BetterOtherRoles 1.7.1
+///     CustomColors.lighterColors), then those of the mods (<see cref="Modules.Colors.BorPlayerColors"/>).
+///     BetterOtherRoles 1.7.1 no longer used them (lighter for an even PlayerId); here the color counts, as in
+///     TOU-Mira 1.7.9.
 /// </summary>
 public static class BorColorType
 {
-    // Pink, orange, yellow, white, cyan, lime, rose, banana, coral.
-    private static readonly HashSet<int> LighterColors = [3, 4, 5, 7, 10, 11, 13, 14, 17];
-
     /// <summary>
     ///     Gets whether the color is a lighter one.
     /// </summary>
-    public static bool IsLighter(int colorId) => LighterColors.Contains(colorId);
+    public static bool IsLighter(int colorId) => PaletteManager.GetBrightness(colorId) == CustomColorBrightness.Lighter;
 
     /// <summary>
     ///     Gets whether the real color of the player is a lighter one.
