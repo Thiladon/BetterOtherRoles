@@ -14,6 +14,14 @@ $BepInExVersion = '6.0.0-be.735+5fef3570f212b2fb5fbe9c1d20487c13c2fa90cb'
 $BepInExUrl = 'https://builds.bepinex.dev/projects/bepinex_be/735/BepInEx-Unity.IL2CPP-win-x64-6.0.0-be.735%2B5fef357.zip'
 $BepInExUrlX86 = 'https://builds.bepinex.dev/projects/bepinex_be/735/BepInEx-Unity.IL2CPP-win-x86-6.0.0-be.735%2B5fef357.zip'
 
+# Steam depots of the version of Among Us of the release (SteamDB, app 945360, Windows depots, manifest of that
+# version): the installer downloads them with the Steam console (download_depot) when the game of the player is not
+# that version. Change them with the version of AmongUs.GameLibs.Steam (AmongUs.props). One Windows depot for
+# 2026.9.29 (64 bits); with several, x64 tells them apart.
+$SteamDepots = @(
+    [ordered]@{ depot = '945361'; manifest = '990035194164819049'; x64 = $true }
+)
+
 $root = Split-Path -Parent $PSScriptRoot
 $props = [xml](Get-Content -LiteralPath (Join-Path $root 'Directory.Build.props') -Raw)
 $prefix = ($props.Project.PropertyGroup | Where-Object { $_.VersionPrefix }).VersionPrefix
@@ -53,7 +61,14 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem
 [System.IO.Compression.ZipFile]::CreateFromDirectory($staging, (Join-Path $out 'BOR-MiraAPI-plugins.zip'))
 Remove-Item -LiteralPath $staging -Recurse -Force
 
-$info = [ordered]@{ bepinexVersion = $BepInExVersion; bepinexUrl = $BepInExUrl; bepinexUrlX86 = $BepInExUrlX86 }
+# Version of Among Us: the one of the game libraries the mod is built with.
+$info = [ordered]@{
+    bepinexVersion = $BepInExVersion
+    bepinexUrl = $BepInExUrl
+    bepinexUrlX86 = $BepInExUrlX86
+    gameVersion = $packages['AmongUs.GameLibs.Steam']
+    steamDepots = @($SteamDepots)
+}
 # UTF-8 without BOM (Set-Content -Encoding UTF8 writes one in PowerShell 5).
 [System.IO.File]::WriteAllText((Join-Path $out 'release.json'), ($info | ConvertTo-Json), (New-Object System.Text.UTF8Encoding $false))
 

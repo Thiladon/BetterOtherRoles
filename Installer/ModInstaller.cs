@@ -27,12 +27,10 @@ internal sealed class ModInstaller(string gamePath, IProgress<InstallStep> progr
     ///     Installs the release.
     /// </summary>
     /// <param name="release">The release.</param>
+    /// <param name="info">The information of the release (release.json).</param>
     /// <returns>The task.</returns>
-    public async Task InstallAsync(GithubRelease release)
+    public async Task InstallAsync(GithubRelease release, ReleaseInfo info)
     {
-        progress.Report(new InstallStep(Texts.ReadingRelease, 0));
-        var info = await ReleaseSource.GetInfoAsync(release).ConfigureAwait(false);
-
         // BepInEx of the same bits as the game (the Steam game can be 32 bits): installed again when its version or its
         // bits are not the right ones.
         // Never guessed: a 64 bits BepInEx does not start in a 32 bits game.

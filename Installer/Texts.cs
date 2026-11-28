@@ -50,7 +50,6 @@ internal static class Texts
 
     public static string WaitingForGame => French ? "Attente de la fermeture du jeu…" : "Waiting for the game to close…";
 
-    public static string ReadingRelease => French ? "Lecture de la version…" : "Reading the version…";
 
     public static string DownloadingBepInEx => French ? "Téléchargement de BepInEx…" : "Downloading BepInEx…";
 
@@ -62,7 +61,35 @@ internal static class Texts
 
     public static string Done => French ? "{0} installé." : "{0} installed.";
 
-    public static string UnknownBits => French ? "Impossible de savoir si le jeu est en 32 ou 64 bits (Among Us.exe illisible)." : "Cannot tell whether the game is 32 or 64 bits (Among Us.exe cannot be read).";
+    public static string GameVersionOf => French ? "Version d'Among Us : {0}" : "Among Us version: {0}";
+
+    public static string UnknownGameVersion => French ? "Version d'Among Us : inconnue" : "Among Us version: unknown";
+
+    public static string ReleaseFor => "{0} (Among Us {1})";
+
+    public static string GameTooOld => French
+        ? "Ton Among Us ({0}) n'est pas la version du mod ({1}) : il est plus ancien. Mets-le à jour, ou télécharge la bonne version par Steam."
+        : "Your Among Us ({0}) is not the version of the mod ({1}): it is older. Update it, or download the right version with Steam.";
+
+    public static string GameTooNew => French
+        ? "Ton Among Us ({0}) n'est pas la version du mod ({1}) : il est plus récent. Télécharge la bonne version par Steam, ou attends une mise à jour du mod."
+        : "Your Among Us ({0}) is not the version of the mod ({1}): it is newer. Download the right version with Steam, or wait for an update of the mod.";
+
+    public static string NoSteamDownload => French
+        ? "Cette version du mod n'a pas de téléchargement Steam (jeu Epic, ou version non notée)."
+        : "This version of the mod has no Steam download (Epic game, or version not listed).";
+
+    public static string SteamDownload => French ? "Télécharger par Steam" : "Download with Steam";
+
+    public static string SteamUpdate => French ? "Mettre à jour sur Steam" : "Update on Steam";
+
+    public static string SteamWaiting => French
+        ? "Colle la commande dans la console de Steam (Ctrl+V) puis Entrée. En attente du téléchargement de {0}…"
+        : "Paste the command in the Steam console (Ctrl+V), then Enter. Waiting for {0} to download…";
+
+    public static string SteamNotFound => French ? "Steam n'est pas installé." : "Steam is not installed.";
+
+    public static string UnknownBits =>French ? "Impossible de savoir si le jeu est en 32 ou 64 bits (Among Us.exe illisible)." : "Cannot tell whether the game is 32 or 64 bits (Among Us.exe cannot be read).";
 
     public static string Error =>French ? "Erreur : {0}" : "Error: {0}";
 }

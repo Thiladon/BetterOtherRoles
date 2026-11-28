@@ -81,6 +81,7 @@ internal static class GameCopier
         return a.Length == b.Length && a.LastWriteTimeUtc == b.LastWriteTimeUtc;
     }
 
+    // A game of a Steam library, or downloaded by Steam (steamapps/content).
     private static bool IsSteam(string folder) =>
-        folder.IndexOf(Path.Combine("steamapps", "common"), StringComparison.OrdinalIgnoreCase) >= 0;
+        folder.IndexOf("steamapps", StringComparison.OrdinalIgnoreCase) >= 0;
 }

@@ -168,4 +168,41 @@ internal sealed class ReleaseInfo
     /// </summary>
     [DataMember(Name = "bepinexUrlX86")]
     public string BepInExUrlX86 { get; set; } = string.Empty;
+
+    /// <summary>
+    ///     Gets or sets the version of Among Us the release is made for ("2026.9.29"), or empty.
+    /// </summary>
+    [DataMember(Name = "gameVersion")]
+    public string GameVersion { get; set; } = string.Empty;
+
+    /// <summary>
+    ///     Gets or sets the Steam depots of that version of the game (32 and 64 bits), for download_depot.
+    /// </summary>
+    [DataMember(Name = "steamDepots")]
+    public List<SteamDepot> SteamDepots { get; set; } = [];
+}
+
+/// <summary>
+///     A Steam depot of Among Us (app 945360) at a version: its id and manifest (SteamDB), and its bits.
+/// </summary>
+[DataContract]
+internal sealed class SteamDepot
+{
+    /// <summary>
+    ///     Gets or sets the depot id.
+    /// </summary>
+    [DataMember(Name = "depot")]
+    public string Depot { get; set; } = string.Empty;
+
+    /// <summary>
+    ///     Gets or sets the manifest id.
+    /// </summary>
+    [DataMember(Name = "manifest")]
+    public string Manifest { get; set; } = string.Empty;
+
+    /// <summary>
+    ///     Gets or sets a value indicating whether the depot is the 64 bits game.
+    /// </summary>
+    [DataMember(Name = "x64")]
+    public bool X64 { get; set; }
 }
